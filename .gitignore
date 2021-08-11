@@ -1,2 +1,8 @@
+#Virtual environment
 venv_litr
+
+# compiled files
 *.pyc
+
+#pycharm
+.idea/
