@@ -1,5 +1,5 @@
 #Virtual environment
-venv_litr
+venv*
 
 # compiled files
 *.pyc
