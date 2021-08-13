@@ -57,7 +57,7 @@ ROOT_URLCONF = 'LITReview.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['core/html/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
