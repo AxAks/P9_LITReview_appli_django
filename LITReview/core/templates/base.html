@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>LITR - Login</title>
+</head>
+
+<body>
+  <header>
+    <h1>LITReview</h1>
+  </header>
+  <div>
+      {% block content %}
+        {% if user.is_authenticated %}
+            <p>Bonjour {{ user.username }}!
+                <a href="{% url 'login' %}">Se déconnecter</a>
+            </p>
+        {% else %}
+            <p>Vous n'etes pas connecté</p>
+            <a href="{% url 'login' %}">Se onnecter</a> |
+            <a href="{% url 'signup' %}">S'inscrire</a>
+        {% endif %}
+      {% endblock %}
+  </div>
+  <footer class="modal-footer">
+      <p> LITReview </p>
+  </footer>
+
+</body>
+</html>
