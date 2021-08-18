@@ -8,8 +8,9 @@
 
         <div>
             <h2>Connectez-vous</h2>
-            <form method="post">{% csrf_token %}
-            {{ form.as_p }}
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
                 <button type="submit">Se connecter</button>
             </form>
         </div>

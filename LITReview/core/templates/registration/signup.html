@@ -2,9 +2,11 @@
 
     {% block content %}
         <div>
-            <h2>Page d'inscription</h2>
+            <h2>Inscrivez-vous</h2>
         </div>
         <div>
-            <form method="post"> temp form </form>
+            <form method="post">{{ form.as_p }}</form>
+            <button><a href="{% url 'login' %}">Retourner</a></button>
+            <button type="submit">S'inscrire</button>
         </div>
     {% endblock %}
