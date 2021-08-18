@@ -1,10 +1,7 @@
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
 
-from .forms import CustomUserCreationForm, SignUpForm  # , CustomAuthenticationForm
+from .forms import SignUpForm
 
 
 # Create your views here.
