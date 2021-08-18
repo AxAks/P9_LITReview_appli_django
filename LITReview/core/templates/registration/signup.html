@@ -5,8 +5,54 @@
             <h2>Inscrivez-vous</h2>
         </div>
         <div>
-            <form method="post">{{ form.as_p }}</form>
-            <button><a href="{% url 'login' %}">Retourner</a></button>
-            <button type="submit">S'inscrire</button>
+            <form method="post" action="{% url 'signup' %}">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <p class="fieldWrapper">
+                    {{ form.username.errors }}
+                    <label for="{{ form.username.id_for_label }}">Nom d'utilisateur:</label>
+                    {{ form.username }}
+                </p>
+                <p class="fieldWrapper">
+                    {{ form.first_name.errors }}
+                    <label for="{{ form.first_name.id_for_label }}">Prénom:</label>
+                    {{ form.first_name }}
+                </p>
+                <p class="fieldWrapper">
+                    {{ form.last_name.errors }}
+                    <label for="{{ form.last_name.id_for_label }}">Nom:</label>
+                    {{ form.last_name }}
+                </p>
+                <p class="fieldWrapper">
+                    {{ form.email.errors }}
+                    <label for="{{ form.email.id_for_label }}">Email:</label>
+                    {{ form.email }}
+                </p>
+                <p class="fieldWrapper">
+                {{ form.password1.errors }}
+                <label for="{{ form.password1.id_for_label }}">Mot de passe:</label>
+                {{ form.password1 }}
+                </p>
+                <p class="fieldWrapper">
+                    {{ form.password2.errors }}
+                    <label for="{{ form.password2.id_for_label }}">Confirmation du mot de passe:</label>
+                    {{ form.password2 }}
+                </p>
+                <button><a href="{% url 'login' %}">Retourner</a></button>
+                <input type="submit" value="S'inscrire">
+            </form>
+
+
         </div>
     {% endblock %}
+
+
+
+
+
+{{ form.non_field_errors }}
+<div class="fieldWrapper">
+    {{ form.subject.errors }}
+    <label for="{{ form.subject.id_for_label }}">Email subject:</label>
+    {{ form.subject }}
+</div>

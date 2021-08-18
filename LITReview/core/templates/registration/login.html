@@ -10,7 +10,17 @@
             <h2>Connectez-vous</h2>
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form.non_field_errors }}
+                <p class="fieldWrapper">
+                    {{ form.username.errors }}
+                    <label for="{{ form.username.id_for_label }}">Nom d'utilisateur:</label>
+                    {{ form.username }}
+                </p>
+                <p class="fieldWrapper">
+                    {{ form.password.errors }}
+                    <label for="{{ form.password.id_for_label }}">Mot de passe:</label>
+                    {{ form.password }}
+                </p>
                 <button type="submit">Se connecter</button>
             </form>
         </div>
