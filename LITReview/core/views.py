@@ -17,4 +17,6 @@ def signup_view(request):
         return redirect('login')
     else:
         form = SignUpForm()
+        print("errors detected, FIND HOW TO display these errors for retry, validators work"
+              "BUT no error display and retry (find validation rules and edit if neeeded + enable to retry")
     return render(request, 'registration/signup.html', {'form': form})
