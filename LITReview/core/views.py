@@ -18,5 +18,7 @@ def signup_view(request):
     else:
         form = SignUpForm()
         print("errors detected, FIND HOW TO display these errors for retry, validators work"
-              "BUT no error display and retry (find validation rules and edit if neeeded + enable to retry")
+              "BUT no error display and retry (find validation rules and edit if needed + enable to retry")
+        # si trop long à debugger, pour trouver la solution, ne pas perdre de temps dessus, je le ferai à la fin !
+        # plutot se concentrer sur les fonctionnalités à développer
     return render(request, 'registration/signup.html', {'form': form})
