@@ -1,6 +1,6 @@
 from django.db import models
 
-from LITReview.LITReview import settings
+from LITReview import settings
 
 
 # Create your models here.
