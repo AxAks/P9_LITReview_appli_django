@@ -22,4 +22,6 @@ urlpatterns = [
     path('', RedirectView.as_view(pattern_name='login')),
     path('core/', include('core.urls')),
     path('core/', include('django.contrib.auth.urls')),
+    path('subscriptions/', include('subscriptions.urls')),
+    path('reviews/', include('reviews.urls')),
 ]
