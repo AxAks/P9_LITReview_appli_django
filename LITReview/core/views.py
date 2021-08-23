@@ -21,8 +21,20 @@ def signup_view(request):
               "BUT no error display and retry (find validation rules and edit if needed + enable to retry")
         # si trop long à debugger, pour trouver la solution, ne pas perdre de temps dessus, je le ferai à la fin !
         # plutot se concentrer sur les fonctionnalités à développer
-    return render(request, 'registration/signup.html', {'form': form})
+        return render(request, 'registration/signup.html', {'form': form})
+
+
+def login_view(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return render(request, 'reviews/feed.html')
+    else:
+        return render(request, 'registration/login.html')
 
 
 def logout_view(request):
-    return logout(request)
+    logout(request)
+    return render(request, 'registration/login.html')
