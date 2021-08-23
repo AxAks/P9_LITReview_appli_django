@@ -14,10 +14,10 @@
   <header>
     <h1>LITReview</h1>
       <!--{% if user.is_authenticated %}-->
-        <button><a href="{% url 'feed' %}">Flux</a></button>
-        <button><a href="{% url 'posts' %}">Posts</a></button>
-        <button><a href="{% url 'subscriptions' %}">Abonnements</a></button>
-        <button><a href="{% url 'logout' %}">Se déconnecter</a></button>
+        <a href="{% url 'feed' %}"><button>Flux</button></a>
+        <a href="{% url 'posts' %}"><button>Posts</button></a>
+        <a href="{% url 'subscriptions' %}"><button>Abonnements</button></a>
+        <a href="{% url 'logout' %}"><button>Se déconnecter</button></a>
       <!--{% endif %}-->
   </header>
   <div>
