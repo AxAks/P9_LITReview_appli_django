@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'core',
     'subscriptions',
     'reviews',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'LITReview.urls'
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

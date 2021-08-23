@@ -24,12 +24,12 @@ def signup_view(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 
-def feed_view():
-    pass
+def feed_view(request):
+    return render(request, 'feed.html')
 
 
-def subscriptions_view():
-    pass
+def subscriptions_view(request):
+    return render(request, 'subscriptions.html')
 
 
 def reviews_view():
