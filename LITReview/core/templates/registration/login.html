@@ -1,12 +1,9 @@
-{% load static %}
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
 
     {% block content %}
         <div>
             <h2>Inscrivez-vous maintenant</h2>
             <button><a href="{% url 'signup' %}">S'inscrire</a></button>
-            <img src="{% static 'fourmi-microscope.png' %}">
         </div>
 
         <div>
