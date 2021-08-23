@@ -8,7 +8,7 @@
 
         <div>
             <h2>Connectez-vous</h2>
-            <form method="post">
+            <form method="post" action="{% url 'feed' %}">
                 {% csrf_token %}
                 {{ form.non_field_errors }}
                 <p class="fieldWrapper">
