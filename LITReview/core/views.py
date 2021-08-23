@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
 from .forms import SignUpForm
@@ -22,3 +22,7 @@ def signup_view(request):
         # si trop long à debugger, pour trouver la solution, ne pas perdre de temps dessus, je le ferai à la fin !
         # plutot se concentrer sur les fonctionnalités à développer
     return render(request, 'registration/signup.html', {'form': form})
+
+
+def logout_view(request):
+    return logout(request)

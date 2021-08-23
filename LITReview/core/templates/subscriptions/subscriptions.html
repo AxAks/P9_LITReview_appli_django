@@ -7,8 +7,8 @@
             <form>
                 {{ form.user_name.errors }}
                 <label for="{{ form.username.id_for_label }}">Nom d'utilisateur:</label>
-                {{ form.username }}
-                <input type= submit value="Envoyer">
+                <input>{{ form.username }}</input>
+                <button type= submit action="">Envoyer</button> <!-- action à définir-->
             </form>
             <h2>Abonnements</h2>
             <h2>Abonnés</h2>

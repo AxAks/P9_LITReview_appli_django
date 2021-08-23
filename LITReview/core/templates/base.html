@@ -13,6 +13,12 @@
 <body>
   <header>
     <h1>LITReview</h1>
+      {% if user.is_authenticated %}
+      <button><a href="{% url 'feed' %}">Flux</a></button>
+      <button><a href="{% url 'posts' %}">Posts</a></button>
+      <button><a href="{% url 'subscriptions' %}">Abonnements</a></button>
+      <button><a href="{% url 'logout' %}">Se déconnecter</a></button>
+      {% endif %}
   </header>
   <div>
       {% block content %}
