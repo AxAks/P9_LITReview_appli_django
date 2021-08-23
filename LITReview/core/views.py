@@ -22,15 +22,3 @@ def signup_view(request):
         # si trop long à debugger, pour trouver la solution, ne pas perdre de temps dessus, je le ferai à la fin !
         # plutot se concentrer sur les fonctionnalités à développer
     return render(request, 'registration/signup.html', {'form': form})
-
-
-def feed_view(request):
-    return render(request, 'feed.html')
-
-
-def subscriptions_view(request):
-    return render(request, 'subscriptions.html')
-
-
-def reviews_view(request):
-    return render(request, 'review_creation.html')

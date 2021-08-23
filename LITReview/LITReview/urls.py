@@ -20,8 +20,8 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', RedirectView.as_view(pattern_name='login')),
-    path('core/', include('core.urls')),
     path('core/', include('django.contrib.auth.urls')),
-    path('subscriptions/', include('subscriptions.urls')),
-    path('reviews/', include('reviews.urls')),
+    path('core/', include('core.urls')),
+    path('core/subscriptions/', include('subscriptions.urls')),
+    path('core/reviews/', include('reviews.urls')),
 ]
