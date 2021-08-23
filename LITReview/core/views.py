@@ -32,5 +32,5 @@ def subscriptions_view(request):
     return render(request, 'subscriptions.html')
 
 
-def reviews_view():
-    pass
+def reviews_view(request):
+    return render(request, 'review_creation.html')
