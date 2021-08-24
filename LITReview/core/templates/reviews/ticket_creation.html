@@ -1,11 +1,29 @@
 {% extends 'base.html' %}
 
     {% block content %}
-        <div>
-            <h3>Créer un ticket</h3>
-        </div>
+        <h3>Créer un ticket</h3>
 
-        <div>
-            <h3>...</h3>
-        </div>
+        <form method="post">
+            <h4>Titre</h4>
+                <p class="fieldWrapper">
+                    {{ ticket.titre.errors }}  <!-- ticket à écrire -->
+                    <label for="{{ ticket.titre.id_for_label }}">Titre</label>
+                    {{ ticket.titre }}
+                </p>
+            <h4>Description</h4>
+                <p class="fieldWrapper">
+                    {{ ticket.description.errors }}
+                    <label for="{{ ticket.description.id_for_label }}">Description</label>
+                    {{ ticket.description }}
+                </p>
+            <h4>Image</h4>
+                <p class="fieldWrapper">
+                    {{ ticket.image.errors }}
+                    <label for="{{ form.image.id_for_label }}">image</label>
+                    {{ ticket.image }}
+                    <button>Télécharger une image</button>
+                </p>
+            <button type="submit" action="{url 'login'}">Envoyer</button>
+            <!-- débugger, rediriger au bon endroit ensuite !-->
+        </form>
     {% endblock %}

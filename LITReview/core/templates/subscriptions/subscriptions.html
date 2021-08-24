@@ -3,13 +3,21 @@
     {% block content %}
         <div>
             <h3>Suivre d'autres utilisateurs</h3>
-            <form>
-                {{ form.user_name.errors }}
-                <label for="{{ form.username.id_for_label }}">Nom d'utilisateur:</label>
-                <input>{{ form.username }}</input>
-                <button type= submit action="">Envoyer</button> <!-- action à définir-->
-            </form>
+                <form>
+                    {{ form.user_name.errors }}
+                    <label for="{{ form.username.id_for_label }}">Nom d'utilisateur:</label>
+                    <input>{{ form.username }}</input>
+                    <button type= submit action="">Envoyer</button> <!-- action à définir-->
+                </form>
+
             <h3>Abonnements</h3>
+                <p>
+                    Liste des comptes auxquel l'utilisateur est abonné
+                    <button type= submit action="">Désabonner</button> <!-- action à définir-->
+                </p>
             <h3>Abonnés</h3>
+                <p>
+                    Liste des abonnés au compte connecté
+                </p>
         </div>
     {% endblock %}

@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
 
     {% block content %}
-        <div>
-            <h3>Créer une critique (en réponse à une demande (ticket))</h3>
-        </div>
+        <h3>Créer une critique (en réponse à une demande (ticket))</h3>
+
 
         <div>
-            <h3>...</h3>
+            <h4>Livre /Article</h4>
+            <p>Titre</p>
+            <p>Description</p>
+            <p>Image</p>
+            <button>Télécharger une image</button>
+        </div>
+        <div>
+            <h4>Critique</h4>
+            <p>Titre</p>
+            <p>Note</p>
+            <p>Commentaire</p>
+            <button type="submit" action="{url 'login'}">Envoyer</button> <!-- débugger, rediriger au bon endroit ensuite !-->
         </div>
     {% endblock %}
