@@ -5,14 +5,14 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import CustomUser
 
 
-class CustomUserCreationForm(UserCreationForm):
+class CustomUserCreationForm(UserCreationForm):  # est ce que j'en ai vraiment besoin ? j'ai SignUpForm !
 
     class Meta:
         model = CustomUser
         fields = ('username', 'email')
 
 
-class CustomUserChangeForm(UserChangeForm):
+class CustomUserChangeForm(UserChangeForm):  # pas utilisé (encore)!
 
     class Meta:
         model = CustomUser

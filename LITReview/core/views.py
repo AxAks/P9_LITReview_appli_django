@@ -14,7 +14,7 @@ def signup_view(request):
         password = form.cleaned_data.get('password1')
         user = authenticate(username=username, password=password)
         login(request, user)
-        return redirect('login')
+        return redirect('feed')
     else:
         form = SignUpForm()
         print("errors detected, FIND HOW TO display these errors for retry, validators work"

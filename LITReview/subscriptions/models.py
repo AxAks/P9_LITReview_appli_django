@@ -4,8 +4,9 @@ from LITReview import settings
 
 
 # Create your models here.
+
+# suffisant, pas besoin d'un followed_by ? si un user follow un autre, de l'autre c^oté l'user est suivi !
 class UserFollows(models.Model):
-    pass
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='following')
     followed_user = models.ForeignKey(
