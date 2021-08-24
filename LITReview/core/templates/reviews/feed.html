@@ -10,6 +10,15 @@
             <a href="{% url 'review_creation' %}"><button>Créer une critique</button></a>
         </div>
         <div>
-            <p>Liste des reviews et tickets à mettre ici</p>
+            {% if ticket %}
+                {% for item in ticket %}
+                <ul>
+                    <li>{{ item }}</li>
+                </ul>
+                {% endfor %}
+                    <li>Liste des reviews et tickets à mettre ici</li>
+                {% else %}
+                    <p>Pas de review ou ticket à afficher</p>
+            {% endif %}
         </div>
     {% endblock %}

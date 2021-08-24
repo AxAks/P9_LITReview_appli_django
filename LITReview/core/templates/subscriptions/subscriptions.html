@@ -3,21 +3,38 @@
     {% block content %}
         <div>
             <h3>Suivre d'autres utilisateurs</h3>
-                <form>
-                    {{ form.user_name.errors }}
-                    <label for="{{ form.username.id_for_label }}">Nom d'utilisateur:</label>
-                    <input>{{ form.username }}</input>
-                    <button type= submit action="">Envoyer</button> <!-- action à définir-->
-                </form>
+                <ul>
+                    <li>
+                        {{ form.user_name.errors }}
+                        <label for="{{ form.username.id_for_label }}">Nom d'utilisateur:</label>
+                        <input>{{ form.username }}</input>
+                        <button type= submit action="">Envoyer</button> <!-- action à définir-->
+                    </li>
+                </ul>
 
             <h3>Abonnements</h3>
-                <p>
-                    Liste des comptes auxquel l'utilisateur est abonné
-                    <button type= submit action="">Désabonner</button> <!-- action à définir-->
-                </p>
+                {% if userfollows.followed_by %}
+                {% for item in userfollows.followed_by %}
+                    <ul>
+                        <li>{{ item.username }}<button type= submit action="">Se désabonner</button></li> <!-- action à définir-->
+                    </ul>
+                {% endfor %}
+                    <p>Liste des abonnements du compte connecté</p>
+                {% else %}
+                    <p>Vous n'etes abonné à aucun utilisateur</p>
+                {% endif %}
+
             <h3>Abonnés</h3>
-                <p>
-                    Liste des abonnés au compte connecté
-                </p>
+                {% if userfollows.following %}
+                {% for item in userfollows.following %}
+                    <ul>
+                        <li>{{ item.username }}</li>
+                    </ul>
+                {% endfor %}
+                    <p>Liste des abonnés au compte connecté</p>
+                {% else %}
+                    <p>Vous n'avez aucun abonné</p>
+                {% endif %}
+
         </div>
     {% endblock %}
