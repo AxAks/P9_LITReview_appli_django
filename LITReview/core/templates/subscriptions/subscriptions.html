@@ -1,16 +1,15 @@
 {% extends 'base.html' %}
 
     {% block content %}
-
         <div>
-            <h2>Suivre d'autres utilisateurs</h2>
+            <h3>Suivre d'autres utilisateurs</h3>
             <form>
                 {{ form.user_name.errors }}
                 <label for="{{ form.username.id_for_label }}">Nom d'utilisateur:</label>
                 <input>{{ form.username }}</input>
                 <button type= submit action="">Envoyer</button> <!-- action à définir-->
             </form>
-            <h2>Abonnements</h2>
-            <h2>Abonnés</h2>
+            <h3>Abonnements</h3>
+            <h3>Abonnés</h3>
         </div>
     {% endblock %}
