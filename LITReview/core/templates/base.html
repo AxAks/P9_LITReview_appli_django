@@ -14,15 +14,15 @@
   <header>
     <div>
         <h1>LITReview</h1>
-        {% if user.is_authenticated %}
-            <h2>Bonjour {{ user.username }}!</h2>
     </div>
-        <p>
-            <a href="{% url 'feed' %}"><button>Flux</button></a>
-            <a href="{% url 'posts' %}"><button>Posts</button></a>
-            <a href="{% url 'subscriptions' %}"><button>Abonnements</button></a>
-            <a href="{% url 'logout' %}"><button>Se déconnecter</button></a>
-        </p>
+      {% if user.is_authenticated %}
+        <h2>Bonjour {{ user.username }} !</h2>
+            <p>
+                <a href="{% url 'feed' %}"><button>Flux</button></a>
+                <a href="{% url 'posts' %}"><button>Posts</button></a>
+                <a href="{% url 'subscriptions' %}"><button>Abonnements</button></a>
+                <a href="{% url 'logout' %}"><button>Se déconnecter</button></a>
+            </p>
       {% else %}
         <h2>Bienvenue ! Vous n'etes pas connecté</h2>
       {% endif %}

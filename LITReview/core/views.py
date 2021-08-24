@@ -30,9 +30,9 @@ def login_view(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        return render(request, 'reviews/feed.html')
+        return redirect(request, 'feed')
     else:
-        return render(request, 'registration/login.html')
+        return redirect(request, 'login')
 
 
 def logout_view(request):

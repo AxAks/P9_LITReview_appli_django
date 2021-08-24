@@ -3,20 +3,33 @@
     {% block content %}
         <div>
             <h3>Suivre d'autres utilisateurs</h3>
-                <ul>
-                    <li>
-                        {{ form.user_name.errors }}
-                        <label for="{{ form.username.id_for_label }}">Nom d'utilisateur:</label>
-                        <input>{{ form.username }}</input>
-                        <button type= submit action="">Envoyer</button> <!-- action à définir-->
-                    </li>
-                </ul>
+                <form method="post" action="search">
+                    {% csrf_token %}
+                    {{ form.user_name.errors}}
+                    <label for="{{ form.username.id_for_label }}"></label>
+                    {{ form.username }}
+                    <input placeholder="Rechercher un utilisateur">
+                    <button type="submit">Envoyer</button> <!-- action search à définir dans views -->
+                </form>
+                <div>
+                    {% if results > 0 %}
+                    <ul>
+                        <li>Mettre les resultats de recherche ici, avec un if len(result) > 0?
+                            <button type="submit" action="follow">S'abonner</button>
+                        </li>
+                    </ul>
+                    {% elif results == 0 %}
+                    <p> Pas de resultat à afficher</p>
+                    {% endif %}
+
+                </div>
 
             <h3>Abonnements</h3>
                 {% if userfollows.followed_by %}
                 {% for item in userfollows.followed_by %}
                     <ul>
-                        <li>{{ item.username }}<button type= submit action="">Se désabonner</button></li> <!-- action à définir-->
+                        <li>{{ item.username }}
+                            <button type= "submit" action="unfollow">Se désabonner</button></li> <!-- action à définir-->
                     </ul>
                 {% endfor %}
                     <p>Liste des abonnements du compte connecté</p>
