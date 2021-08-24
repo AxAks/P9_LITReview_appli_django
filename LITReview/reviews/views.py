@@ -12,8 +12,8 @@ def posts_view(request):
 
 
 def ticket_creation(request):
-    return render(request, 'reviews/ticket_creation.html')
+    return render(request, 'reviews/ticket.html')
 
 
 def review_creation(request):
-    return render(request, 'reviews/review_creation.html')
+    return render(request, 'reviews/review.html')
