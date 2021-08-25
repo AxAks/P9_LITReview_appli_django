@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
+    {% block title %} Page d'inscription {% endblock %}
     {% block content %}
-        <div>
-            <h3>Inscrivez-vous</h3>
-        </div>
         <div>
             <form method="post" action="{% url 'signup' %}">
                 {% csrf_token %}

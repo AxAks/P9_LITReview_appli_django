@@ -3,7 +3,6 @@
 
 {% load static %}
 
-
 <head>
     <meta charset="UTF-8">
     <title>LITR - Connexion</title>
@@ -13,24 +12,34 @@
 <body>
   <header>
     <div>
-        <h1>LITReview</h1>
+        <h1>
+            LITReview
+            {% if user.is_authenticated %}
+            <a href="{% url 'feed' %}"><button>Flux</button></a>
+            <a href="{% url 'posts' %}"><button>Posts</button></a>
+            <a href="{% url 'subscriptions' %}"><button>Abonnements</button></a>
+            <a href="{% url 'logout' %}"><button>Se déconnecter</button></a>
+            {% endif %}
+        </h1>
+        <hr size="5px" color="black">  <!-- temporaire -->
     </div>
-      {% if user.is_authenticated %}
-        <h2>Bonjour {{ user.username }} !</h2>
-            <p>
-                <a href="{% url 'feed' %}"><button>Flux</button></a>
-                <a href="{% url 'posts' %}"><button>Posts</button></a>
-                <a href="{% url 'subscriptions' %}"><button>Abonnements</button></a>
-                <a href="{% url 'logout' %}"><button>Se déconnecter</button></a>
-            </p>
-      {% else %}
-        <h2>Bienvenue ! Vous n'etes pas connecté</h2>
-      {% endif %}
   </header>
+
   <div>
-      {% block content %}
-      {% endblock %}
+      <h2>{% block title %}{% endblock %}</h2>
   </div>
+  <hr size="5px" color="black"> <!-- temporaire -->
+
+  {% if user.is_authenticated and url == login %}
+    <h3>Bonjour {{ user.username }} !</h3>
+  {% else %}
+    <h3>Bienvenue ! Vous n'etes pas connecté</h3>
+  {% endif %}
+  <hr>  <!-- temporaire -->
+
+  {% block content %}
+  {% endblock %}
+
   <footer class="modal-footer">
       <p> LITReview </p>
   </footer>

@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
+    {% block title %} Page des abonnements {% endblock %}
     {% block content %}
         <div>
             <h3>Suivre d'autres utilisateurs</h3>
                 <form method="post" action="">
                     {% csrf_token %}
-                    {{ form.user_name.errors}}
-                    <label for="{{ form.username.id_for_label }}"></label>
-                    {{ form.username }}
+                    <p class="fieldWrapper">
+                        {{ form.user_name.errors}}
+                        {{ form.username }}
+                    </p>
                     <input name="search" placeholder="Rechercher un utilisateur">
                     <button type="submit">Envoyer</button>
                 </form>

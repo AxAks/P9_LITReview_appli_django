@@ -14,7 +14,7 @@ class SubscriptionsView(View):
     """
     template_name = 'subscriptions/subscriptions.html'
 
-    #@custom_login_required
+    #@custom_login_required    # pb car je ne recupere pas l'user ! à voir !
     def get(self, request, *args, **kwargs):
         """
         Displays the page subscription
@@ -34,7 +34,7 @@ class SubscriptionsView(View):
         return render(request, self.template_name, {'results': results})
 
 """
-class Subscription:
+class Subscription: # mettre dans une classe !
 """
 # This class enables to manage subscriptions between users
 """
@@ -45,7 +45,8 @@ def follow_user(request) -> HttpResponse:  # à écrire
     Enables to follow another user
     """
     template_name = 'subscriptions/subscriptions.html'
-    query = request.POST.get('user_to_follow', '')
+    user_to_follow_username = request.POST.get('user_to_follow', '')
+    query = CustomUser.objects.filter(user_to_follow_username)
     if query:
         new_user_followed = UserFollows(user_id="id de l'user", followed_user_id=query)  # voir comment recupérer l'id de l'user courant  !!!
     else:

@@ -1,10 +1,7 @@
 {% extends 'base.html' %}
 
+    {% block title %} Page d'accueil - Flux {% endblock %}
     {% block content %}
-        <div>
-            <h3>Accueil - Flux</h3>
-        </div>
-
         <div>
             <a href="{% url 'ticket_creation' %}"><button>Demander un critique</button></a>
             <a href="{% url 'review_creation' %}"><button>Créer une critique</button></a>
