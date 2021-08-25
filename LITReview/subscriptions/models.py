@@ -5,7 +5,7 @@ from LITReview import settings
 
 # Create your models here.
 
-# suffisant, pas besoin d'un followed_by ? si un user follow un autre, de l'autre c^oté l'user est suivi !
+# suffisant, pas besoin d'un followed_by ? si un user follow un autre, de l'autre coté l'user est suivi !
 class UserFollows(models.Model):
     """
 

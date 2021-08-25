@@ -9,16 +9,20 @@
                     <label for="{{ form.username.id_for_label }}"></label>
                     {{ form.username }}
                     <input name="search" placeholder="Rechercher un utilisateur">
-                    <button type="submit">Envoyer</button> <!-- action search à définir dans views -->
+                    <button type="submit">Envoyer</button>
                 </form>
                 <div>
                     {% if results is not None %}
                         {% if results %}
                             <ul>
                                 {% for result in results %}
-                                <li> {{ result }}
-                                    <button type="submit" action="follow">S'abonner</button>
-                                </li>
+                                <form method="post" action="follow">
+                                    {% csrf_token %}
+                                    <li> {{ result }}
+                                        <button name="user_to_follow" type="submit">S'abonner</button>
+                                        <!-- action follow à définir dans view-->
+                                    </li>
+                                </form>
                             {% endfor %}
                             </ul>
                         {% else %}
@@ -29,11 +33,12 @@
                 </div>
 
             <h3>Abonnements</h3>
-                {% if userfollows.followed_by %}
-                {% for item in userfollows.followed_by %}
+                {% if followed_user %}
+                {% for item in followed_user %}
                     <ul>
                         <li>{{ item.username }}
-                            <button type= "submit" action="unfollow">Se désabonner</button></li> <!-- action à définir-->
+                            <button name="user_to_unfollow" type= "submit" action="unfollow">Se désabonner</button></li>
+                        <!-- action unfollow à définir dans view-->
                     </ul>
                 {% endfor %}
                     <p>Liste des abonnements du compte connecté</p>
