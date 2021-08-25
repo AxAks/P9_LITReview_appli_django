@@ -11,9 +11,9 @@ def subscriptions_view(request):
 
 def search_user(request):  # à écrire
     template_name = 'subscriptions/subscriptions.html'
-    query = request.GET.get('q', '')
+    query = request.GET.get('search', '')
     if query:
-        results = CustomUser.objects.filter(name__icontains=query).distinct()
+        results = CustomUser.objects.filter(username__icontains=query).distinct()
     else:
         results = []
     #  user = [request if request == CustomUser.username else "Cet utilisateur n'existe pas "]
