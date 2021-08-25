@@ -37,7 +37,7 @@ def login_view(request) -> HttpResponseRedirect:
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(request, username=username, password=password)
-    if user is not None:
+    if not user:
         login(request, user)
         return redirect(request, 'feed')
     else:
