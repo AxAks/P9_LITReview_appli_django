@@ -28,3 +28,11 @@ class SignUpForm(UserCreationForm):
         model = CustomUser
         fields = ('username', 'first_name', 'last_name',
                   'email', 'password1', 'password2',)
+        """
+        field_classes = {
+                            'username': UsernameField
+                            'first_name': FirstNameField
+                            'last_name': LastNameField
+                            'email': EmailField
+                         }
+        """
