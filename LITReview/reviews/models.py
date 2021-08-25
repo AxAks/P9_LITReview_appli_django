@@ -6,6 +6,9 @@ from LITReview import settings
 
 # Create your models here.
 class Ticket(models.Model):
+    """
+
+    """
     title = models.CharField(max_length=128)
     description = models.TextField(max_length=2048, blank=True)
     user = models.ForeignKey(
@@ -15,6 +18,9 @@ class Ticket(models.Model):
 
 
 class Review(models.Model):
+    """
+
+    """
     ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(
         # validates that rating must be between 0 and 5

@@ -1,4 +1,7 @@
+from typing import Union
+
 from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 
 from .forms import SignUpForm
@@ -6,7 +9,10 @@ from .forms import SignUpForm
 
 # Create your views here.
 
-def signup_view(request):
+def signup_view(request) -> Union[HttpResponse, HttpResponseRedirect]:
+    """
+
+    """
     form = SignUpForm(request.POST)
     if form.is_valid():
         form.save()
@@ -24,7 +30,10 @@ def signup_view(request):
         return render(request, 'registration/signup.html', {'form': form})
 
 
-def login_view(request):
+def login_view(request) -> HttpResponseRedirect:
+    """
+
+    """
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(request, username=username, password=password)
@@ -35,6 +44,9 @@ def login_view(request):
         return redirect(request, 'login')
 
 
-def logout_view(request):
+def logout_view(request) -> HttpResponseRedirect:
+    """
+
+    """
     logout(request)
     return render(request, 'registration/login.html')

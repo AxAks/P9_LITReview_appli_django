@@ -7,6 +7,9 @@ from django.forms import Form
 
 
 class CustomUser(AbstractUser):
+    """
+
+    """
     pass
 
     def __str__(self):
