@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
-
+<!--
+    Possible d'utiliser le meme template pour "mes Posts" et le "feed" ?
+    avec des if else (limité à l'user courant OU ALORS les posts de tous les utilisateurs que l'user courant suit,
+    à voir !
+    (le titre aussi serait variable)
+-->
     {% block title %} Page d'accueil - Flux {% endblock %}
-    {% block content %}
+
+{% block content %}
+    {% if url == feed %}
         <div>
             <a href="{% url 'ticket_creation' %}"><button>Demander un critique</button></a>
             <a href="{% url 'review_creation' %}"><button>Créer une critique</button></a>
         </div>
+    {% endif %}
         <div>
             {% if ticket %}
                 {% for item in ticket %}

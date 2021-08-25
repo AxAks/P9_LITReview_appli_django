@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
-
+<!-- TEMPLATE A SUPPRIMER ! tout faire dans review.html-->
     {% block title %} Page de création de ticket (demande de critique) {% endblock %}
     {% block content %}
-<!-- Est ce que tje peux utiliser ce template avec des {% if block %}, {% else %}, {% endif %}
-selon le cas : creation / modification d'un ticket !?
-si oui, supprimer le template ticket_edition-->
+<!--
+    Est ce que je peux utiliser ce template avec des {% if block %}, {% else %}, {% endif %}
+    selon le cas : creation / modification d'un ticket !?
+    si oui, supprimer le template ticket_edition
+    ->>> Voir commentaire review.html:
+        - faire un seul template multi-fonctions pour tout ce qui est creation/modification de Ticket/Review
+        - et modifier le template selon les parametres (gestion dans les views!
+-->
         <h3>Créer un ticket</h3>
 
         <form method="post">

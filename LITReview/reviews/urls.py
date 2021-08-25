@@ -1,12 +1,11 @@
 from django.urls import path
 
-from .views import posts_view, feed_view, ticket_creation, review_creation
+from .views import FeedView, PostCreation
 
 
 urlpatterns = [
-    path('', feed_view, name='feed'),
-    path('posts/', posts_view, name='posts'),
-    path('creation/ticket/', ticket_creation, name='ticket_creation'),
-    path('creation/review/', review_creation, name='review_creation'),
-
-    ]
+    path('', FeedView.as_view(), name='feed'),
+    path('posts/', FeedView.as_view(), name='posts'),
+    path('creation/ticket/', PostCreation.as_view(), name='ticket_creation'),
+    path('creation/review/', PostCreation.as_view(), name='review_creation'),
+]

@@ -1,38 +1,48 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.generic import TemplateView, ListView
 
 from core.custom_decorators import custom_login_required
 
-# Create your views here.
 
-
-@custom_login_required
-def feed_view(request) -> HttpResponse:
+class FeedView(TemplateView):
     """
 
     """
-    return render(request, 'reviews/feed.html')
+    template_name = 'reviews/feed.html'
+
+    @custom_login_required
+    def feed_view(self, request, *args, **kwargs) -> HttpResponse:
+        """
+
+        """
+        return render(request, self.template_name)
 
 
-@custom_login_required
-def posts_view(request) -> HttpResponse:
+    @custom_login_required
+    def posts_view(self, request, *args, **kwargs) -> HttpResponse:
+        """
+
+        """
+        return render(request, self.template_name)
+
+
+class PostCreation(TemplateView):
+    template_name = 'reviews/review.html'
     """
 
     """
-    return render(request, 'reviews/posts.html')
+    @custom_login_required
+    def ticket_creation(self, request) -> HttpResponse:
+        """
+
+        """
+        return render(request, self.template_name)
 
 
-@custom_login_required
-def ticket_creation(request) -> HttpResponse:
-    """
+    @custom_login_required
+    def review_creation(self, request) -> HttpResponse:
+        """
 
-    """
-    return render(request, 'reviews/ticket.html')
-
-
-@custom_login_required
-def review_creation(request) -> HttpResponse:
-    """
-
-    """
-    return render(request, 'reviews/review.html')
+        """
+        return render(request, self.template_name)
