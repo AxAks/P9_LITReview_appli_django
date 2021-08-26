@@ -46,10 +46,12 @@ class Subscriptions(TemplateView):
         """
         Enables to follow another user
         """
+        current_user = request.user
         user_to_follow_username = request.POST.get('user_to_follow', '')
-        query = CustomUser.objects.filter(user_to_follow_username)
-        if query:
-            new_user_followed = UserFollows(user_id="id de l'user", followed_user_id=query)  # voir comment recupérer l'id de l'user courant  !!!
+        user_to_follow = CustomUser.objects.filter(user_to_follow_username)
+        if user_to_follow:
+            new_user_followed = UserFollows(user_id="current_user.id", followed_user_id=user_to_follow.user_id)
+            # voir comment recupérer l'id de l'user courant  !!! (user = request.user, user_id = request.user.id)
         else:
             new_user_followed = None
         return render(request, self.template_name, {'new_user_followed': new_user_followed})

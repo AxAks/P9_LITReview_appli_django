@@ -32,11 +32,11 @@
   <hr size="5px" color="black"> <!-- temporaire -->
 
   <div>
-  {% if user.is_authenticated and url == login %}
-    <h3>Bonjour {{ user.username }} !</h3>
-  {% else %}
-    <h3>Bienvenue ! Vous n'etes pas connecté</h3>
-  {% endif %}
+      {% if user.is_authenticated  %}
+        <h3>Bonjour {{ user.username it }} !</h3>
+      {% else %}
+        <h3>Bienvenue ! Vous n'etes pas connecté</h3>
+      {% endif %}
   </div>
   <hr>  <!-- temporaire -->
 
