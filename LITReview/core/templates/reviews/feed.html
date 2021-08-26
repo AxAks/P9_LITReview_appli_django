@@ -12,7 +12,6 @@
             <a href="{% url 'ticket_creation' %}"><button>Demander un critique</button></a>
             <a href="{% url 'review_creation' %}"><button>Créer une critique</button></a>
         </div>
-    {% endif %}
         <div>
             {% if ticket %}
                 {% for item in ticket %}
