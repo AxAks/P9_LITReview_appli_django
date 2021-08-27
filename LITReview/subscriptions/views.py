@@ -27,34 +27,42 @@ class SubscriptionsView(TemplateView):
         """
         Enables to search users by username and display the results as a list
         """
-        query = request.POST.get('search', '')
-        if query:
-            results = CustomUser.objects.filter(username__icontains=query).distinct()
+        # context = {}
+        form_name = request.POST.get('form_name')
+
+        if form_name == 'search':
+            query = request.POST.get('search')
+            if query:
+                results = CustomUser.objects.filter(username__icontains=query).distinct()
+            else:
+                results = []
+            return render(request, self.template_name, {'results': results})
+
+        elif form_name == 'follow':
+            current_user = request.user
+            user_to_follow_username = request.POST.get('user_to_follow')
+            user_to_follow = CustomUser.objects.get(username=user_to_follow_username)
+            new_user_followed = UserFollows(user_id=current_user.id, followed_user_id=user_to_follow.id)
+            new_user_followed.save()
+            return render(request, self.template_name, {'new_user_followed': new_user_followed})
+
         else:
             results = []
         return render(request, self.template_name, {'results': results})
 
 
-class Subscriptions(TemplateView):
-    """
-    This class enables to manage subscriptions between users
-    """
-    template_name = 'subscriptions/subscriptions.html'
-
     #@custom_login_required
     def follow_user(self, request) -> HttpResponse:  # à écrire
-        """
-        Enables to follow another user
-        """
         current_user = request.user
-        user_to_follow_username = request.POST.get('user_to_follow', '')
+        user_to_follow_username = request.POST.get('form_follow', '')
         user_to_follow = CustomUser.objects.filter(user_to_follow_username)
         if user_to_follow:
-            new_user_followed = UserFollows(user_id="current_user.id", followed_user_id=user_to_follow.user_id)
+            new_user_followed = UserFollows(user_id=current_user.id, followed_user_id=user_to_follow.user_id)
             # voir comment recupérer l'id de l'user courant  !!! (user = request.user, user_id = request.user.id)
         else:
             new_user_followed = None
         return render(request, self.template_name, {'new_user_followed': new_user_followed})
+
 
     #@custom_login_required
     def unfollow_user(self, request) -> HttpResponse:  # à écrire

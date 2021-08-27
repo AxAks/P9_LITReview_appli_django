@@ -11,18 +11,23 @@
                         {{ form.user_name.errors}}
                         {{ form.username }}
                     </p>
+                    <input type="hidden" name="form_name" value="search">
                     <input name="search" placeholder="Rechercher un utilisateur">
                     <button type="submit">Envoyer</button>
+
                 </form>
                 <div>
                     {% if results is not None %}
                         {% if results %}
                             <ul>
                                 {% for result in results %}
-                                <form method="post" action="follow">
+                                <form method="post" action="">
                                     {% csrf_token %}
-                                    <li> {{ result }}
-                                        <button name="user_to_follow" type="submit">S'abonner</button>
+                                    <li>
+                                        <input type="hidden" name="user_to_follow" value="{{ result }}">
+                                        {{ result }}
+                                        <input type="hidden" name="form_name" value="follow">
+                                        <button type="submit">S'abonner</button>
                                         <!-- action follow à définir dans view-->
                                     </li>
                                 </form>
@@ -40,7 +45,7 @@
                 {% for item in followed_user %}
                     <ul>
                         <li>{{ item.username }}
-                            <button name="user_to_unfollow" type= "submit" action="unfollow">Se désabonner</button></li>
+                            <button name="user_to_unfollow" type= "submit" action="">Se désabonner</button></li>
                         <!-- action unfollow à définir dans view-->
                     </ul>
                 {% endfor %}
