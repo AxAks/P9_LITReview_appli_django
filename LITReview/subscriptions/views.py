@@ -14,20 +14,24 @@ class SubscriptionsView(TemplateView):
     This class manages the Subscription Page
     """
     template_name = 'subscriptions/subscriptions.html'
+    context = {}
 
-    #@custom_login_required    # pb car je ne recupere pas l'user ! à voir !
+    # @custom_login_required    # pb car je ne recupere pas l'user ! à voir !
     def get(self, request, *args, **kwargs):
         """
         Displays the page subscription
         """
-        return render(request, self.template_name)
+        followed_users = CustomUser.objects.all().select_related('userfollows').filter(id=2)
+            #UserFollows.objects.filter(user_id=request.user.id).select_related('user').get()
 
-    #@custom_login_required
+        followed_users_usernames = followed_users.username
+        return render(request, self.template_name, {'followed_users_usernames': followed_users_usernames})
+
+    # @custom_login_required
     def post(self, request, *args, **kwargs):
         """
         Enables to search users by username and display the results as a list
         """
-        # context = {}
         form_name = request.POST.get('form_name')
 
         if form_name == 'search':

@@ -41,15 +41,15 @@
                 </div>
 
             <h3>Abonnements</h3>
-                {% if followed_user %}
-                {% for item in followed_user %}
+                {% if followed_users %}
+                {% for user in followed_users %}
                     <ul>
-                        <li>{{ item.username }}
+                        <li>{{ user.username }}
                             <button name="user_to_unfollow" type= "submit" action="">Se désabonner</button></li>
                         <!-- action unfollow à définir dans view-->
                     </ul>
+                <p>Liste des abonnements du compte connecté</p>
                 {% endfor %}
-                    <p>Liste des abonnements du compte connecté</p>
                 {% else %}
                     <p>Vous n'etes abonné à aucun utilisateur</p>
                 {% endif %}
