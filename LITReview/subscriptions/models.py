@@ -5,7 +5,6 @@ from LITReview import settings
 
 # Create your models here.
 
-# suffisant, pas besoin d'un followed_by ? si un user follow un autre, de l'autre coté l'user est suivi !
 class UserFollows(models.Model):
     """
 
@@ -19,3 +18,6 @@ class UserFollows(models.Model):
         # ensures we don't get multiple UserFollows instances
         # for unique user-user_followed pairs
         unique_together = ('user', 'followed_user', )
+
+    def __str__(self):
+        return f'{self.user} est abonné à {self.followed_user}'

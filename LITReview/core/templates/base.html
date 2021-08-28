@@ -3,13 +3,17 @@
 
 {% load static %}
 
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+
+
 <head>
     <meta charset="UTF-8">
     <title>LITR - Connexion</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon32.png' %}"/>
-    <!-- retirer ce bootstrap quand je ferais le vrai CSS !!  -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
-          crossorigin="anonymous">
 </head>
 
 

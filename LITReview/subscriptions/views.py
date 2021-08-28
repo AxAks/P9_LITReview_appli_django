@@ -41,7 +41,6 @@ class SubscriptionsView(TemplateView):
         Enables to search users by username and display the results as a list
         """
         form_name = request.POST.get('form_name')
-
         if form_name == 'search':
             query = request.POST.get('searched_user')
             if query:
@@ -56,9 +55,17 @@ class SubscriptionsView(TemplateView):
             user_to_follow_username = request.POST.get('user_to_follow')
             user_to_follow = CustomUser.objects\
                 .get(username=user_to_follow_username)
-            new_user_followed = UserFollows(user_id=request.user.id, followed_user_id=user_to_follow.id)
-            new_user_followed.save()
-            self.context['new_user_followed'] = new_user_followed
+
+            is_already_followed = UserFollows.objects\
+                .filter(user_id=request.user.id, followed_user_id=user_to_follow.id)\
+                .exists()
+            is_already_followed_msg = 'Vous suivez déjà cet utilisateur...'
+            if is_already_followed:
+                self.context['is_already_followed_msg'] = is_already_followed_msg
+            else:
+                new_user_followed = UserFollows(user_id=request.user.id, followed_user_id=user_to_follow.id)
+                new_user_followed.save()
+                self.context['new_user_followed'] = new_user_followed
 
         if form_name == 'unfollow':
             user_to_unfollow_username = request.POST.get('user_to_unfollow')
@@ -70,7 +77,6 @@ class SubscriptionsView(TemplateView):
             self.context['unfollowed_user'] = user_unfollowed
 
         return render(request, self.template_name, {'context': self.context})
-
 
     #@custom_login_required
     def unfollow_user(self, request) -> HttpResponse:  # à écrire

@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
+
+{% load static %}
+
 {% load crispy_forms_tags %}
+{% load bootstrap4 %}
+
 
     {% block title %} Page de connexion {% endblock %}
     {% block content %}
@@ -15,13 +20,11 @@
                 {{ form.non_field_errors }}
                 <p class="fieldWrapper">
                     {{ form.username.errors}}
-                    {{ form.username | as_crispy_field }}
+                    {% bootstrap_form form %}
                 </p>
-                <p class="fieldWrapper">
-                    {{ form.password.errors }}
-                    {{ form.password | as_crispy_field }}
-                </p>
+                {% buttons %}
                 <button type="submit" class="btn btn-outline-dark">Se connecter</button>
+                {% endbuttons %}
             </form>
         </div>
     {% endblock %}

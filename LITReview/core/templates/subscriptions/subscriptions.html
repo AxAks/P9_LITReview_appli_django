@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+
 {% load crispy_forms_tags %}
+
 
     {% block title %} Page des abonnements {% endblock %}
     {% block content %}
@@ -17,26 +19,33 @@
 
                 </form>
                 <div>
-                    {% if context.found_users is not None %}
-                        {% if context.found_users %}
-                            <ul>
-                                {% for user in context.found_users %}
-                                <form method="post" action="">
-                                    {% csrf_token %}
-                                    <li>
-                                        <input type="hidden" name="user_to_follow" value="{{ user }}">
-                                        {{ user.username }}
-                                        <input type="hidden" name="form_name" value="follow">
-                                        <button class="btn btn-sm btn-outline-dark" type="submit" >S'abonner</button>
-                                        <!-- action follow à définir dans view-->
-                                    </li>
-                                </form>
-                            {% endfor %}
-                            </ul>
-                        {% else %}
-                            <p> Pas de resultat à afficher</p>
+                    <p>
+                        {% if context.found_users is not None %}
+                            {% if context.found_users %}
+                                <ul>
+                                    {% for user in context.found_users %}
+                                    <form method="post" action="">
+                                        {% csrf_token %}
+                                        <li>
+                                            <input type="hidden" name="user_to_follow" value="{{ user }}">
+                                            {{ user.username }}
+                                            <input type="hidden" name="form_name" value="follow">
+                                            <button class="btn btn-sm btn-outline-dark" type="submit" >
+                                                S'abonner
+                                            </button>
+                                            {% if context.is_already_followed_msg %}
+                                            <p>{{ context.is_already_followed_msg }}</p>
+                                            {% endif %}
+                                            <!-- action follow à définir dans view-->
+                                        </li>
+                                    </form>
+                                {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p> Pas de resultat à afficher</p>
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
+                    </p>
                 </div>
 
             <h3>Mes Abonnements</h3>

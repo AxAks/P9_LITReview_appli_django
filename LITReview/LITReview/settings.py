@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'subscriptions',
     'reviews',
     'crispy_forms',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
