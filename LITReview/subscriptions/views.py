@@ -2,7 +2,7 @@ from core.custom_decorators import custom_login_required
 from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from core.models import CustomUser
 from django.views.generic import TemplateView
@@ -22,6 +22,9 @@ class SubscriptionsView(TemplateView):
         """
         Displays the page subscription
         """
+        self.context['found_users'] = []
+        self.context['already_followed_user'] = []
+
         user_follows = UserFollows.objects.filter(user_id=request.user.id).values()
         followed_users = [CustomUser.objects.get(id=user_follows_dict['followed_user_id'])
                           for user_follows_dict in user_follows]
@@ -56,12 +59,11 @@ class SubscriptionsView(TemplateView):
             user_to_follow = CustomUser.objects\
                 .get(username=user_to_follow_username)
 
-            is_already_followed = UserFollows.objects\
+            is_followed_bool = UserFollows.objects\
                 .filter(user_id=request.user.id, followed_user_id=user_to_follow.id)\
                 .exists()
-            is_already_followed_msg = 'Vous suivez déjà cet utilisateur...'
-            if is_already_followed:
-                self.context['is_already_followed_msg'] = is_already_followed_msg
+            if is_followed_bool:
+                self.context['already_followed_user'] = is_followed_bool
             else:
                 new_user_followed = UserFollows(user_id=request.user.id, followed_user_id=user_to_follow.id)
                 new_user_followed.save()
@@ -71,19 +73,16 @@ class SubscriptionsView(TemplateView):
             user_to_unfollow_username = request.POST.get('user_to_unfollow')
             user_to_unfollow = CustomUser.objects\
                 .get(username=user_to_unfollow_username)
-            user_unfollowed = UserFollows.objects\
-                .get(user_id=request.user.id, followed_user_id=user_to_unfollow.id)\
-                .delete()
-            self.context['unfollowed_user'] = user_unfollowed
+
+            is_followed_bool = UserFollows.objects\
+                .filter(user_id=request.user.id, followed_user_id=user_to_follow.id)\
+                .exists()
+            if is_followed_bool:
+                user_unfollowed = UserFollows.objects \
+                    .get(user_id=request.user.id, followed_user_id=user_to_unfollow.id) \
+                    .delete()
+                self.context['unfollowed_user'] = user_unfollowed
+            else:
+                self.context['not_followed_yet'] = is_followed_bool
 
         return render(request, self.template_name, {'context': self.context})
-
-    #@custom_login_required
-    def unfollow_user(self, request) -> HttpResponse:  # à écrire
-        """
-        Enables to unfollow another user
-        """
-        query = request.POST.get('user_to_unfollow', '')
-        template_name = 'subscriptions/subscriptions.html'
-
-        return render(request, template_name)

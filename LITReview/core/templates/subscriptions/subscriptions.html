@@ -2,14 +2,13 @@
 
 {% load crispy_forms_tags %}
 
-
     {% block title %} Page des abonnements {% endblock %}
     {% block content %}
         <div>
             <h3>Suivre d'autres utilisateurs</h3>
                 <form method="post" action="">
                     {% csrf_token %}
-                    <p class="fieldWrapper">
+                    <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
                         {{ form.user_name.errors}}
                         {{ form.username }}
                     </p>
@@ -22,21 +21,22 @@
                     <p>
                         {% if context.found_users is not None %}
                             {% if context.found_users %}
+                            <p>{{ context.found_users.count }} utilisateur(s) trouvé(s) </p>
                                 <ul>
                                     {% for user in context.found_users %}
                                     <form method="post" action="">
                                         {% csrf_token %}
-                                        <li>
+                                        <li class="card">
                                             <input type="hidden" name="user_to_follow" value="{{ user }}">
                                             {{ user.username }}
                                             <input type="hidden" name="form_name" value="follow">
-                                            <button class="btn btn-sm btn-outline-dark" type="submit" >
-                                                S'abonner
-                                            </button>
-                                            {% if context.is_already_followed_msg %}
-                                            <p>{{ context.is_already_followed_msg }}</p>
-                                            {% endif %}
-                                            <!-- action follow à définir dans view-->
+                                                {% if context.already_followed_user is True%}
+                                                    <button class="btn btn-sm btn-outline-dark">Vous suivez déjà cet utilisateur...</button>
+                                                    {% else %}
+                                                    <button class="btn btn-sm btn-outline-dark" type="submit" >
+                                                        S'abonner
+                                                    </button>
+                                                {% endif %}
                                         </li>
                                     </form>
                                 {% endfor %}
@@ -52,17 +52,16 @@
                 {% if context.followed_users %}
                     <ul>
                     {% for user in context.followed_users %}
-                    <form method="post" action="">
+                    <form method="post" action="/">
                         {% csrf_token %}
-                        <li>
+                        <li class="card">
                             <input type="hidden" name="user_to_unfollow" value="{{ user }}">
-                            {{ user.username }}
+                                {{ user.username }}
                             <input type="hidden" name="form_name" value="unfollow">
                             <button class="btn btn-sm btn-outline-dark" type= "submit">
                                 Se désabonner
                             </button>
                         </li>
-                        <!-- action unfollow à définir dans view-->
                     </form>
                     {% endfor %}
                     </ul>
@@ -74,7 +73,7 @@
                 {% if context.following_users %}
                 {% for user in context.following_users %}
                     <ul>
-                        <li>{{ user.username }}
+                        <li class="card">{{ user.username }}</li>
                     </ul>
                 {% endfor %}
                 {% else %}

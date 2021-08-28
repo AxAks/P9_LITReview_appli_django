@@ -23,11 +23,13 @@
     <h1>
         LITReview
         {% if user.is_authenticated %}
-        <br>
+        <h3>Bonjour {{ user.username }} !</h3>
             <a href="{% url 'feed' %}"><button class="btn btn-outline-dark">Flux</button></a>
             <a href="{% url 'posts' %}"><button class="btn btn-outline-dark">Posts</button></a>
             <a href="{% url 'subscriptions' %}"><button class="btn btn-outline-dark">Abonnements</button></a>
             <a href="{% url 'logout' %}"><button class="btn btn-outline-danger">Se déconnecter</button></a>
+        {% else %}
+            <h3>Bienvenue ! Vous n'etes pas connecté</h3>
         {% endif %}
     </h1>
     <hr size="5px" color="black">  <!-- temporaire -->
@@ -39,21 +41,11 @@
   <hr> <!-- temporaire -->
 
   <div>
-      {% if user.is_authenticated  %}
-        <h3>Bonjour {{ user.username }} !</h3>
-      {% else %}
-        <h3>Bienvenue ! Vous n'etes pas connecté</h3>
-      {% endif %}
-  </div>
-  <hr>  <!-- temporaire -->
-
-  <div>
   {% block content %}
-      {% endblock %}</div>
+      {% endblock %}
+  </div>
 
-  <footer>
-      <p> LITReview </p>
-  </footer>
+  <footer>LITReview</footer>
 
 </body>
 </html>
