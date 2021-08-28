@@ -75,7 +75,7 @@ class SubscriptionsView(TemplateView):
                 .get(username=user_to_unfollow_username)
 
             is_followed_bool = UserFollows.objects\
-                .filter(user_id=request.user.id, followed_user_id=user_to_follow.id)\
+                .filter(user_id=request.user.id, followed_user_id=user_to_unfollow.id)\
                 .exists()
             if is_followed_bool:
                 user_unfollowed = UserFollows.objects \

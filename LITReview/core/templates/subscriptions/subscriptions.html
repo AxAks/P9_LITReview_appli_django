@@ -52,7 +52,7 @@
                 {% if context.followed_users %}
                     <ul>
                     {% for user in context.followed_users %}
-                    <form method="post" action="/">
+                    <form method="post" action="">
                         {% csrf_token %}
                         <li class="card">
                             <input type="hidden" name="user_to_unfollow" value="{{ user }}">
