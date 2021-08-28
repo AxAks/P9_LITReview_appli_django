@@ -16,16 +16,16 @@ class SubscriptionsView(TemplateView):
     template_name = 'subscriptions/subscriptions.html'
     context = {}
 
-    # @custom_login_required    # pb car je ne recupere pas l'user ! à voir !
+    #@custom_login_required    # pb car je ne recupere pas l'user ! à voir !
+    # essayer d'ajouter request.user dans custom_login_requided
     def get(self, request, *args, **kwargs):
         """
         Displays the page subscription
         """
-        followed_users = CustomUser.objects.all().select_related('userfollows').filter(id=2)
-            #UserFollows.objects.filter(user_id=request.user.id).select_related('user').get()
-
-        followed_users_usernames = followed_users.username
-        return render(request, self.template_name, {'followed_users_usernames': followed_users_usernames})
+        user_follows = UserFollows.objects.filter(user_id=request.user.id).values()
+        followed_users = [CustomUser.objects.get(id=user_follows_dict['followed_user_id'])
+                          for user_follows_dict in user_follows]
+        return render(request, self.template_name, {'followed_users': followed_users})
 
     # @custom_login_required
     def post(self, request, *args, **kwargs):
@@ -43,10 +43,9 @@ class SubscriptionsView(TemplateView):
             return render(request, self.template_name, {'results': results})
 
         elif form_name == 'follow':
-            current_user = request.user
             user_to_follow_username = request.POST.get('user_to_follow')
             user_to_follow = CustomUser.objects.get(username=user_to_follow_username)
-            new_user_followed = UserFollows(user_id=current_user.id, followed_user_id=user_to_follow.id)
+            new_user_followed = UserFollows(user_id=request.user.id, followed_user_id=user_to_follow.id)
             new_user_followed.save()
             return render(request, self.template_name, {'new_user_followed': new_user_followed})
 
@@ -55,17 +54,6 @@ class SubscriptionsView(TemplateView):
         return render(request, self.template_name, {'results': results})
 
 
-    #@custom_login_required
-    def follow_user(self, request) -> HttpResponse:  # à écrire
-        current_user = request.user
-        user_to_follow_username = request.POST.get('form_follow', '')
-        user_to_follow = CustomUser.objects.filter(user_to_follow_username)
-        if user_to_follow:
-            new_user_followed = UserFollows(user_id=current_user.id, followed_user_id=user_to_follow.user_id)
-            # voir comment recupérer l'id de l'user courant  !!! (user = request.user, user_id = request.user.id)
-        else:
-            new_user_followed = None
-        return render(request, self.template_name, {'new_user_followed': new_user_followed})
 
 
     #@custom_login_required
