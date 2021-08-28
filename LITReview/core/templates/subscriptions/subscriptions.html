@@ -12,7 +12,7 @@
                         {{ form.username }}
                     </p>
                     <input type="hidden" name="form_name" value="search">
-                    <input name="search" placeholder="Rechercher un utilisateur">
+                    <input name="searched_user" placeholder="Rechercher un utilisateur">
                     <button class="btn btn-outline-dark" type="submit">Envoyer</button>
 
                 </form>
@@ -27,7 +27,7 @@
                                         <input type="hidden" name="user_to_follow" value="{{ user }}">
                                         {{ user.username }}
                                         <input type="hidden" name="form_name" value="follow">
-                                        <button class="btn btn-outline-dark" type="submit" >S'abonner</button>
+                                        <button class="btn btn-sm btn-outline-dark" type="submit" >S'abonner</button>
                                         <!-- action follow à définir dans view-->
                                     </li>
                                 </form>

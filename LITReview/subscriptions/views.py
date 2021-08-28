@@ -43,7 +43,7 @@ class SubscriptionsView(TemplateView):
         form_name = request.POST.get('form_name')
 
         if form_name == 'search':
-            query = request.POST.get('search')
+            query = request.POST.get('searched_user')
             if query:
                 found_users = CustomUser.objects.filter(username__icontains=query)\
                     .distinct()\
