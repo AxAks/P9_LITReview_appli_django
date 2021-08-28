@@ -9,8 +9,12 @@
 
 {% block content %}
         <div>
-            <a href="{% url 'ticket_creation' %}"><button>Demander un critique</button></a>
-            <a href="{% url 'review_creation' %}"><button>Créer une critique</button></a>
+            <a href="{% url 'ticket_creation' %}">
+                <button class="btn btn-outline-dark">Demander un critique</button>
+            </a>
+            <a href="{% url 'review_creation' %}">
+                <button class="btn btn-outline-dark">Créer une critique</button>
+            </a>
         </div>
         <div>
             {% if ticket %}

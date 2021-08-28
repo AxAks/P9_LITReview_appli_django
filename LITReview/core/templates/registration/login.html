@@ -5,7 +5,7 @@
     {% block content %}
         <div>
             <h3>Inscrivez-vous maintenant</h3>
-            <a href="{% url 'signup' %}"><button>S'inscrire</button></a>
+            <a href="{% url 'signup' %}"><button class="btn btn-outline-dark">S'inscrire</button></a>
         </div>
 
         <div>
@@ -21,7 +21,7 @@
                     {{ form.password.errors }}
                     {{ form.password | as_crispy_field }}
                 </p>
-                <button type="submit">Se connecter</button>
+                <button type="submit" class="btn btn-outline-dark">Se connecter</button>
             </form>
         </div>
     {% endblock %}

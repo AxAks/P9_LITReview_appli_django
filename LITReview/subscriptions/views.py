@@ -25,7 +25,15 @@ class SubscriptionsView(TemplateView):
         user_follows = UserFollows.objects.filter(user_id=request.user.id).values()
         followed_users = [CustomUser.objects.get(id=user_follows_dict['followed_user_id'])
                           for user_follows_dict in user_follows]
-        return render(request, self.template_name, {'followed_users': followed_users})
+
+        users_following = UserFollows.objects.filter(followed_user_id=request.user.id).values()
+        following_users = [CustomUser.objects.get(id=user_following_dict['user_id'])
+                           for user_following_dict in users_following]
+
+        self.context['followed_users'] = followed_users
+        self.context['following_users'] = following_users
+
+        return render(request, self.template_name, {'context': self.context})
 
     # @custom_login_required
     def post(self, request, *args, **kwargs):
@@ -37,23 +45,31 @@ class SubscriptionsView(TemplateView):
         if form_name == 'search':
             query = request.POST.get('search')
             if query:
-                results = CustomUser.objects.filter(username__icontains=query).distinct()
+                found_users = CustomUser.objects.filter(username__icontains=query)\
+                    .distinct()\
+                    .exclude(id=request.user.id)
             else:
-                results = []
-            return render(request, self.template_name, {'results': results})
+                found_users = []
+            self.context['found_users'] = found_users
 
-        elif form_name == 'follow':
+        if form_name == 'follow':
             user_to_follow_username = request.POST.get('user_to_follow')
-            user_to_follow = CustomUser.objects.get(username=user_to_follow_username)
+            user_to_follow = CustomUser.objects\
+                .get(username=user_to_follow_username)
             new_user_followed = UserFollows(user_id=request.user.id, followed_user_id=user_to_follow.id)
             new_user_followed.save()
-            return render(request, self.template_name, {'new_user_followed': new_user_followed})
+            self.context['new_user_followed'] = new_user_followed
 
-        else:
-            results = []
-        return render(request, self.template_name, {'results': results})
+        if form_name == 'unfollow':
+            user_to_unfollow_username = request.POST.get('user_to_unfollow')
+            user_to_unfollow = CustomUser.objects\
+                .get(username=user_to_unfollow_username)
+            user_unfollowed = UserFollows.objects\
+                .get(user_id=request.user.id, followed_user_id=user_to_unfollow.id)\
+                .delete()
+            self.context['unfollowed_user'] = user_unfollowed
 
-
+        return render(request, self.template_name, {'context': self.context})
 
 
     #@custom_login_required

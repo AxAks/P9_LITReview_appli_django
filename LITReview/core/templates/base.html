@@ -7,7 +7,11 @@
     <meta charset="UTF-8">
     <title>LITR - Connexion</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon32.png' %}"/>
+    <!-- retirer ce bootstrap quand je ferais le vrai CSS !!  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          crossorigin="anonymous">
 </head>
+
 
 <!-- retirer les styles dans la balise <body> par la suite, c'est juste pour le fun !-->
 <body style="text-align: center">
@@ -16,10 +20,10 @@
         LITReview
         {% if user.is_authenticated %}
         <br>
-            <a href="{% url 'feed' %}"><button>Flux</button></a>
-            <a href="{% url 'posts' %}"><button>Posts</button></a>
-            <a href="{% url 'subscriptions' %}"><button>Abonnements</button></a>
-            <a href="{% url 'logout' %}"><button>Se déconnecter</button></a>
+            <a href="{% url 'feed' %}"><button class="btn btn-outline-dark">Flux</button></a>
+            <a href="{% url 'posts' %}"><button class="btn btn-outline-dark">Posts</button></a>
+            <a href="{% url 'subscriptions' %}"><button class="btn btn-outline-dark">Abonnements</button></a>
+            <a href="{% url 'logout' %}"><button class="btn btn-outline-danger">Se déconnecter</button></a>
         {% endif %}
     </h1>
     <hr size="5px" color="black">  <!-- temporaire -->
@@ -28,7 +32,7 @@
   <div>
       <h2>{% block title %}{% endblock %}</h2>
   </div>
-  <hr size="5px" color="black"> <!-- temporaire -->
+  <hr> <!-- temporaire -->
 
   <div>
       {% if user.is_authenticated  %}
