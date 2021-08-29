@@ -22,8 +22,12 @@ class SubscriptionsView(TemplateView):
         """
         Displays the page subscription
         """
-        self.context['found_users'] = []
-        self.context['already_followed_user'] = []
+        self.context = {'found_users': None,
+                        'already_followed_user': [],
+                        'not_followed_yet': [],
+                        'new_user_followed': [],
+                        'unfollowed_user': []
+                        }
 
         user_follows = UserFollows.objects.filter(user_id=request.user.id).values()
         followed_users = [CustomUser.objects.get(id=user_follows_dict['followed_user_id'])
@@ -54,7 +58,7 @@ class SubscriptionsView(TemplateView):
                 found_users = []
             self.context['found_users'] = found_users
 
-        if form_name == 'follow':
+        if form_name == 'follow': # ne "rafraichit" pas la page pour afficher le nouvel utilisateur suivi
             user_to_follow_username = request.POST.get('user_to_follow')
             user_to_follow = CustomUser.objects\
                 .get(username=user_to_follow_username)
@@ -69,7 +73,7 @@ class SubscriptionsView(TemplateView):
                 new_user_followed.save()
                 self.context['new_user_followed'] = new_user_followed
 
-        if form_name == 'unfollow':
+        if form_name == 'unfollow': # ne "rafraichit" pas la page pour retirer l'utilisateur plus suivi !
             user_to_unfollow_username = request.POST.get('user_to_unfollow')
             user_to_unfollow = CustomUser.objects\
                 .get(username=user_to_unfollow_username)
