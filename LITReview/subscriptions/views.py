@@ -29,16 +29,7 @@ class SubscriptionsView(TemplateView):
                         'unfollowed_user': []
                         }
 
-        user_follows = UserFollows.objects.filter(user_id=request.user.id).values()
-        followed_users = [CustomUser.objects.get(id=user_follows_dict['followed_user_id'])
-                          for user_follows_dict in user_follows]
-
-        users_following = UserFollows.objects.filter(followed_user_id=request.user.id).values()
-        following_users = [CustomUser.objects.get(id=user_following_dict['user_id'])
-                           for user_following_dict in users_following]
-
-        self.context['followed_users'] = followed_users
-        self.context['following_users'] = following_users
+        self.get_subscriptions_status_for_user(request)
 
         return render(request, self.template_name, {'context': self.context})
 
@@ -47,6 +38,8 @@ class SubscriptionsView(TemplateView):
         """
         Enables to search users by username and display the results as a list
         """
+        self.get_subscriptions_status_for_user(request)
+
         form_name = request.POST.get('form_name')
         if form_name == 'search':
             query = request.POST.get('searched_user')
@@ -90,3 +83,13 @@ class SubscriptionsView(TemplateView):
                 self.context['not_followed_yet'] = is_followed_bool
 
         return render(request, self.template_name, {'context': self.context})
+
+    def get_subscriptions_status_for_user(self, request):
+        user_follows = UserFollows.objects.filter(user_id=request.user.id).values()
+        followed_users = [CustomUser.objects.get(id=user_follows_dict['followed_user_id'])
+                          for user_follows_dict in user_follows]
+        users_following = UserFollows.objects.filter(followed_user_id=request.user.id).values()
+        following_users = [CustomUser.objects.get(id=user_following_dict['user_id'])
+                           for user_following_dict in users_following]
+        self.context['followed_users'] = followed_users
+        self.context['following_users'] = following_users
