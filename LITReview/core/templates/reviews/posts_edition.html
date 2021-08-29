@@ -35,28 +35,18 @@ si reponse , on affiche le ticket existant; sinon on affiche un template de tick
         {% endif%}
 
                 <form method="post" action="">
-                    {% csrf_token %}
-                    <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
-                        {{ form.user_name.errors}}
-                        {{ form.username }}
-                    </p>
-                    <input type="hidden" name="form_name" value="search">
-                    <input name="searched_user" placeholder="Rechercher un utilisateur">
-                    <button class="btn btn-outline-dark" type="submit">Envoyer</button>
-                </form>
-
-
-                <form method="post" action="">
                 {% csrf_token %}
                     <h4>Titre</h4>
                         <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
                             {{ ticket.titre.errors }}  <!-- ticket à écrire -->
-                            <input size="50"name="form_name" placeholder="Entrez le titre et l'auteur de l'oeuvre">
+                            <input type="text" size="50"
+                                   name="form_name" placeholder="Entrez le titre et l'auteur de l'oeuvre">
                         </p>
                     <h4>Description</h4>
                         <p class="fieldWrapper">
                             {{ ticket.description.errors }}
-                            <input size="250" height="10" name="form_name" placeholder="Entrez votre demande">
+                            <input type="text" size="250"
+                                   name="form_name" placeholder="Entrez votre demande">
                         </p>
                     <h4>Image</h4>
                         <p class="fieldWrapper">
