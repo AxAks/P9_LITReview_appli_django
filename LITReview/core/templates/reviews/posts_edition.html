@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% load bootstrap4 %}
+
+<!--
+    Possible d'utiliser le meme template pour "Critique Creation" et le "Ticket Creation" ?
+    avec des if else (changer le HTML via la view
+    - creation/modification Critique,
+    - creation/modfiiciation Ticket
+    - Critique suite à un ticket ou creation de critique sans ticket préalable)
+    à voir !
+    (le titre aussi serait variable)
+-->
+<!-- utiliser ce template avec un {% if block %}, {% else %}, {% endif %}  si c'est une réponse à un ticket existant
+ ou si on veut modifier notre propre critique !
+si reponse , on affiche le ticket existant; sinon on affiche un template de ticket vide
+à supprimer: le template review_edition-->
+<!--
+    Est ce que je peux utiliser ce template avec des {% if block %}, {% else %}, {% endif %}
+    selon le cas : creation / modification d'un ticket !?
+    si oui, supprimer le template ticket_edition
+    ->>> Voir commentaire posts_edition.html:
+        - faire un seul template multi-fonctions pour tout ce qui est creation/modification de Ticket/Review
+        - et modifier le template selon les parametres (gestion dans les views!
+-->
+
+    {% block title %} {{ context.title }} {% endblock %}
+
+    {% block content %}
+
+        {% if context.url_name == 'ticket_creation' %}
+            <h3>Créer un ticket</h3>
+        {% elif context.url_name == 'ticket_modification' %}
+            <h3>Modifier un ticket</h3>
+        {% endif%}
+
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
+                        {{ form.user_name.errors}}
+                        {{ form.username }}
+                    </p>
+                    <input type="hidden" name="form_name" value="search">
+                    <input name="searched_user" placeholder="Rechercher un utilisateur">
+                    <button class="btn btn-outline-dark" type="submit">Envoyer</button>
+                </form>
+
+
+                <form method="post" action="">
+                {% csrf_token %}
+                    <h4>Titre</h4>
+                        <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
+                            {{ ticket.titre.errors }}  <!-- ticket à écrire -->
+                            <input size="50"name="form_name" placeholder="Entrez le titre et l'auteur de l'oeuvre">
+                        </p>
+                    <h4>Description</h4>
+                        <p class="fieldWrapper">
+                            {{ ticket.description.errors }}
+                            <input size="250" height="10" name="form_name" placeholder="Entrez votre demande">
+                        </p>
+                    <h4>Image</h4>
+                        <p class="fieldWrapper">
+                            {{ ticket.image.errors }}
+                            <input type="hidden" name="form_name">
+                            <button type="submit" class="btn btn-outline-dark">Télécharger une image</button>
+                        </p>
+                    <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
+                </form>
+
+        {% if context.url_name == 'review_creation_no_ticket' %}
+        <h3>Créer une critique</h3>
+            <div>
+                <h4>Livre /Article</h4>
+                <p>Titre</p>
+                <p>Description</p>
+                <p>Image</p>
+                <button class="btn btn-outline-dark">Télécharger une image</button>
+            </div>
+            <div>
+                <h4>Critique</h4>
+                <p>Titre</p>
+                <p>Note</p>
+                <p>Commentaire</p>
+                <button class="btn btn-sm btn-outline-dark" type="submit" action="{url 'login'}">
+                    Envoyer
+                </button> <!-- débugger, rediriger au bon endroit ensuite !-->
+            </div>
+        {% endif %}
+
+        {% if context.url_name == 'à definir' %}
+            <h3>Créer un : Reste à écrire....</h3>
+        {% endif %}
+    {% endblock %}

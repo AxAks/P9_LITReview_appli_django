@@ -10,19 +10,22 @@
     {% block title %} {{ context.title }} {% endblock %}
 
     {% block content %}
+        {% if context.url_name == 'feed' %}
         <div>
             <a href="{% url 'ticket_creation' %}">
                 <button class="btn btn-outline-dark">Demander un critique</button>
             </a>
-            <a href="{% url 'review_creation' %}">
+            <a href="{% url 'review_creation_no_ticket' %}">
                 <button class="btn btn-outline-dark">Créer une critique</button>
             </a>
         </div>
+        {% endif %}
+
         <div>
-            {% if ticket %}
-                {% for item in ticket %}
+            {% if posts %}
+                {% for post in posts %}
                 <ul>
-                    <li>{{ item }}</li>
+                    <li>{{ post }}</li>
                 </ul>
                 {% endfor %}
                     <li>Liste des reviews et tickets à mettre ici</li>
