@@ -61,7 +61,7 @@ class PostCreation(TemplateView):
         # ouhlala c'est lourd ca : if, elif, elif ,elif etc ... voir si possible de rendre ca plus concis
         if request.resolver_match.url_name == 'ticket_creation':
             self.context['title'] = "Créer un ticket"
-        elif request.resolver_match.url_name == 'review_creation_no-ticket':
+        elif request.resolver_match.url_name == 'review_creation_no_ticket':
             self.context['title'] = "Page de création de critique (sans ticket)"
         elif request.resolver_match.url_name == 'review_creation_reply':
             self.context['title'] = "Page de création de critique (en réponse à un ticket)"
