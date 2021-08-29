@@ -21,6 +21,7 @@ class SubscriptionsView(TemplateView):
     def get(self, request, *args, **kwargs):
         """
         Displays the page subscription
+        taking the context into account
         """
         self.context = {'found_users': None,
                         'already_followed_user': [],
