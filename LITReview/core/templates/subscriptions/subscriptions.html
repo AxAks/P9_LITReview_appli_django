@@ -48,7 +48,7 @@
                     </p>
                 </div>
 
-            <h3>Mes Abonnements</h3>
+            <h3>Mes Abonnements ({{ context.followed_users|length }})</h3>
                 {% if context.followed_users %}
                     <ul>
                     {% for user in context.followed_users %}
@@ -69,7 +69,7 @@
                     <p>Vous n'etes abonné à aucun utilisateur</p>
                 {% endif %}
 
-            <h3>Mes Abonnés</h3>
+            <h3>Mes Abonnés ({{ context.following_users|length }})</h3>
                 {% if context.following_users %}
                 {% for user in context.following_users %}
                     <ul>
