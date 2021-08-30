@@ -29,7 +29,11 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
 
     #  @custom_login_required   # à gérer à un moment !!
     def post(self, request, *args, **kwargs):
-        pass
+        """
+
+        """
+
+        return render(request, self.template_name, {'context': self.context})
 
     def add_url_name_to_context(self, request):
         self.context['url_name'] = request.resolver_match.url_name

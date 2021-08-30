@@ -38,7 +38,9 @@ class SubscriptionsView(TemplateView):
     #  @custom_login_required   # à gérer à un moment !!
     def post(self, request, *args, **kwargs):
         """
-        Enables to search users by username and display the results as a list
+        Enables to:
+        - search users by username and display the results as a list
+        - follow and unfollow other users
         """
         self.get_subscriptions_status_for_user(request)
 

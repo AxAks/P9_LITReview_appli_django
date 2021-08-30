@@ -54,18 +54,18 @@ si reponse , on affiche le ticket existant; sinon on affiche un template de tick
                     <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
                         {{ ticket.titre.errors }}  <!-- ticket à écrire -->
                         <input type="text" size="50"
-                               name="form_name" placeholder="Entrez le titre et l'auteur de l'oeuvre">
+                               name="ticket_title" placeholder="Entrez le titre et l'auteur de l'oeuvre">
                     </p>
                 <h4>Description</h4>
                     <p class="fieldWrapper">
                         {{ ticket.description.errors }}
                         <input type="text" size="250"
-                               name="form_name" placeholder="Entrez votre demande">
+                               name="ticket_descr" placeholder="Entrez votre demande">
                     </p>
                 <h4>Image</h4>
                     <p class="fieldWrapper">
                         {{ ticket.image.errors }}
-                        <input type="hidden" name="form_name">
+                        <input type="hidden" name="ticket_image">
                         <button type="submit" class="btn btn-outline-dark">Télécharger une image</button>
                     </p>
                 <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
