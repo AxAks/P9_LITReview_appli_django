@@ -24,60 +24,80 @@ si reponse , on affiche le ticket existant; sinon on affiche un template de tick
         - et modifier le template selon les parametres (gestion dans les views!
 -->
 
-    {% block title %} {{ context.title }} {% endblock %}
-
-    {% block content %}
-
+    {% block title %}
         {% if context.url_name == 'ticket_creation' %}
             <h3>Créer un ticket</h3>
         {% elif context.url_name == 'ticket_modification' %}
             <h3>Modifier un ticket</h3>
+        {% elif context.url_name == 'review_creation_no_ticket' %}
+            <h3>Créer une critique (sans ticket préalable)</h3>
+        {% elif context.url_name == 'review_creation_reply' %}
+            <h3>Créer une critique (en réponse à un ticket)</h3>
+        {% elif context.url_name == 'review_modification' %}
+            <h3>Modifier une critique</h3>
+        {% else %}
+            <h3>C'est quoi cette section ...!!!???</h3>
         {% endif%}
+    {% endblock %}
 
-                <form method="post" action="">
-                {% csrf_token %}
-                    <h4>Titre</h4>
-                        <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
-                            {{ ticket.titre.errors }}  <!-- ticket à écrire -->
-                            <input type="text" size="50"
-                                   name="form_name" placeholder="Entrez le titre et l'auteur de l'oeuvre">
-                        </p>
-                    <h4>Description</h4>
-                        <p class="fieldWrapper">
-                            {{ ticket.description.errors }}
-                            <input type="text" size="250"
-                                   name="form_name" placeholder="Entrez votre demande">
-                        </p>
-                    <h4>Image</h4>
-                        <p class="fieldWrapper">
-                            {{ ticket.image.errors }}
-                            <input type="hidden" name="form_name">
-                            <button type="submit" class="btn btn-outline-dark">Télécharger une image</button>
-                        </p>
-                    <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
-                </form>
+    {% block content %}
 
-        {% if context.url_name == 'review_creation_no_ticket' %}
-        <h3>Créer une critique</h3>
+    {% if context.url_name in 'ticket_modification review_modification' %}
+        <h3>à faire </h3>
+    {% endif %}
+
+    {% if context.url_name in 'ticket_creation review_creation_no_ticket' %}
+     <!-- formulaire pour remplir un ticket (pour sa propre critique ou pour demander une critique)-->
+            <form method="post" action="">
+            {% csrf_token %}
+                <h4>Titre</h4>
+                    <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
+                        {{ ticket.titre.errors }}  <!-- ticket à écrire -->
+                        <input type="text" size="50"
+                               name="form_name" placeholder="Entrez le titre et l'auteur de l'oeuvre">
+                    </p>
+                <h4>Description</h4>
+                    <p class="fieldWrapper">
+                        {{ ticket.description.errors }}
+                        <input type="text" size="250"
+                               name="form_name" placeholder="Entrez votre demande">
+                    </p>
+                <h4>Image</h4>
+                    <p class="fieldWrapper">
+                        {{ ticket.image.errors }}
+                        <input type="hidden" name="form_name">
+                        <button type="submit" class="btn btn-outline-dark">Télécharger une image</button>
+                    </p>
+                <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
+            </form>
+    {% endif %}
+
+
+        {% if context.url_name == 'review_creation_reply' %}
+        <!-- récupérer le ticket correspondant et l'afficher (non modifiable) -->
             <div>
-                <h4>Livre /Article</h4>
-                <p>Titre</p>
-                <p>Description</p>
-                <p>Image</p>
-                <button class="btn btn-outline-dark">Télécharger une image</button>
+                <h4>Vous etes en train de poster en réponse à: </h4> <!-- ticket à recupérer en base via views -->
+                    <p>(Utilisateur "untel") a demandé une critique</p> <!-- (Utilisateur "untel") a remplacer par {{ ticket.user }} ensuite -->
+                    <p>Titre</p>   <!-- à remplacer par {{ ticket.title }} ensuite, ticket à recupérer en base via views -->
+                    <p>Description</p> <!-- à remplacer par {{ ticket.description }} ensuite -->
+                    <p>Image</p>    <!-- à remplacer par {{ ticket.image }} ensuite -->
             </div>
+        {% endif %}
+
+        {% if context.url_name in 'review_creation_reply review_creation_no_ticket' %}
             <div>
-                <h4>Critique</h4>
-                <p>Titre</p>
-                <p>Note</p>
-                <p>Commentaire</p>
+                <hr> <!-- à retirer plus tard -->
+                <h3>Critique</h3>
+                <h4>Titre</h4>
+                <h4>Note</h4>
+                <h4>Commentaire</h4>
                 <button class="btn btn-sm btn-outline-dark" type="submit" action="{url 'login'}">
                     Envoyer
                 </button> <!-- débugger, rediriger au bon endroit ensuite !-->
             </div>
         {% endif %}
 
-        {% if context.url_name == 'à definir' %}
-            <h3>Créer un : Reste à écrire....</h3>
+        {% if context.url_name == 'à definir' %} <!-- à retirer -->
+            <h4>Créer un : Reste à écrire....</h4>
         {% endif %}
     {% endblock %}
