@@ -16,8 +16,9 @@ class SubscriptionsView(TemplateView):
     template_name = 'subscriptions/subscriptions.html'
     context = {}
 
-    #@custom_login_required    # pb car je ne recupere pas l'user ! à voir !
-    # essayer d'ajouter request.user dans custom_login_requided
+
+    # essayer d'ajouter request.user dans custom_login_required, pb car je ne recupere pas l'user ! à voir !
+    #  @custom_login_required   # à gérer à un moment !!
     def get(self, request, *args, **kwargs):
         """
         Displays the page subscription
@@ -34,7 +35,7 @@ class SubscriptionsView(TemplateView):
 
         return render(request, self.template_name, {'context': self.context})
 
-    # @custom_login_required
+    #  @custom_login_required   # à gérer à un moment !!
     def post(self, request, *args, **kwargs):
         """
         Enables to search users by username and display the results as a list

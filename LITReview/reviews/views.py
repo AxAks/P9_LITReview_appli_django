@@ -2,7 +2,6 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
-
 from core.custom_decorators import custom_login_required
 
 
@@ -28,6 +27,7 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
 
         return render(request, self.template_name, {'context': self.context})
 
+    #  @custom_login_required   # à gérer à un moment !!
     def post(self, request, *args, **kwargs):
         pass
 
@@ -43,6 +43,7 @@ class PostsEditionView(TemplateView):  #  faire une seule classe au final ! (fu
     context = {}
     template_name = 'reviews/posts_edition.html'
 
+    #  @custom_login_required   # à gérer à un moment !!
     def get(self, request, *args, **kwargs) -> HttpResponse:
 
         url_name = self.add_url_name_to_context(request)
@@ -62,6 +63,7 @@ class PostsEditionView(TemplateView):  #  faire une seule classe au final ! (fu
 
         return render(request, self.template_name, {'context': self.context})
 
+    #  @custom_login_required   # à gérer à un moment !!
     def post(self, request, *args, **kwargs):
         pass
 
