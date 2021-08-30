@@ -26,18 +26,7 @@ class FeedView(TemplateView):  #  faire une seule classe au final ! (fusionner,
             self.context['title'] = "Page d'accueil - Flux"
         elif url_name == 'posts':
             self.context['title'] = "Mes posts"
-        elif url_name == 'ticket_creation':
-            self.context['title'] = "Créer un ticket"
-        elif url_name == 'review_creation_no_ticket':
-            self.context['title'] = "Page de création de critique (sans ticket)"
-        elif url_name == 'review_creation_reply':
-            self.context['title'] = "Page de création de critique (en réponse à un ticket)"
-        elif url_name == 'ticket_modification':
-            self.context['title'] = "Page de modification d'un ticket"
-        elif url_name == 'review_modification':
-            self.context['title'] = "Page de modification d'une critique"
-        else:
-            self.context['title'] = ".heu on est où là..!!???"
+
         return render(request, self.template_name, {'context': self.context})
 
     def post(self, request, *args, **kwargs):
@@ -48,11 +37,35 @@ class FeedView(TemplateView):  #  faire une seule classe au final ! (fusionner,
         return self.context['url_name']
 
 
+class PostsEditionView(TemplateView):  #  faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts"
+    """
 
-    @custom_login_required
-    def posts_view(self, request, *args, **kwargs) -> HttpResponse:
-        """
+    """
+    context = {}
+    template_name = 'reviews/posts_edition.html'
 
-        """
-        self.context['title'] = "Mes posts"
+    def get(self, request, *args, **kwargs) -> HttpResponse:
+
+        url_name = self.add_url_name_to_context(request)
+
+        if url_name == 'ticket_creation':
+            self.context['title'] = "Créer un ticket"
+        elif url_name == 'review_creation_no_ticket':
+            self.context['title'] = "Créer une critique (sans ticket)"
+        elif url_name == 'review_creation_reply':
+            self.context['title'] = "Répondre à une demande de critique"
+        elif url_name == 'ticket_modification':
+            self.context['title'] = "Modifier un ticket"
+        elif url_name == 'review_modification':
+            self.context['title'] = "Modifier une critique"
+        else:
+            self.context['title'] = ".heu on est où là..!!???"
+
         return render(request, self.template_name, {'context': self.context})
+
+    def post(self, request, *args, **kwargs):
+        pass
+
+    def add_url_name_to_context(self, request):
+        self.context['url_name'] = request.resolver_match.url_name
+        return self.context['url_name']
