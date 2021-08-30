@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from core.custom_decorators import custom_login_required
 
 
-class FeedView(TemplateView):  #  faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts"
+class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts"
     """
 
     """
