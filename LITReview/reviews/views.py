@@ -26,6 +26,10 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
             self.context['title'] = "Page d'accueil - Flux"
         elif url_name == 'posts':
             self.context['title'] = "Mes posts"
+            user_posts_query = Ticket.objects.filter(user_id=request.user.id).values()    # ajouter les reviews aussi plus tard
+            user_posts = [Ticket.objects.get(user_id=user_posts_dict['user_id'])
+                                             for user_posts_dict in user_posts_query]
+            self.context['user_posts'] = user_posts
 
         return render(request, self.template_name, {'context': self.context})
 
