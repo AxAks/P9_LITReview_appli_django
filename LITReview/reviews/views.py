@@ -4,6 +4,8 @@ from django.views.generic import TemplateView
 
 from core.custom_decorators import custom_login_required
 
+from reviews.models import Ticket
+
 
 class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts"
     """
@@ -76,7 +78,7 @@ class PostsEditionView(TemplateView):  #  faire une seule classe au final ! (fu
         """
         ticket_title = request.POST.get('ticket_title')
         ticket_descr = request.POST.get('ticket_descr')
-        ticket_image = [request.POST.get('ticket_image') if request.POST.get('ticket_image') else None]
+        ticket_image = request.POST.get('ticket_image') if request.POST.get('ticket_image') else None
 
         ticket_infos = {
             'ticket_title': ticket_title,
@@ -85,6 +87,11 @@ class PostsEditionView(TemplateView):  #  faire une seule classe au final ! (fu
         }
 
         self.context['ticket_infos'] = ticket_infos
+
+        new_ticket = Ticket(title=ticket_infos['ticket_title'], description=ticket_infos['ticket_descr'],
+                            user=request.user, image=ticket_infos['ticket_image'])
+        new_ticket.save()
+
         return render(request, self.template_name, {'context': self.context})
 
     def add_url_name_to_context(self, request):
