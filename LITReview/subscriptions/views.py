@@ -16,7 +16,6 @@ class SubscriptionsView(TemplateView):
     template_name = 'subscriptions/subscriptions.html'
     context = {}
 
-
     # essayer d'ajouter request.user dans custom_login_required, pb car je ne recupere pas l'user ! à voir !
     #  @custom_login_required   # à gérer à un moment !!
     def get(self, request, *args, **kwargs):
