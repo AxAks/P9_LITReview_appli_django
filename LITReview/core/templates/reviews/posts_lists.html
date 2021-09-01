@@ -46,9 +46,6 @@
                         </li>
                     </ul>
                 {% endfor %}
-
-                {% else %}
-                    <p>Pas de review ou ticket à afficher</p>
             {% endif %}
         </div>
 
@@ -64,9 +61,11 @@
                     </li>
                 </ul>
                 {% endfor %}
-
-                {% else %}
-                    <p>Pas de review ou ticket à afficher</p>
             {% endif %}
         </div>
+        </div>
+            {% if not context.following_users_posts and not context.user_posts %}
+                <p>Pas de review ou ticket à afficher</p>
+            {% endif %}
+        <div>
     {% endblock %}

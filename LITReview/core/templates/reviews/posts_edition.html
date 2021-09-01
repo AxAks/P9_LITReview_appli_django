@@ -42,8 +42,12 @@ si reponse , on affiche le ticket existant; sinon on affiche un template de tick
 
     {% block content %}
 
-    {% if context.url_name in 'ticket_modification review_modification' %}
-        <h3>à faire </h3>
+    {% if context.url_name == 'ticket_modification' %}
+        <h3>Template Ticket Modification à faire </h3>
+    {% endif %}
+
+    {% if context.url_name == 'review_modification' %}
+        <h3>Template Critique Modification à faire !</h3>
     {% endif %}
 
     {% if context.url_name in 'ticket_creation review_creation_no_ticket' %}
