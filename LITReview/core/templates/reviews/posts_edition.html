@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% load crispy_forms_tags %}
 {% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
 
 <!--
     Possible d'utiliser le meme template pour "Critique Creation" et le "Ticket Creation" ?

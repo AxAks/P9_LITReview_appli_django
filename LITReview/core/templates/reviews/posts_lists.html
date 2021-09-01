@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% load crispy_forms_tags %}
 {% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
 <!--
     Possible d'utiliser le meme template pour "mes Posts" et le "feed" ?
     avec des if else (limité à l'user courant OU ALORS les posts de tous les utilisateurs que l'user courant suit,
@@ -10,62 +16,57 @@
     {% block title %} {{ context.title }} {% endblock %}
 
     {% block content %}
-        {% if context.url_name == 'feed' %}
-        <div>
-            <a href="{% url 'ticket_creation' %}">
-                <button class="btn btn-outline-dark">Demander un critique</button>
-            </a>
-            <a href="{% url 'review_creation_no_ticket' %}">
-                <button class="btn btn-outline-dark">Créer une critique</button>
-            </a>
+    <div>
+        <a href="{% url 'ticket_creation' %}">
+            <button class="btn btn-outline-dark">Demander un critique</button>
+        </a>
+        <a href="{% url 'review_creation_no_ticket' %}">
+            <button class="btn btn-outline-dark">Créer une critique</button>
+        </a>
 
-            <hr>
-            <p>DEBUG (à retirer)</p>
-            <a href="{% url 'ticket_modification' %}">
-                <button class="btn btn-outline-dark">Modifier un ticket</button>
-            </a>
-            <a href="{% url 'review_creation_reply' %}">
-                <button class="btn btn-outline-dark">Répondre à une demande de critique</button>
-            </a>
-            <a href="{% url 'review_modification' %}">
-                <button class="btn btn-outline-dark">Modifier une critique</button>
-            </a>
+        <hr>
+        <p>DEBUG (à retirer)</p>
+        <a href="{% url 'ticket_modification' %}">
+            <button class="btn btn-outline-dark">Modifier un ticket</button>
+        </a>
+        <a href="{% url 'review_creation_reply' %}">
+            <button class="btn btn-outline-dark">Répondre à une demande de critique</button>
+        </a>
+        <a href="{% url 'review_modification' %}">
+            <button class="btn btn-outline-dark">Modifier une critique</button>
+        </a>
 
-        </div>
+    </div>
+
+    {% if context.url_name == 'feed' %}
+    <div>
+        {% if context.followed_users_posts %}
+            <h4>Liste des reviews et tickets à mettre ici</h4>
+            {% for post in context.followed_users_posts %}
+            {% if post.content_type == 'TICKET' %}
+                {% include './ticket_snippet.html' %}
+            {% elif post.content_type == 'REVIEW' %}
+                {% include './review_snippet.html' %}
+            {% endif%}
+            {% endfor %}
         {% endif %}
-
-        <div>
-            {% if context.followed_users_posts %}
-                <h4>Liste des reviews et tickets à mettre ici</h4>
-                {% for post in context.followed_users_posts %}
-                    <ul>
-                        <li>
-                            - Utilisateur: {{ post.user }}<br/>
-                            - Titre: {{ post.title }}<br/>
-                            - Description: {{ post.description }}
-                        </li>
-                    </ul>
-                {% endfor %}
-            {% endif %}
-        </div>
-
-        <div>
-            {% if context.user_posts %}
-                <h4>Liste des reviews et tickets à mettre ici</h4>
-                {% for post in context.user_posts %}
-                <ul>
-                    <li>
-                        - Utilisateur: {{ post.user }}<br/>
-                        - Titre: {{ post.title }}<br/>
-                        - Description: {{ post.description }}
-                    </li>
-                </ul>
-                {% endfor %}
-            {% endif %}
-        </div>
-        </div>
-            {% if not context.followed_users_posts and not context.user_posts %}
-                <p>Pas de review ou ticket à afficher</p>
-            {% endif %}
-        <div>
+    </div>
+    {% endif %}
+    <div>
+        {% if context.user_posts %}
+            <h4>Liste des reviews et tickets à mettre ici</h4>
+            {% for post in context.user_posts %}
+            {% if post.content_type == 'TICKET' %}
+                {% include './ticket_snippet.html' %}
+            {% elif post.content_type == 'REVIEW' %}
+                {% include './review_snippet.html' %}
+            {% endif%}
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div>
+        {% if not context.followed_users_posts and not context.user_posts %}
+            <p>Pas de review ou ticket à afficher</p>
+        {% endif %}
+    </div>
     {% endblock %}

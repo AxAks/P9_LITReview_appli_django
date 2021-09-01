@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
+    <ul>
+        <li>
+            <p>Ticket</p>
+            - Utilisateur: {{ post.user }}<br/>
+            - Titre: {{ post.title }}<br/>
+            - Description: {{ post.description }}
+        </li>
+    </ul>
 </body>
 </html>
