@@ -35,6 +35,24 @@
         {% endif %}
 
         <div>
+            {% if context.following_users_posts %}
+                <h4>Liste des reviews et tickets à mettre ici</h4>
+                {% for post in context.following_users_posts %}
+                    <ul>
+                        <li>
+                            - Utilisateur: {{ post.user }}<br/>
+                            - Titre: {{ post.title }}<br/>
+                            - Description: {{ post.description }}
+                        </li>
+                    </ul>
+                {% endfor %}
+
+                {% else %}
+                    <p>Pas de review ou ticket à afficher</p>
+            {% endif %}
+        </div>
+
+        <div>
             {% if context.user_posts %}
                 <h4>Liste des reviews et tickets à mettre ici</h4>
                 {% for post in context.user_posts %}
