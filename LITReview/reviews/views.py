@@ -1,12 +1,16 @@
+from itertools import chain
+from typing import Any
+
+from django.db.models import Value, CharField
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from core.custom_decorators import custom_login_required
-
-from reviews.models import Ticket
+from reviews.models import Ticket, Review
 from subscriptions.models import UserFollows
-from core.models import CustomUser
+
+from utils import add_url_name_to_context
 
 
 class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts"
@@ -18,32 +22,37 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
 
     # @custom_login_required   # à gérer à un moment !!
     def get(self, request, *args, **kwargs) -> HttpResponse:
-        # def feed_view(self, request, *args, **kwargs) -> HttpResponse:
         """
 
         """
         self.context = {}
-        url_name = self.add_url_name_to_context(request)
+        url_name = add_url_name_to_context(request, self.context)
 
         if url_name == 'feed':
             self.context['title'] = "Page d'accueil - Flux"
 
-            users = [_user.followed_user_id for _user in UserFollows.objects.filter(user_id=request.user.id).all()]
-            following_users_posts = Ticket.objects.filter(user__id__in=users).all()
-            # peut surement etre amélioré !
-
-
-            self.context['following_users_posts'] = following_users_posts
+            followed_users_ids = [_user.followed_user_id for _user
+                              in UserFollows.objects.filter(user_id=request.user.id).all()]
+            self.context['followed_users_posts'] = self.get_posts(followed_users_ids)
 
         if url_name == 'posts':
             self.context['title'] = "Mes posts"
-
-            user_posts_query = Ticket.objects.filter(user_id=request.user.id).values()    # ajouter les reviews aussi plus tard
-            user_posts = [Ticket.objects.get(user_id=user_posts_dict['user_id'])
-                                             for user_posts_dict in user_posts_query]
-            self.context['user_posts'] = user_posts
+            self.context['user_posts'] = self.get_posts([request.user.id])
 
         return render(request, self.template_name, {'context': self.context})
+
+    def get_posts(self, filter_param: list[int]) -> list[Any]:
+        tickets = Ticket.objects.filter(user__id__in=filter_param).all() \
+            .annotate(content_type=Value('TICKET', CharField()))
+        reviews = Review.objects.filter(user__id__in=filter_param).all() \
+            .annotate(content_type=Value('REVIEW', CharField()))
+        # peut surement etre amélioré !
+
+        posts = sorted(
+            chain(reviews, tickets),
+            key=lambda post: post.time_created,
+            reverse=True)
+        return posts
 
     #  @custom_login_required   # à gérer à un moment !!
     def post(self, request, *args, **kwargs):
@@ -53,12 +62,10 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
 
         return render(request, self.template_name, {'context': self.context})
 
-    def add_url_name_to_context(self, request):
-        self.context['url_name'] = request.resolver_match.url_name
-        return self.context['url_name']
 
-
-class PostsEditionView(TemplateView):  #  faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts"
+class PostsEditionView(TemplateView):
+# faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts"
+# PB le template n'est pas le meme ... coment faire !?
     """
 
     """
@@ -70,7 +77,7 @@ class PostsEditionView(TemplateView):  #  faire une seule classe au final ! (fu
         """
 
         """
-        url_name = self.add_url_name_to_context(request)
+        url_name = add_url_name_to_context(request, self.context)
 
         if url_name == 'ticket_creation':
             self.context['title'] = "Créer un ticket"
@@ -104,12 +111,9 @@ class PostsEditionView(TemplateView):  #  faire une seule classe au final ! (fu
 
         self.context['ticket_infos'] = ticket_infos
 
-        new_ticket = Ticket(title=ticket_infos['ticket_title'], description=ticket_infos['ticket_descr'],
-                            user=request.user, image=ticket_infos['ticket_image'])
-        new_ticket.save()
+        if ticket_infos:
+            new_ticket = Ticket(title=ticket_infos['ticket_title'], description=ticket_infos['ticket_descr'],
+                                user=request.user, image=ticket_infos['ticket_image'])
+            new_ticket.save()
 
         return render(request, self.template_name, {'context': self.context})
-
-    def add_url_name_to_context(self, request):
-        self.context['url_name'] = request.resolver_match.url_name
-        return self.context['url_name']
