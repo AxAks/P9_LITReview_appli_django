@@ -9,42 +9,13 @@
 {% bootstrap_messages %}
 
 <!--
-    Possible d'utiliser le meme template pour "Critique Creation" et le "Ticket Creation" ?
-    avec des if else (changer le HTML via la view
-    - creation/modification Critique,
-    - creation/modfiiciation Ticket
-    - Critique suite à un ticket ou creation de critique sans ticket préalable)
-    à voir !
-    (le titre aussi serait variable)
+    Utilisation d'un seul template multi-fonctions pour:
+    - Critique/Ticket, Creation/Modification,
+    - Critique en réponse à un ticket ou non ?
+    Via if/else et include:
+    Le titre est variable selon l'url_name
 -->
-<!-- utiliser ce template avec un {% if block %}, {% else %}, {% endif %}  si c'est une réponse à un ticket existant
- ou si on veut modifier notre propre critique !
-si reponse , on affiche le ticket existant; sinon on affiche un template de ticket vide
-à supprimer: le template review_edition-->
-<!--
-    Est ce que je peux utiliser ce template avec des {% if block %}, {% else %}, {% endif %}
-    selon le cas : creation / modification d'un ticket !?
-    si oui, supprimer le template ticket_edition
-    ->>> Voir commentaire posts_edition.html:
-        - faire un seul template multi-fonctions pour tout ce qui est creation/modification de Ticket/Review
-        - et modifier le template selon les parametres (gestion dans les views!
--->
-
-    {% block title %}
-        {% if context.url_name == 'ticket_creation' %}
-            <h3>Créer un ticket</h3>
-        {% elif context.url_name == 'ticket_modification' %}
-            <h3>Modifier un ticket</h3>
-        {% elif context.url_name == 'review_creation_no_ticket' %}
-            <h3>Créer une critique (sans ticket préalable)</h3>
-        {% elif context.url_name == 'review_creation_reply' %}
-            <h3>Créer une critique (en réponse à un ticket)</h3>
-        {% elif context.url_name == 'review_modification' %}
-            <h3>Modifier une critique</h3>
-        {% else %}
-            <h3>C'est quoi cette section ...!!!???</h3>
-        {% endif%}
-    {% endblock %}
+    {% block title %} {{ context.title }} {% endblock %}
 
     {% block content %}
 

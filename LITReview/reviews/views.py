@@ -27,7 +27,6 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
         """
         self.context = {}
         url_name = add_url_name_to_context(request, self.context)
-
         if url_name == 'feed':
             self.context['title'] = "Page d'accueil - Flux"
 
@@ -81,16 +80,16 @@ class PostsEditionView(TemplateView):
 
         if url_name == 'ticket_creation':
             self.context['title'] = "Créer un ticket"
-        elif url_name == 'review_creation_no_ticket':
-            self.context['title'] = "Créer une critique (sans ticket)"
-        elif url_name == 'review_creation_reply':
-            self.context['title'] = "Répondre à une demande de critique"
         elif url_name == 'ticket_modification':
             self.context['title'] = "Modifier un ticket"
+        elif url_name == 'review_creation_no_ticket':
+            self.context['title'] = "Créer une critique (sans ticket préalable)"
+        elif url_name == 'review_creation_reply':
+            self.context['title'] = "Répondre à une demande de critique"
         elif url_name == 'review_modification':
             self.context['title'] = "Modifier une critique"
         else:
-            self.context['title'] = ".heu on est où là..!!???"
+            self.context['title'] = "DEBUG !!!???!!???"  # Debug, à retirer plus tard
 
         return render(request, self.template_name, {'context': self.context})
 

@@ -8,10 +8,11 @@
 {% bootstrap_javascript jquery='full' %}
 {% bootstrap_messages %}
 <!--
-    Possible d'utiliser le meme template pour "mes Posts" et le "feed" ?
-    avec des if else (limité à l'user courant OU ALORS les posts de tous les utilisateurs que l'user courant suit,
-    à voir !
-    (le titre aussi serait variable)
+    Utilisation d'un seul template multi-fonctions pour:
+    - Mes Posts
+    - Flux - Page d'accueil
+    Via if/else et include: soit les posts de l'utilisateur courant, soit les posts des utiisateurs qu'il suit(et les siens?)
+    Le titre est variable selon l'url_name
 -->
     {% block title %} {{ context.title }} {% endblock %}
 
