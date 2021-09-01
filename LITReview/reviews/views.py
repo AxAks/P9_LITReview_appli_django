@@ -28,24 +28,11 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
         if url_name == 'feed':
             self.context['title'] = "Page d'accueil - Flux"
 
-            following_users_posts = Ticket.objects.select_related('user_follows', 'custom_user').values()
-            # (en cours : lister les posts (juste les tickets pour le moment) des user que l'utilisateur suit (pour la page feed))
-            #mauvaise requete je ne sais pas ce que je ramene a retravailler !
+            users = [_user.followed_user_id for _user in UserFollows.objects.filter(user_id=request.user.id).all()]
+            following_users_posts = Ticket.objects.filter(user__id__in=users).all()
+            # peut surement etre amélioré !
 
-            """
-            user_follows_query = UserFollows.objects.filter(user_id=request.user.id).values()
-            user_follows_id_list = [UserFollows.objects.filter(user_id=user_follows_dict['followed_user_id'])
-                                    for user_follows_dict in user_follows_query]
 
-            followed_users_list = [CustomUser.objects.filter(id__in=user_id)
-                                   for user_id in user_follows_id_list]
-
-            followed_users = [CustomUser.objects.filter(id=followed_users_dict['id'])
-                              for followed_users_dict in followed_users_list]
-            followed_users_posts_query = Ticket.objects.filter(user__in=followed_users).values()
-            following_users_posts = [Ticket.objects.filter(user_id=followed_users)
-                                     for followed_users in followed_users_posts_query]
-            """
             self.context['following_users_posts'] = following_users_posts
 
         if url_name == 'posts':
