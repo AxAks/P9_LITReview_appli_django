@@ -36,38 +36,36 @@
         <a href="{% url 'review_modification' %}">
             <button class="btn btn-outline-dark">Modifier une critique</button>
         </a>
-
     </div>
 
-    {% if context.url_name == 'feed' %}
-    <div>
-        {% if context.followed_users_posts %}
-            <h4>Liste des reviews et tickets à mettre ici</h4>
-            {% for post in context.followed_users_posts %}
-            {% if post.content_type == 'TICKET' %}
-                {% include './ticket_snippet.html' %}
-            {% elif post.content_type == 'REVIEW' %}
-                {% include './review_snippet.html' %}
-            {% endif%}
-            {% endfor %}
+    <div> <!-- ca fonctionne mais très lourd ! à revoir  -->
+    {% if context.url_name == 'feed' and not context.followed_users_posts %}
+        <p>Pas de review ou ticket à afficher</p>
+    {% elif context.url_name == 'posts' and not context.user_posts %}
+        <p>Pas de review ou ticket à afficher</p>
+    {% else%}
+        <h4>Liste des reviews et tickets</h4>
+        {% if context.url_name == 'feed' %}
+            {% if context.followed_users_posts %}
+                {% for post in context.followed_users_posts %}
+                    {% if post.content_type == 'TICKET' %}
+                        {% include './ticket_snippet.html' %}
+                    {% elif post.content_type == 'REVIEW' %}
+                        {% include './review_snippet.html' %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% elif context.url_name == 'posts' %}
+            {% if context.user_posts %}
+                {% for post in context.user_posts %}
+                    {% if post.content_type == 'TICKET' %}
+                        {% include './ticket_snippet.html' %}
+                    {% elif post.content_type == 'REVIEW' %}
+                        {% include './review_snippet.html' %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         {% endif %}
-    </div>
     {% endif %}
-    <div>
-        {% if context.user_posts %}
-            <h4>Liste des reviews et tickets à mettre ici</h4>
-            {% for post in context.user_posts %}
-            {% if post.content_type == 'TICKET' %}
-                {% include './ticket_snippet.html' %}
-            {% elif post.content_type == 'REVIEW' %}
-                {% include './review_snippet.html' %}
-            {% endif%}
-            {% endfor %}
-        {% endif %}
-    </div>
-    <div>
-        {% if not context.followed_users_posts and not context.user_posts %}
-            <p>Pas de review ou ticket à afficher</p>
-        {% endif %}
     </div>
     {% endblock %}
