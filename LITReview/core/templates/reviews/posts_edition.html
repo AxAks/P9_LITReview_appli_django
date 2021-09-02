@@ -28,7 +28,7 @@
     {% endif %}
 
     {% if context.url_name in 'ticket_creation review_creation_no_ticket' %}
-        {% include './forms/ticket_form_snippet.html' %}
+        {% include './forms/form_ticket_snippet.html' %}
     {% endif %}
 
 
@@ -42,7 +42,7 @@
     {% endif %}
 
     {% if context.url_name in 'review_creation_reply review_creation_no_ticket' %}
-        {% include './forms/review_form_snippet.html' %}
+        {% include './forms/form_review_snippet.html' %}
     {% endif %}
 
     {% if context.url_name == 'à definir' %} <!-- à retirer -->
