@@ -28,57 +28,24 @@
     {% endif %}
 
     {% if context.url_name in 'ticket_creation review_creation_no_ticket' %}
-     <!-- formulaire pour remplir un ticket (pour sa propre critique ou pour demander une critique)-->
-            <form method="post" action="">
-            {% csrf_token %}
-                <h4>Titre</h4>
-                    <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
-                        {{ ticket.titre.errors }}  <!-- ticket à écrire -->
-                        <input type="text" size="50"
-                               name="ticket_title" placeholder="Entrez le titre et l'auteur de l'oeuvre">
-                    </p>
-                <h4>Description</h4>
-                    <p class="fieldWrapper">
-                        {{ ticket.description.errors }}
-                        <input type="text" size="250"
-                               name="ticket_descr" placeholder="Entrez votre demande">
-                    </p>
-                <h4>Image</h4>
-                    <p class="fieldWrapper">
-                        {{ ticket.image.errors }}
-                        <input type="hidden" name="ticket_image">
-                        <button type="submit" class="btn btn-outline-dark">Télécharger une image</button>
-                    </p>
-                <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
-            </form>
+        {% include './forms/ticket_form_snippet.html' %}
     {% endif %}
 
 
-        {% if context.url_name == 'review_creation_reply' %}
-        <!-- récupérer le ticket correspondant et l'afficher (non modifiable) -->
-            <div>
-                <h4>Vous etes en train de poster en réponse à: </h4> <!-- ticket à recupérer en base via views -->
-                    <p>(Utilisateur "untel") a demandé une critique</p> <!-- (Utilisateur "untel") a remplacer par {{ ticket.user }} ensuite -->
-                    <p>Titre</p>   <!-- à remplacer par {{ ticket.title }} ensuite, ticket à recupérer en base via views -->
-                    <p>Description</p> <!-- à remplacer par {{ ticket.description }} ensuite -->
-                    <p>Image</p>    <!-- à remplacer par {{ ticket.image }} ensuite -->
-            </div>
-        {% endif %}
+    {% if context.url_name == 'review_creation_reply' %}
+    <!-- récupérer le ticket correspondant et l'afficher (non modifiable) -->
+        <div>
+            <h4>Vous etes en train de poster en réponse à: </h4> <!-- ticket à recupérer en base via views -->
+                <p>Récupérer le ticket en question en base: A FAIRE !!</p> <!-- à retirer plus tard -->
+                {% include './snippets/ticket_snippet.html' %} <!-- requete à ecrire pour récupérer le ticket en question !! -->
+        </div>
+    {% endif %}
 
-        {% if context.url_name in 'review_creation_reply review_creation_no_ticket' %}
-            <div>
-                <hr> <!-- à retirer plus tard -->
-                <h3>Critique</h3>
-                <h4>Titre</h4>
-                <h4>Note</h4>
-                <h4>Commentaire</h4>
-                <button class="btn btn-sm btn-outline-dark" type="submit" action="{url 'login'}">
-                    Envoyer
-                </button> <!-- débugger, rediriger au bon endroit ensuite !-->
-            </div>
-        {% endif %}
+    {% if context.url_name in 'review_creation_reply review_creation_no_ticket' %}
+        {% include './forms/review_form_snippet.html' %}
+    {% endif %}
 
-        {% if context.url_name == 'à definir' %} <!-- à retirer -->
-            <h4>Créer un : Reste à écrire....</h4>
-        {% endif %}
+    {% if context.url_name == 'à definir' %} <!-- à retirer -->
+        <h4>Créer un : Reste à écrire....</h4>
+    {% endif %}
     {% endblock %}

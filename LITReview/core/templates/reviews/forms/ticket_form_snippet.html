@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+     <!-- formulaire pour remplir un ticket (pour sa propre critique ou pour demander une critique)-->
+            <form method="post" action="">
+            {% csrf_token %}
+                <h4>Titre</h4>
+                    <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
+                        {{ ticket.titre.errors }}  <!-- ticket à écrire -->
+                        <input type="text" size="50"
+                               name="ticket_title" placeholder="Entrez le titre et l'auteur de l'oeuvre">
+                    </p>
+                <h4>Description</h4>
+                    <p class="fieldWrapper">
+                        {{ ticket.description.errors }}
+                        <input type="text" size="250"
+                               name="ticket_descr" placeholder="Entrez votre demande">
+                    </p>
+                <h4>Image</h4>
+                    <p class="fieldWrapper">
+                        {{ ticket.image.errors }}
+                        <input type="hidden" name="ticket_image">
+                        <button type="submit" class="btn btn-outline-dark">Télécharger une image</button>
+                    </p>
+                <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
+            </form>
+</body>
+</html>
