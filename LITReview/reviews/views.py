@@ -30,8 +30,10 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
         if url_name == 'feed':
             self.context['title'] = "Page d'accueil - Flux"
 
-            followed_users_ids = [_user.followed_user_id for _user
-                              in UserFollows.objects.filter(user_id=request.user.id).all()]
+            followed_users_ids = [_user.followed_user_id
+                                  for _user
+                                  in UserFollows.objects.filter(user_id=request.user.id).all()]
+
             self.context['followed_users_posts'] = self.get_posts(followed_users_ids)
 
         if url_name == 'posts':
@@ -114,5 +116,24 @@ class PostsEditionView(TemplateView):
             new_ticket = Ticket(title=ticket_infos['ticket_title'], description=ticket_infos['ticket_descr'],
                                 user=request.user, image=ticket_infos['ticket_image'])
             new_ticket.save()
+
+        review_headline = request.POST.get('ticket_title')
+        review_rating = request.POST.get('ticket_descr')
+        review_comment = request.POST.get('review_comment')
+
+        review_infos = {
+            'review_headline': review_headline,
+            'review_rating': review_rating,
+            'review_comment': review_comment
+        }
+
+        self.context['review_infos'] = review_infos
+
+        if review_infos:
+            # imptt: ajouter "ticket= ," en premeir argument de new review
+            # et trouver comment je lie au ticket correspond
+            new_review = Review(headline=review_infos['review_headline'], rating=review_infos['review_rating'],
+                                user=request.user, body=review_infos['review_comment'])
+            new_review.save()
 
         return render(request, self.template_name, {'context': self.context})

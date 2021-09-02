@@ -88,11 +88,11 @@ class SubscriptionsView(TemplateView):
         return render(request, self.template_name, {'context': self.context})
 
     def get_subscriptions_status_for_user(self, request):
-        user_follows = UserFollows.objects.filter(user_id=request.user.id).values()
-        followed_users = [CustomUser.objects.get(id=user_follows_dict['followed_user_id'])
-                          for user_follows_dict in user_follows]
-        users_following = UserFollows.objects.filter(followed_user_id=request.user.id).values()
-        following_users = [CustomUser.objects.get(id=user_following_dict['user_id'])
-                           for user_following_dict in users_following]
+        followed_users = [CustomUser.objects.get(id=relation_obj.followed_user_id)
+                          for relation_obj in UserFollows.objects.filter(user_id=request.user.id).all()]
+        following_users = [CustomUser.objects.get(id=user_following_obj.user_id)
+                           for user_following_obj
+                           in UserFollows.objects.filter(followed_user_id=request.user.id).all()]
+
         self.context['followed_users'] = followed_users
         self.context['following_users'] = following_users
