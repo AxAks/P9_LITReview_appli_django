@@ -28,7 +28,15 @@
         </p>
         <p class="fieldWrapper">
             Note
-            <input name="review_rating" placeholder="Note">
+            <ul>
+            {% for rating in context.possible_ratings %}
+                <li>
+                    <input class="form-check-input" name="review_rating" type="radio" value="{{ rating }}">
+                    {{ rating }}
+                </li>
+            {% endfor %}
+            </ul>
+        </p>
         <p class="fieldWrapper">
             Commentaire
             <input name="review_comment" placeholder="Commentaire">

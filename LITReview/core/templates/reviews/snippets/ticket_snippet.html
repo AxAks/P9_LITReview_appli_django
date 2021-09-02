@@ -20,6 +20,12 @@
             - Utilisateur: {{ post.user }}<br/>
             - Titre: {{ post.title }}<br/>
             - Description: {{ post.description }}
+            <p>
+                <!-- à modifier !! avec une adresse de type /ticket_id/ dans urls -->
+                <a href="{% url 'review_creation_reply' %}">
+                <button class="btn btn-outline-dark">Répondre à ce ticket</button>
+                </a>
+            </p>
         </li>
     </ul>
 </body>

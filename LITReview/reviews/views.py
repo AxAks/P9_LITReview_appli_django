@@ -6,11 +6,13 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
+from utils import add_url_name_to_context
+from constants import RATINGS
+
 from core.custom_decorators import custom_login_required
+
 from reviews.models import Ticket, Review
 from subscriptions.models import UserFollows
-
-from utils import add_url_name_to_context
 
 
 class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts"
@@ -93,6 +95,8 @@ class PostsEditionView(TemplateView):
         else:
             self.context['title'] = "DEBUG !!!???!!???"  # Debug, à retirer plus tard
 
+        self.context['possible_ratings'] = RATINGS
+
         return render(request, self.template_name, {'context': self.context})
 
     #  @custom_login_required   # à gérer à un moment !!
@@ -118,7 +122,7 @@ class PostsEditionView(TemplateView):
             new_ticket.save()
 
         review_headline = request.POST.get('ticket_title')
-        review_rating = request.POST.get('ticket_descr')
+        review_rating = request.POST.get('review_rating')
         review_comment = request.POST.get('review_comment')
 
         review_infos = {

@@ -1,5 +1,6 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.urls import reverse_lazy
 
 from LITReview import settings
 
@@ -21,6 +22,8 @@ class Ticket(models.Model):
                f' User: {self.user},' \
                f' Description: {self.description}'
 
+    def get_absolute_url(self):
+        return reverse_lazy('ticket_view', kwargs={'post_id': self.id})
 
 class Review(models.Model):
     """
