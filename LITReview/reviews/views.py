@@ -82,7 +82,7 @@ class PostsEditionView(TemplateView):
         """
         url_name = add_url_name_to_context(request, self.context)
 
-        if url_name == 'ticket_creation':
+        if url_name == 'ticket_creation':  # voir si je peux utiliser un dict à la place de if/elif/else
             self.context['title'] = "Créer un ticket"
         elif url_name == 'ticket_modification':
             self.context['title'] = "Modifier un ticket"
@@ -90,6 +90,8 @@ class PostsEditionView(TemplateView):
             self.context['title'] = "Créer une critique (sans ticket préalable)"
         elif url_name == 'review_creation_reply':
             self.context['title'] = "Répondre à une demande de critique"
+        elif url_name == 'review_creation_reply_specific':
+            self.context['title'] = "Répondre au ticket {numero de ticket}"
         elif url_name == 'review_modification':
             self.context['title'] = "Modifier une critique"
         else:
@@ -98,6 +100,8 @@ class PostsEditionView(TemplateView):
         self.context['possible_ratings'] = RATINGS
 
         return render(request, self.template_name, {'context': self.context})
+
+        # ticket_id = kwargs['id']
 
     #  @custom_login_required   # à gérer à un moment !!
     def post(self, request, *args, **kwargs):

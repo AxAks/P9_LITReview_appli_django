@@ -22,7 +22,7 @@
             - Description: {{ post.description }}
             <p>
                 <!-- à modifier !! avec une adresse de type /ticket_id/ dans urls -->
-                <a href="{% url 'review_creation_reply' %}">
+                <a href="{% url 'review_creation_reply_specific' post.id %}">
                 <button class="btn btn-outline-dark">Répondre à ce ticket</button>
                 </a>
             </p>

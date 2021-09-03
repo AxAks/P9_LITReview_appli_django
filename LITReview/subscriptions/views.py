@@ -50,6 +50,7 @@ class SubscriptionsView(TemplateView):
                 found_users = CustomUser.objects.filter(username__icontains=query)\
                     .distinct()\
                     .exclude(id=request.user.id)
+                #  exclure les users déja suivi de la recherche en plus
             else:
                 found_users = []
             self.context['found_users'] = found_users
@@ -62,14 +63,14 @@ class SubscriptionsView(TemplateView):
             is_followed_bool = UserFollows.objects\
                 .filter(user_id=request.user.id, followed_user_id=user_to_follow.id)\
                 .exists()
-            if is_followed_bool:
+            if is_followed_bool: # peut etre plus utile si on filtre la recherche
                 self.context['already_followed_user'] = is_followed_bool
             else:
                 new_user_followed = UserFollows(user_id=request.user.id, followed_user_id=user_to_follow.id)
                 new_user_followed.save()
                 self.context['new_user_followed'] = new_user_followed
 
-        if form_name == 'unfollow': # ne "rafraichit" pas la page pour retirer l'utilisateur plus suivi !
+        elif form_name == 'unfollow': # ne "rafraichit" pas la page pour retirer l'utilisateur plus suivi !
             user_to_unfollow_username = request.POST.get('user_to_unfollow')
             user_to_unfollow = CustomUser.objects\
                 .get(username=user_to_unfollow_username)
@@ -85,7 +86,7 @@ class SubscriptionsView(TemplateView):
             else:
                 self.context['not_followed_yet'] = is_followed_bool
 
-        return render(request, self.template_name, {'context': self.context})
+        return render(request, self.template_name, {'context': self.context})  # voir redirect() !?
 
     def get_subscriptions_status_for_user(self, request):
         followed_users = [CustomUser.objects.get(id=relation_obj.followed_user_id)

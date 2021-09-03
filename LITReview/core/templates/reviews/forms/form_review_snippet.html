@@ -28,7 +28,7 @@
         </p>
         <p class="fieldWrapper">
             Note
-            <ul>
+            <ul>  <!-- voir comment je peux utiliser bootstrap flex pour aligner horizontalement-->
             {% for rating in context.possible_ratings %}
                 <li>
                     <input class="form-check-input" name="review_rating" type="radio" value="{{ rating }}">
