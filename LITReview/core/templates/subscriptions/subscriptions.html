@@ -11,7 +11,7 @@
     {% block title %} Page des abonnements {% endblock %}
     {% block content %}
         <div>
-            <h3>Suivre d'autres utilisateurs</h3>
+            <h3>Chercher d'autres utilisateurs à suivre</h3>
                 <form method="post" action="">
                     {% csrf_token %}
                     <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
@@ -19,7 +19,7 @@
                         {{ form.username }}
                     </p>
                     <input type="hidden" name="form_name" value="search">
-                    <input name="searched_user" placeholder="Rechercher un utilisateur non suivi">
+                    <input name="searched_user" placeholder="Rechercher un utilisateur">
                     <button class="btn btn-outline-dark" type="submit">Envoyer</button>
                 </form>
                 <div>
