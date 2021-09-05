@@ -52,8 +52,9 @@ class SubscriptionsView(TemplateView):
             else:
                 found_users = []
             self.context['found_users'] = found_users
+            return render(request, self.template_name, {'context': self.context})  # voir redirect() !?
 
-        if form_name == 'follow': # ne "rafraichit" pas la page pour afficher le nouvel utilisateur suivi
+        if form_name == 'follow':
             user_to_follow_username = request.POST.get('user_to_follow')
             user_to_follow = CustomUser.objects\
                 .get(username=user_to_follow_username)
@@ -61,6 +62,7 @@ class SubscriptionsView(TemplateView):
             new_user_followed = UserFollows(user_id=request.user.id, followed_user_id=user_to_follow.id)
             new_user_followed.save()
             self.context['new_user_followed'] = new_user_followed
+            return redirect(reverse('subscriptions', kwargs={}))
 
         elif form_name == 'unfollow': # ne "rafraichit" pas la page pour retirer l'utilisateur plus suivi !
             user_to_unfollow_username = request.POST.get('user_to_unfollow')
@@ -70,8 +72,10 @@ class SubscriptionsView(TemplateView):
                 .get(user_id=request.user.id, followed_user_id=user_to_unfollow.id) \
                 .delete()
             self.context['unfollowed_user'] = user_unfollowed
+            return redirect(reverse('subscriptions', kwargs={}))
 
-        return render(request, self.template_name, {'context': self.context})  # voir redirect() !?
+        # return redirect(reverse('subscriptions', kwargs={}))
+        # return render(request, self.template_name, {'context': self.context})  # voir redirect() !?
 
     def get_subscriptions_status_for_user(self, request):
         followed_users = [CustomUser.objects.get(id=relation_obj.followed_user_id)
