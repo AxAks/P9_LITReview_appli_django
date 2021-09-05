@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from core.models import CustomUser
+from django.urls import reverse
 from django.views.generic import TemplateView
 from subscriptions.models import UserFollows
 
@@ -63,8 +64,11 @@ class SubscriptionsView(TemplateView):
 
         elif form_name == 'unfollow': # ne "rafraichit" pas la page pour retirer l'utilisateur plus suivi !
             user_to_unfollow_username = request.POST.get('user_to_unfollow')
-            user_unfollowed = CustomUser.objects\
+            user_to_unfollow = CustomUser.objects\
                 .get(username=user_to_unfollow_username)
+            user_unfollowed = UserFollows.objects \
+                .get(user_id=request.user.id, followed_user_id=user_to_unfollow.id) \
+                .delete()
             self.context['unfollowed_user'] = user_unfollowed
 
         return render(request, self.template_name, {'context': self.context})  # voir redirect() !?
