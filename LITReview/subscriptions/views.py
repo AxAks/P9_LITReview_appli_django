@@ -64,7 +64,7 @@ class SubscriptionsView(TemplateView):
             self.context['new_user_followed'] = new_user_followed
             return redirect(reverse('subscriptions', kwargs={}))
 
-        elif form_name == 'unfollow': # ne "rafraichit" pas la page pour retirer l'utilisateur plus suivi !
+        elif form_name == 'unfollow':
             user_to_unfollow_username = request.POST.get('user_to_unfollow')
             user_to_unfollow = CustomUser.objects\
                 .get(username=user_to_unfollow_username)
