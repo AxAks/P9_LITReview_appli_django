@@ -52,7 +52,7 @@ class SubscriptionsView(TemplateView):
             else:
                 found_users = []
             self.context['found_users'] = found_users
-            return render(request, self.template_name, {'context': self.context})  # voir redirect() !?
+            return render(request, self.template_name, {'context': self.context})
 
         if form_name == 'follow':
             user_to_follow_username = request.POST.get('user_to_follow')
