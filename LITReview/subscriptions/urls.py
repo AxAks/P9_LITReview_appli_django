@@ -1,10 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.urls import path
 
 from .views import SubscriptionsView  #, follow_user, unfollow_user
 
 urlpatterns = [
-    path('', SubscriptionsView.as_view(), name='subscriptions'),
-    path('', SubscriptionsView.as_view(), name='follow_user'),
-    path('', SubscriptionsView.as_view(), name='unfollow_user'),
+    path('', login_required(SubscriptionsView.as_view(), login_url='login'), name='subscriptions'),
+    path('', login_required(SubscriptionsView.as_view(), login_url='login'), name='follow_user'),
+    path('', login_required(SubscriptionsView.as_view(), login_url='login'), name='unfollow_user'),
 ]
 

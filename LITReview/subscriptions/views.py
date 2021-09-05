@@ -1,9 +1,8 @@
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.views.generic import TemplateView
+from django.urls import reverse
 
 from core.models import CustomUser
-from django.urls import reverse
-from django.views.generic import TemplateView
 from subscriptions.models import UserFollows
 
 
@@ -14,8 +13,8 @@ class SubscriptionsView(TemplateView):
     template_name = 'subscriptions/subscriptions.html'
     context = {}
 
-    # essayer d'ajouter request.user dans login_required, pb car je ne recupere pas l'user ! à voir !
-    #  @login_required(login_url='login')   # à gérer à un moment !!
+    #  essayer d'ajouter request.user dans login_required, pb car je ne recupere pas l'user ! à voir !
+    #  à gérer à un moment !! # pb login_required attend request en premier element et là c'est un self ?
     def get(self, request, *args, **kwargs):
         """
         Displays the page subscription
