@@ -22,6 +22,7 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
     context = {}
     template_name = 'reviews/posts_lists.html'
 
+    # essayee ca à la place ! @login_required(login_url='login')
     # @custom_login_required   # à gérer à un moment !!
     def get(self, request, *args, **kwargs) -> HttpResponse:
         """
@@ -80,18 +81,21 @@ class PostsEditionView(TemplateView):
         """
 
         """
+        self.context = {}
         url_name = add_url_name_to_context(request, self.context)
 
         if url_name == 'ticket_creation':  # voir si je peux utiliser un dict à la place de if/elif/else
             self.context['title'] = "Créer un ticket"
         elif url_name == 'ticket_modification':
             self.context['title'] = "Modifier un ticket"
+            ticket_id = kwargs['id']
+            self.context['post'] = Ticket.objects.get(id=ticket_id)
         elif url_name == 'review_creation_no_ticket':
             self.context['title'] = "Créer une critique (sans ticket préalable)"
-        elif url_name == 'review_creation_reply':
-            self.context['title'] = "Répondre à une demande de critique"
-        elif url_name == 'review_creation_reply_specific':
-            self.context['title'] = "Répondre au ticket {numero de ticket}"
+        elif 'review_ticket_reply' in url_name:
+            self.context['title'] = f"Répondre à un ticket"
+            ticket_id = kwargs['id']
+            self.context['post'] = Ticket.objects.get(id=ticket_id)
         elif url_name == 'review_modification':
             self.context['title'] = "Modifier une critique"
         else:
@@ -100,8 +104,6 @@ class PostsEditionView(TemplateView):
         self.context['possible_ratings'] = RATINGS
 
         return render(request, self.template_name, {'context': self.context})
-
-        # ticket_id = kwargs['id']
 
     #  @custom_login_required   # à gérer à un moment !!
     def post(self, request, *args, **kwargs):
@@ -125,7 +127,7 @@ class PostsEditionView(TemplateView):
                                 user=request.user, image=ticket_infos['ticket_image'])
             new_ticket.save()
 
-        review_headline = request.POST.get('ticket_title')
+        review_headline = request.POST.get('review_headline')
         review_rating = request.POST.get('review_rating')
         review_comment = request.POST.get('review_comment')
 

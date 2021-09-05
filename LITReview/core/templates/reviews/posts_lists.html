@@ -19,7 +19,7 @@
     {% block content %}
     <div>
         <a href="{% url 'ticket_creation' %}">
-            <button class="btn btn-outline-dark">Demander un critique</button>
+            <button class="btn btn-outline-dark">Demander une critique</button>
         </a>
         <a href="{% url 'review_creation_no_ticket' %}">
             <button class="btn btn-outline-dark">Créer une critique</button>
@@ -27,12 +27,6 @@
 
         <hr>
         <p>DEBUG (à retirer)</p>
-        <a href="{% url 'ticket_modification' %}">
-            <button class="btn btn-outline-dark">Modifier un ticket</button>
-        </a>
-        <a href="{% url 'review_creation_reply' %}">
-            <button class="btn btn-outline-dark">Répondre à une demande de critique</button>
-        </a>
         <a href="{% url 'review_modification' %}">
             <button class="btn btn-outline-dark">Modifier une critique</button>
         </a>

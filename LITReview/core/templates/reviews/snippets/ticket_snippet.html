@@ -17,14 +17,27 @@
     <ul>
         <li>
             <p>Ticket</p>
-            - Utilisateur: {{ post.user }}<br/>
-            - Titre: {{ post.title }}<br/>
-            - Description: {{ post.description }}
+            {% if context.post %}
+                - Utilisateur: {{ context.post.user }}<br/>
+                - Titre: {{ context.post.title }}<br/>
+                - Description: {{ context.post.description }}
+            {% else %}
+                - Utilisateur: {{ post.user }}<br/>
+                - Titre: {{ post.title }}<br/>
+                - Description: {{ post.description }}
+            {% endif %}
             <p>
                 <!-- à modifier !! avec une adresse de type /ticket_id/ dans urls -->
-                <a href="{% url 'review_creation_reply_specific' post.id %}">
-                <button class="btn btn-outline-dark">Répondre à ce ticket</button>
+                <!-- + ajouter un if else : request.user -> je peux modifier, request.followed_user je peux repondre -->
+            {% if context.url_name == 'feed' %}
+                <a href="{% url 'review_ticket_reply' post.id %}">
+                    <button class="btn btn-outline-dark">Répondre à ce ticket</button>
                 </a>
+            {% elif context.url_name == 'posts' %}
+                <a href="{% url 'ticket_modification' post.id %}">
+            <button class="btn btn-outline-dark">Modifier ce ticket</button>
+                </a>
+            {% endif %}
             </p>
         </li>
     </ul>

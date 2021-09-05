@@ -20,11 +20,13 @@
     {% block content %}
 
     {% if context.url_name == 'ticket_modification' %}
-        <h3>Template Ticket Modification à faire </h3>
+        <h3>Template Ticket Modification (en cours !)</h3>
+        {% include './snippets/ticket_snippet.html' %}
     {% endif %}
 
     {% if context.url_name == 'review_modification' %}
-        <h3>Template Critique Modification à faire !</h3>
+        <h3>Template Critique Modification (en cours !)</h3>
+        {% include './snippets/review_snippet.html'  %}
     {% endif %}
 
     {% if context.url_name in 'ticket_creation review_creation_no_ticket' %}
@@ -32,7 +34,7 @@
     {% endif %}
 
 
-    {% if context.url_name == 'review_creation_reply' %}
+    {% if 'review_ticket_reply' in context.url_name %}
     <!-- récupérer le ticket correspondant et l'afficher (non modifiable) -->
         <div>
             <h4>Vous etes en train de poster en réponse à: </h4> <!-- ticket à recupérer en base via views -->
@@ -41,7 +43,7 @@
         </div>
     {% endif %}
 
-    {% if context.url_name in 'review_creation_reply review_creation_no_ticket' %}
+    {% if context.url_name in 'review_ticket_reply review_creation_no_ticket' %}
         {% include './forms/form_review_snippet.html' %}
     {% endif %}
 
