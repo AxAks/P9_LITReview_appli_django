@@ -74,9 +74,6 @@ class SubscriptionsView(TemplateView):
             self.context['unfollowed_user'] = user_unfollowed
             return redirect(reverse('subscriptions', kwargs={}))
 
-        # return redirect(reverse('subscriptions', kwargs={}))
-        # return render(request, self.template_name, {'context': self.context})  # voir redirect() !?
-
     def get_subscriptions_status_for_user(self, request):
         followed_users = [CustomUser.objects.get(id=relation_obj.followed_user_id)
                           for relation_obj in UserFollows.objects.filter(user_id=request.user.id).all()]
