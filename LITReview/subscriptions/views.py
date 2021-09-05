@@ -39,15 +39,15 @@ class SubscriptionsView(TemplateView):
         - follow and unfollow other users
         """
         self.get_subscriptions_status_for_user(request)
-
+        users_excluded_from_search = [user.id for user in self.context['followed_users']]
+        users_excluded_from_search.append(request.user.id)
         form_name = request.POST.get('form_name')
         if form_name == 'search':
             query = request.POST.get('searched_user')
             if query:
                 found_users = CustomUser.objects.filter(username__icontains=query)\
                     .distinct()\
-                    .exclude(id=request.user.id)
-                #  exclure les users déja suivi de la recherche en plus
+                    .exclude(id__in=users_excluded_from_search)
             else:
                 found_users = []
             self.context['found_users'] = found_users
