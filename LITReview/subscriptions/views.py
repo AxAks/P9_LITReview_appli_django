@@ -13,8 +13,6 @@ class SubscriptionsView(TemplateView):
     template_name = 'subscriptions/subscriptions.html'
     context = {}
 
-    #  essayer d'ajouter request.user dans login_required, pb car je ne recupere pas l'user ! à voir !
-    #  à gérer à un moment !! # pb login_required attend request en premier element et là c'est un self ?
     def get(self, request, *args, **kwargs):
         """
         Displays the page subscription
@@ -31,7 +29,6 @@ class SubscriptionsView(TemplateView):
 
         return render(request, self.template_name, {'context': self.context})
 
-    #  @login_required(login_url='login')   # à gérer à un moment !!
     def post(self, request, *args, **kwargs):
         """
         Enables to:

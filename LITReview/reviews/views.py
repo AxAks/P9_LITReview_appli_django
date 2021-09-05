@@ -1,7 +1,6 @@
 from itertools import chain
 from typing import Any
 
-from django.contrib.auth.decorators import login_required
 from django.db.models import Value, CharField
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -21,7 +20,6 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
     context = {}
     template_name = 'reviews/posts_lists.html'
 
-    # @login_required(login_url='login') # à gérer à un moment !! pb user !
     def get(self, request, *args, **kwargs) -> HttpResponse:
         """
 
@@ -56,7 +54,6 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
             reverse=True)
         return posts
 
-    #  @login_required(login_url='login')   # à gérer à un moment !!
     def post(self, request, *args, **kwargs):
         """
 
@@ -74,7 +71,6 @@ class PostsEditionView(TemplateView):
     context = {}
     template_name = 'reviews/posts_edition.html'
 
-    #  @login_required(login_url='login')   # à gérer à un moment !!
     def get(self, request, *args, **kwargs) -> HttpResponse:
         """
 
@@ -103,7 +99,6 @@ class PostsEditionView(TemplateView):
 
         return render(request, self.template_name, {'context': self.context})
 
-    #  @login_required(login_url='login')   # à gérer à un moment !!
     def post(self, request, *args, **kwargs):
         """
 

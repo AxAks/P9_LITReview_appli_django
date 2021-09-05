@@ -16,7 +16,8 @@ class SignupView(TemplateView):
 
     def signup_view(self, request) -> Union[HttpResponse, HttpResponseRedirect]:
         """
-
+        Handles the signup form
+        Lads directly to the home/feed page if the form is validated.
         """
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -44,7 +45,7 @@ class LoginView(TemplateView):
 
     def login_view(self, request) -> HttpResponseRedirect:
         """
-
+        Logs the user in after validating the provided login information
         """
         username = request.POST['username']
         password = request.POST['password']
@@ -64,7 +65,8 @@ class LogoutView(TemplateView):
 
     def logout_view(self, request) -> HttpResponseRedirect:
         """
-
+        signs the user out
+        and closes his session
         """
         logout(request)
         return render(request, self.template_name)
