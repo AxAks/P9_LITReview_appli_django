@@ -1,7 +1,4 @@
-from core.custom_decorators import custom_login_required
 from django.contrib.auth.decorators import login_required
-
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from core.models import CustomUser
@@ -16,8 +13,8 @@ class SubscriptionsView(TemplateView):
     template_name = 'subscriptions/subscriptions.html'
     context = {}
 
-    # essayer d'ajouter request.user dans custom_login_required, pb car je ne recupere pas l'user ! à voir !
-    #  @custom_login_required   # à gérer à un moment !!
+    # essayer d'ajouter request.user dans login_required, pb car je ne recupere pas l'user ! à voir !
+    #  @login_required(login_url='login')   # à gérer à un moment !!
     def get(self, request, *args, **kwargs):
         """
         Displays the page subscription
@@ -34,7 +31,7 @@ class SubscriptionsView(TemplateView):
 
         return render(request, self.template_name, {'context': self.context})
 
-    #  @custom_login_required   # à gérer à un moment !!
+    #  @login_required(login_url='login')   # à gérer à un moment !!
     def post(self, request, *args, **kwargs):
         """
         Enables to:
