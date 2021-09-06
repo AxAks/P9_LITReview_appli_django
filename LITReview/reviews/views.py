@@ -26,17 +26,19 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
         """
         self.context = {}
         url_name = add_url_name_to_context(request, self.context)
-        if url_name == 'feed':
-            self.context['title'] = "Page d'accueil - Flux"
+        page_titles = {
+            'feed': "Page d'accueil - Flux",
+            'posts': "Mes posts",
+        }
+        page_title, self.context['title'] = url_name, page_titles[url_name]
 
+        if url_name == 'feed':
             followed_users_ids = [_user.followed_user_id
                                   for _user
                                   in UserFollows.objects.filter(user_id=request.user.id).all()]
-
             self.context['followed_users_posts'] = self.get_posts(followed_users_ids)
 
-        if url_name == 'posts':
-            self.context['title'] = "Mes posts"
+        elif url_name == 'posts':
             self.context['user_posts'] = self.get_posts([request.user.id])
 
         return render(request, self.template_name, {'context': self.context})
@@ -77,30 +79,19 @@ class PostsEditionView(TemplateView):
         """
         self.context = {}
         url_name = add_url_name_to_context(request, self.context)
-
-        if url_name == 'ticket_creation':  # voir si je peux utiliser un dict à la place de if/elif/else
-            self.context['title'] = "Créer un ticket"
-
-
-        elif url_name == 'ticket_modification':
-            self.context['title'] = "Modifier un ticket"
-            ticket_id = kwargs['id']
-            self.context['post'] = Ticket.objects.get(id=ticket_id)
-
-
-
-        elif url_name == 'review_creation_no_ticket':
-            self.context['title'] = "Créer une critique (sans ticket préalable)"
-        elif 'review_ticket_reply' in url_name:
-            self.context['title'] = f"Répondre à un ticket"
-            ticket_id = kwargs['id']
-            self.context['post'] = Ticket.objects.get(id=ticket_id)
-        elif url_name == 'review_modification':
-            self.context['title'] = "Modifier une critique"
-        else:
-            self.context['title'] = "DEBUG !!!???!!???"  # Debug, à retirer plus tard
-
+        page_titles = {
+            'ticket_creation': 'Créer un ticket',
+            'ticket_modification': 'Modifier un ticket',
+            'review_creation_no_ticket': 'Créer une critique (sans ticket préalable)',
+            'review_ticket_reply': 'Répondre à un ticket',
+            'review_modification': 'Modifier une critique',
+        }
+        page_title, self.context['title'] = url_name, page_titles[url_name]
         self.context['possible_ratings'] = RATINGS
+
+        if url_name == 'ticket_modification':
+            ticket_id = kwargs['id']
+            self.context['post'] = Ticket.objects.get(id=ticket_id)
 
         return render(request, self.template_name, {'context': self.context})
 
