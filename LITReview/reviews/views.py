@@ -30,7 +30,7 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
             'feed': "Page d'accueil - Flux",
             'posts': "Mes posts",
         }
-        page_title, self.context['title'] = url_name, page_titles[url_name]
+        self.context['title'] = page_titles[url_name]
 
         if url_name == 'feed':
             followed_users_ids = [_user.followed_user_id
@@ -86,7 +86,7 @@ class PostsEditionView(TemplateView):
             'review_ticket_reply': 'Répondre à un ticket',
             'review_modification': 'Modifier une critique',
         }
-        page_title, self.context['title'] = url_name, page_titles[url_name]
+        self.context['title'] = page_titles[url_name]
         self.context['possible_ratings'] = RATINGS
 
         if url_name == 'ticket_modification':

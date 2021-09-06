@@ -17,6 +17,7 @@
     <!-- formulaire pour remplir ou modifier un ticket (pour sa propre critique /pour demander une critique)-->
     <form method="post" action="">
         {% csrf_token %}
+        <h3>Ticket</h3>
             <p>- Utilisateur: {{ context.post.user }}</p>
         {% if context.url_name == 'ticket_modification'%}
             <p>
