@@ -80,10 +80,15 @@ class PostsEditionView(TemplateView):
 
         if url_name == 'ticket_creation':  # voir si je peux utiliser un dict à la place de if/elif/else
             self.context['title'] = "Créer un ticket"
+
+
         elif url_name == 'ticket_modification':
             self.context['title'] = "Modifier un ticket"
             ticket_id = kwargs['id']
             self.context['post'] = Ticket.objects.get(id=ticket_id)
+
+
+
         elif url_name == 'review_creation_no_ticket':
             self.context['title'] = "Créer une critique (sans ticket préalable)"
         elif 'review_ticket_reply' in url_name:
@@ -103,23 +108,42 @@ class PostsEditionView(TemplateView):
         """
 
         """
+        # new ticket creation
         ticket_title = request.POST.get('ticket_title')
-        ticket_descr = request.POST.get('ticket_descr')
+        ticket_description = request.POST.get('ticket_description')
         ticket_image = request.POST.get('ticket_image') if request.POST.get('ticket_image') else None
 
         ticket_infos = {
             'ticket_title': ticket_title,
-            'ticket_descr': ticket_descr,
+            'ticket_description': ticket_description,
             'ticket_image': ticket_image
         }
 
         self.context['ticket_infos'] = ticket_infos
 
         if ticket_infos:
-            new_ticket = Ticket(title=ticket_infos['ticket_title'], description=ticket_infos['ticket_descr'],
+            new_ticket = Ticket(title=ticket_infos['ticket_title'], description=ticket_infos['ticket_description'],
                                 user=request.user, image=ticket_infos['ticket_image'])
             new_ticket.save()
 
+        #  ticket modification
+        new_ticket_title = request.POST.get('new_ticket_title')
+        new_ticket_description = request.POST.get('new_ticket_description')
+        new_ticket_image = request.POST.get('new_ticket_image')
+
+        updated_ticket_infos = {
+            'new_ticket_title':  new_ticket_title if new_ticket_title else ticket_title,
+            'new_ticket_description': new_ticket_description if new_ticket_description else ticket_description,
+            'new_ticket_image': new_ticket_image if new_ticket_image else ticket_image
+        }
+        if updated_ticket_infos['new_ticket_title']:
+            self.context['post'].update(title=updated_ticket_infos['new_ticket_title'])
+        if updated_ticket_infos['new_ticket_description']:
+            self.context['post'].update(description=updated_ticket_infos['new_ticket_description'])
+        if updated_ticket_infos['new_ticket_image']:
+            self.context['post'].update(image=updated_ticket_infos['new_ticket_description'])
+
+        # new review creation
         review_headline = request.POST.get('review_headline')
         review_rating = request.POST.get('review_rating')
         review_comment = request.POST.get('review_comment')
@@ -133,10 +157,11 @@ class PostsEditionView(TemplateView):
         self.context['review_infos'] = review_infos
 
         if review_infos:
-            # imptt: ajouter "ticket= ," en premeir argument de new review
+            #  imptt: ajouter "ticket= ," en premeir argument de new review
             # et trouver comment je lie au ticket correspond
             new_review = Review(headline=review_infos['review_headline'], rating=review_infos['review_rating'],
                                 user=request.user, body=review_infos['review_comment'])
             new_review.save()
 
         return render(request, self.template_name, {'context': self.context})
+

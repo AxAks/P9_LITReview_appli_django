@@ -14,28 +14,56 @@
     <title>Title</title>
 </head>
 <body>
-     <!-- formulaire pour remplir un ticket (pour sa propre critique ou pour demander une critique)-->
-            <form method="post" action="">
-            {% csrf_token %}
-                <h4>Titre</h4>
-                    <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
-                        {{ ticket.titre.errors }}  <!-- ticket à écrire -->
-                        <input type="text" size="50"
-                               name="ticket_title" placeholder="Entrez le titre et l'auteur de l'oeuvre">
-                    </p>
-                <h4>Description</h4>
-                    <p class="fieldWrapper">
-                        {{ ticket.description.errors }}
-                        <input type="text" size="250"
-                               name="ticket_descr" placeholder="Entrez votre demande">
-                    </p>
-                <h4>Image</h4>
-                    <p class="fieldWrapper">
-                        {{ ticket.image.errors }}
-                        <input type="hidden" name="ticket_image">
-                        <button type="submit" class="btn btn-outline-dark">Télécharger une image</button>
-                    </p>
-                <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
-            </form>
+    <!-- formulaire pour remplir ou modifier un ticket (pour sa propre critique /pour demander une critique)-->
+    <form method="post" action="">
+        {% csrf_token %}
+            <p>- Utilisateur: {{ context.post.user }}</p>
+        {% if context.url_name == 'ticket_modification'%}
+            <p>
+                <div>- Titre: {{ context.post.title }}</div>
+                <p class="fieldWrapper">
+                    <input name="new_ticket_title" placeholder="Changer le titre" value="">
+                <p/>
+            </p>
+        {% else %}
+            <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
+                {{ ticket.titre.errors }}  <!-- ticket à écrire -->
+                <input type="text" size="50"
+                       name="ticket_title" placeholder="Entrez le titre et l'auteur de l'oeuvre">
+                </p>
+        {% endif %}
+        {% if context.url_name == 'ticket_modification'%}
+            <p>- Image:</p>
+                <p class="fieldWrapper">
+                    <img> {{ context.post.image }}<br/> <!--voir Pillow-->
+                    <input type="hidden" name="new_ticket_image">
+                    <button type="submit" class="btn btn-outline-dark">Télécharger une nouvelle image</button>
+                </p>
+            </p><br/>
+        {% else %}
+                <p class="fieldWrapper">- Image: <!--voir Pillow-->
+                    {{ ticket.image.errors }}
+                    <input type="hidden" name="ticket_image">
+                    <button type="submit" class="btn btn-outline-dark">Télécharger une image</button>
+                </p>
+        {% endif %}
+        {% if context.url_name == 'ticket_modification'%}
+            <p class="fieldWrapper">
+                <div>- Description: {{ context.post.description }}</div>
+                <input name="new_ticket_description" placeholder="Changer la description" value="">
+            </p>
+        {% else %}
+                <p class="fieldWrapper">- Description:
+                    {{ ticket.description.errors }}
+                    <input type="text" size="250"
+                           name="ticket_descr" placeholder="Entrez votre demande">
+                </p>
+        {% endif %}
+        {% if context.url_name == 'ticket_modification'%}
+            <button class="btn btn-outline-dark" type="submit">Modifier le ticket</button><br/>
+        {% else %}
+            <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
+        {% endif %}
+    </form>
 </body>
 </html>

@@ -36,6 +36,7 @@ class SubscriptionsView(TemplateView):
         - follow and unfollow other users
         """
         self.get_subscriptions_status_for_user(request)
+
         users_excluded_from_search = [user.id for user in self.context['followed_users']]
         users_excluded_from_search.append(request.user.id)
         form_name = request.POST.get('form_name')

@@ -18,12 +18,17 @@
         <li>
             <p>Ticket</p>
             {% if context.post %}
+            <p>
+            {% csrf_token %}
                 - Utilisateur: {{ context.post.user }}<br/>
                 - Titre: {{ context.post.title }}<br/>
+                - Image:<br/>
                 - Description: {{ context.post.description }}
+            </p>
             {% else %}
                 - Utilisateur: {{ post.user }}<br/>
                 - Titre: {{ post.title }}<br/>
+                - Image:<br/>
                 - Description: {{ post.description }}
             {% endif %}
             <p>
