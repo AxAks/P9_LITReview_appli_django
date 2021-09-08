@@ -38,7 +38,6 @@
     {% elif context.url_name == 'posts' and not context.user_posts %}
         <p>Pas de review ou ticket à afficher</p>
     {% else%}
-        <h4>Liste des reviews et tickets</h4>
         {% if context.url_name == 'feed' %}
             {% if context.followed_users_posts %}
                 {% for post in context.followed_users_posts %}

@@ -16,15 +16,14 @@
 <body>
     <!-- formulaire pour remplir un review (en réponse à une demande d'un autre utilisateur
     ou à un de ses propre ticket)-->
+    <hr> <!-- à retirer plus tard -->
         <form method="post" action=""> <!-- action à definir-->
         {% csrf_token %}
-        <hr> <!-- à retirer plus tard -->
-
         <h3>Critique</h3>
 
         <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
             Titre
-            <input name="review_headline"placeholder="Titre">
+            <input size="250" name="review_headline" placeholder="Entrez le titre de votre réponse">
         </p>
         <p class="fieldWrapper">
             Note
@@ -40,7 +39,7 @@
         </p>
         <p class="fieldWrapper">
             Commentaire
-            <input name="review_comment" placeholder="Commentaire">
+            <input size="250" name="review_comment" placeholder="Entrez votre réponse au ticket">
         </p>
         <p class="fieldWrapper">
             <button class="btn btn-sm btn-outline-dark" type="submit">

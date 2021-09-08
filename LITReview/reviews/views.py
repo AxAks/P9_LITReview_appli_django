@@ -103,6 +103,10 @@ class PostsEditionView(TemplateView):
         ticket_to_reply_id = kwargs['id']
         ticket_to_reply = Ticket.objects.get(id=ticket_to_reply_id)
 
+
+
+
+
         if url_name in ('ticket_creation', 'review_creation_no_ticket'):
         # new ticket creation
             ticket_title = request.POST.get('ticket_title')
@@ -121,6 +125,29 @@ class PostsEditionView(TemplateView):
                 new_ticket = Ticket(title=ticket_infos['ticket_title'], description=ticket_infos['ticket_description'],
                                     user=request.user, image=ticket_infos['ticket_image'])
                 new_ticket.save()
+            #  new review creation
+            review_headline = request.POST.get('review_headline')
+            review_rating = request.POST.get('review_rating')
+            review_comment = request.POST.get('review_comment')
+
+            review_infos = {
+                'review_headline': review_headline,
+                'review_rating': review_rating,
+                'review_comment': review_comment
+            }
+
+            self.context['review_infos'] = review_infos
+
+            if review_infos:
+                #  imptt: ajouter "ticket= ," en premier argument de new review
+                # et trouver comment je lie au ticket correspond
+                new_review = Review(ticket=ticket_to_reply, headline=review_infos['review_headline'], rating=review_infos['review_rating'],
+                                    user=request.user, body=review_infos['review_comment'])
+                new_review.save()
+
+
+
+
         elif url_name == 'ticket_modification':
             #  ticket modification
             new_ticket_title = request.POST.get('new_ticket_title')

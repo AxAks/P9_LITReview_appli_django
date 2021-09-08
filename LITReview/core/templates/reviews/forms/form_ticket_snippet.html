@@ -18,31 +18,34 @@
     <form method="post" action="">
         {% csrf_token %}
         <h3>Ticket</h3>
-            <p>- Utilisateur: {{ context.post.user }}</p>
         {% if context.url_name == 'ticket_modification'%}
             <p>
                 <div>- Titre: {{ context.post.title }}</div>
                 <p class="fieldWrapper">
-                    <input name="new_ticket_title" placeholder="Changer le titre" value="">
+                    {{ ticket.titre.errors }}
+                    <input size="250" name="new_ticket_title" placeholder="Changer le titre" value="">
                 <p/>
             </p>
         {% else %}
             <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
-                {{ ticket.titre.errors }}  <!-- ticket à écrire -->
-                <input type="text" size="50"
-                       name="ticket_title" placeholder="Entrez le titre et l'auteur de l'oeuvre">
+                <div>- Titre:</div>
+                    {{ ticket.titre.errors }}
+                    <input type="text" size="250"
+                           name="ticket_title" placeholder="Entrez le titre et l'auteur de l'oeuvre">
                 </p>
         {% endif %}
         {% if context.url_name == 'ticket_modification'%}
-            <p>- Image:</p>
                 <p class="fieldWrapper">
+                    <div>- Image:</div>
                     <img> {{ context.post.image }}<br/> <!--voir Pillow-->
-                    <input type="hidden" name="new_ticket_image">
+                    {{ ticket.image.errors }}
+                    <input size="250" type="hidden" name="new_ticket_image">
                     <button type="submit" class="btn btn-outline-dark">Télécharger une nouvelle image</button>
                 </p>
             </p><br/>
         {% else %}
-                <p class="fieldWrapper">- Image: <!--voir Pillow-->
+                <p class="fieldWrapper"> <!--voir Pillow-->
+                    <div>- Image:</div>
                     {{ ticket.image.errors }}
                     <input type="hidden" name="ticket_image">
                     <button type="submit" class="btn btn-outline-dark">Télécharger une image</button>
@@ -51,17 +54,20 @@
         {% if context.url_name == 'ticket_modification'%}
             <p class="fieldWrapper">
                 <div>- Description: {{ context.post.description }}</div>
-                <input name="new_ticket_description" placeholder="Changer la description" value="">
+                {{ ticket.description.errors }}
+                <input size="250" name="new_ticket_description" placeholder="Changer la description du ticket" value="">
             </p>
         {% else %}
-                <p class="fieldWrapper">- Description:
+                <p class="fieldWrapper">
+                    <div>- Description:</div>
                     {{ ticket.description.errors }}
                     <input type="text" size="250"
-                           name="ticket_descr" placeholder="Entrez votre demande">
+                           name="ticket_descr" placeholder="Entrez la description du ticket">
                 </p>
         {% endif %}
-        {% if context.url_name == 'ticket_modification'%}
+        {% if context.url_name == 'ticket_modification' %}
             <button class="btn btn-outline-dark" type="submit">Modifier le ticket</button><br/>
+        {% elif context.url_name == 'review_creation_no_ticket' %}
         {% else %}
             <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
         {% endif %}
