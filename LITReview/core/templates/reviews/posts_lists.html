@@ -45,7 +45,7 @@
                     {% if post.content_type == 'TICKET' %}
                         {% include './snippets/ticket_snippet.html' %}
                     {% elif post.content_type == 'REVIEW' %}
-                        {% include './review_snippet.html' %}
+                        {% include './snippets/review_snippet.html' %}
                     {% endif %}
                 {% endfor %}
             {% endif %}
@@ -55,7 +55,7 @@
                     {% if post.content_type == 'TICKET' %}
                         {% include './snippets/ticket_snippet.html' %}
                     {% elif post.content_type == 'REVIEW' %}
-                        {% include './review_snippet.html' %}
+                        {% include './snippets/review_snippet.html' %}
                     {% endif %}
                 {% endfor %}
             {% endif %}

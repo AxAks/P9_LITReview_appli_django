@@ -39,3 +39,9 @@ class Review(models.Model):
     headline = models.CharField(max_length=128)
     body = models.CharField(max_length=8192, blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f' Ticket: {self.ticket.title},'\
+               f' Title: {self.headline},'\
+               f' Reply by: {self.user},'\
+               f' Description: {self.body}'

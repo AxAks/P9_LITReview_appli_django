@@ -19,16 +19,15 @@
             <h3>Ticket</h3>
             {% if context.post %}
             <p>
-            {% csrf_token %}
                 - Utilisateur: {{ context.post.user }}<br/>
                 - Titre: {{ context.post.title }}<br/>
-                - Image:<br/>
+                - Image: {{ context.post.image }}<br/>
                 - Description: {{ context.post.description }}
             </p>
             {% else %}
                 - Utilisateur: {{ post.user }}<br/>
                 - Titre: {{ post.title }}<br/>
-                - Image:<br/>
+                - Image: {{ post.image }}<br/>
                 - Description: {{ post.description }}
             {% endif %}
             <p>

@@ -89,7 +89,7 @@ class PostsEditionView(TemplateView):
         self.context['title'] = page_titles[url_name]
         self.context['possible_ratings'] = RATINGS
 
-        if url_name == 'ticket_modification':
+        if url_name in ('ticket_modification', 'review_ticket_reply'):
             ticket_id = kwargs['id']
             self.context['post'] = Ticket.objects.get(id=ticket_id)
 
@@ -99,60 +99,66 @@ class PostsEditionView(TemplateView):
         """
 
         """
+        url_name = add_url_name_to_context(request, self.context)
+        ticket_to_reply_id = kwargs['id']
+        ticket_to_reply = Ticket.objects.get(id=ticket_to_reply_id)
+
+        if url_name in ('ticket_creation', 'review_creation_no_ticket'):
         # new ticket creation
-        ticket_title = request.POST.get('ticket_title')
-        ticket_description = request.POST.get('ticket_description')
-        ticket_image = request.POST.get('ticket_image') if request.POST.get('ticket_image') else None
+            ticket_title = request.POST.get('ticket_title')
+            ticket_description = request.POST.get('ticket_description')
+            ticket_image = request.POST.get('ticket_image') if request.POST.get('ticket_image') else None
 
-        ticket_infos = {
-            'ticket_title': ticket_title,
-            'ticket_description': ticket_description,
-            'ticket_image': ticket_image
-        }
+            ticket_infos = {
+                'ticket_title': ticket_title,
+                'ticket_description': ticket_description,
+                'ticket_image': ticket_image
+            }
 
-        self.context['ticket_infos'] = ticket_infos
+            self.context['ticket_infos'] = ticket_infos
 
-        if ticket_infos:
-            new_ticket = Ticket(title=ticket_infos['ticket_title'], description=ticket_infos['ticket_description'],
-                                user=request.user, image=ticket_infos['ticket_image'])
-            new_ticket.save()
+            if ticket_infos:
+                new_ticket = Ticket(title=ticket_infos['ticket_title'], description=ticket_infos['ticket_description'],
+                                    user=request.user, image=ticket_infos['ticket_image'])
+                new_ticket.save()
+        elif url_name == 'ticket_modification':
+            #  ticket modification
+            new_ticket_title = request.POST.get('new_ticket_title')
+            new_ticket_description = request.POST.get('new_ticket_description')
+            new_ticket_image = request.POST.get('new_ticket_image')
 
-        #  ticket modification
-        new_ticket_title = request.POST.get('new_ticket_title')
-        new_ticket_description = request.POST.get('new_ticket_description')
-        new_ticket_image = request.POST.get('new_ticket_image')
+            updated_ticket_infos = {
+                'new_ticket_title':  new_ticket_title if new_ticket_title else ticket_title,
+                'new_ticket_description': new_ticket_description if new_ticket_description else ticket_description,
+                'new_ticket_image': new_ticket_image if new_ticket_image else ticket_image
+            }
+            if updated_ticket_infos['new_ticket_title']:
+                self.context['post'].update(title=updated_ticket_infos['new_ticket_title'])
+            if updated_ticket_infos['new_ticket_description']:
+                self.context['post'].update(description=updated_ticket_infos['new_ticket_description'])
+            if updated_ticket_infos['new_ticket_image']:
+                self.context['post'].update(image=updated_ticket_infos['new_ticket_description'])
 
-        updated_ticket_infos = {
-            'new_ticket_title':  new_ticket_title if new_ticket_title else ticket_title,
-            'new_ticket_description': new_ticket_description if new_ticket_description else ticket_description,
-            'new_ticket_image': new_ticket_image if new_ticket_image else ticket_image
-        }
-        if updated_ticket_infos['new_ticket_title']:
-            self.context['post'].update(title=updated_ticket_infos['new_ticket_title'])
-        if updated_ticket_infos['new_ticket_description']:
-            self.context['post'].update(description=updated_ticket_infos['new_ticket_description'])
-        if updated_ticket_infos['new_ticket_image']:
-            self.context['post'].update(image=updated_ticket_infos['new_ticket_description'])
+        elif url_name == 'review_ticket_reply':
+            #  new review creation
+            review_headline = request.POST.get('review_headline')
+            review_rating = request.POST.get('review_rating')
+            review_comment = request.POST.get('review_comment')
 
-        # new review creation
-        review_headline = request.POST.get('review_headline')
-        review_rating = request.POST.get('review_rating')
-        review_comment = request.POST.get('review_comment')
+            review_infos = {
+                'review_headline': review_headline,
+                'review_rating': review_rating,
+                'review_comment': review_comment
+            }
 
-        review_infos = {
-            'review_headline': review_headline,
-            'review_rating': review_rating,
-            'review_comment': review_comment
-        }
+            self.context['review_infos'] = review_infos
 
-        self.context['review_infos'] = review_infos
-
-        if review_infos:
-            #  imptt: ajouter "ticket= ," en premeir argument de new review
-            # et trouver comment je lie au ticket correspond
-            new_review = Review(headline=review_infos['review_headline'], rating=review_infos['review_rating'],
-                                user=request.user, body=review_infos['review_comment'])
-            new_review.save()
+            if review_infos:
+                #  imptt: ajouter "ticket= ," en premier argument de new review
+                # et trouver comment je lie au ticket correspond
+                new_review = Review(ticket=ticket_to_reply, headline=review_infos['review_headline'], rating=review_infos['review_rating'],
+                                    user=request.user, body=review_infos['review_comment'])
+                new_review.save()
 
         return render(request, self.template_name, {'context': self.context})
 

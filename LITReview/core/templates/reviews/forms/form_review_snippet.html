@@ -16,7 +16,7 @@
 <body>
     <!-- formulaire pour remplir un review (en réponse à une demande d'un autre utilisateur
     ou à un de ses propre ticket)-->
-    <form method="post" action=""> <!-- action à definir-->
+        <form method="post" action=""> <!-- action à definir-->
         {% csrf_token %}
         <hr> <!-- à retirer plus tard -->
 
@@ -28,11 +28,12 @@
         </p>
         <p class="fieldWrapper">
             Note
-            <ul>  <!-- voir comment je peux utiliser bootstrap flex pour aligner horizontalement-->
+            <ul class="d-inline-flex">  <!-- voir comment je peux utiliser bootstrap flex pour aligner horizontalement-->
             {% for rating in context.possible_ratings %}
                 <li>
-                    <input class="form-check-input" name="review_rating" type="radio" value="{{ rating }}">
-                    {{ rating }}
+                    <p> {{ rating }}
+                        <input class="form-check-input d-inline-flex" name="review_rating" type="radio" value="{{ rating }}">
+                    </p>
                 </li>
             {% endfor %}
             </ul>
