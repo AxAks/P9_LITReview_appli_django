@@ -107,10 +107,9 @@ class PostsEditionView(TemplateView):
 
             self.context['ticket_infos'] = ticket_infos
 
-            if ticket_infos:
-                new_ticket = Ticket(title=ticket_infos['ticket_title'], description=ticket_infos['ticket_description'],
-                                    user=request.user, image=ticket_infos['ticket_image'])
-                new_ticket.save()
+            new_ticket = Ticket(title=ticket_infos['ticket_title'], description=ticket_infos['ticket_description'],
+                                user=request.user, image=ticket_infos['ticket_image'])
+            new_ticket.save()
 
             return redirect(reverse('posts'))
 
@@ -128,12 +127,11 @@ class PostsEditionView(TemplateView):
 
             self.context['review_infos'] = review_infos
 
-            if review_infos:
-                #  imptt: ajouter "ticket= ," en premier argument de new review
-                # et trouver comment je lie au ticket correspond (cré en meme temps)
-                new_review = Review(headline=review_infos['review_headline'], rating=review_infos['review_rating'],
-                                    user=request.user, body=review_infos['review_comment'])
-                new_review.save()
+            #  imptt: ajouter "ticket= ," en premier argument de new review
+            # et trouver comment je lie au ticket correspond (cré en meme temps)
+            new_review = Review(headline=review_infos['review_headline'], rating=review_infos['review_rating'],
+                                user=request.user, body=review_infos['review_comment'])
+            new_review.save()
 
         elif url_name == 'ticket_modification':
             #  ticket modification
