@@ -17,6 +17,7 @@
     <!-- formulaire pour remplir ou modifier un ticket (pour sa propre critique /pour demander une critique)-->
     <form method="post" action="">
         {% csrf_token %}
+        {{ form.non_field_errors }}
         <h3>Ticket</h3>
         {% if context.url_name == 'ticket_modification'%}
             <p>
@@ -55,14 +56,14 @@
             <p class="fieldWrapper">
                 <div>- Description: {{ context.post.description }}</div>
                 {{ ticket.description.errors }}
-                <input size="250" name="new_ticket_description" placeholder="Changer la description du ticket" value="">
+                <input name="new_ticket_description" placeholder="Changer la description du ticket" value="">
             </p>
         {% else %}
                 <p class="fieldWrapper">
                     <div>- Description:</div>
                     {{ ticket.description.errors }}
                     <input type="text" size="250"
-                           name="ticket_descr" placeholder="Entrez la description du ticket">
+                           name="ticket_description" placeholder="Entrez la description du ticket">
                 </p>
         {% endif %}
         {% if context.url_name == 'ticket_modification' %}

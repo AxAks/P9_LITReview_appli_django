@@ -19,8 +19,8 @@
     <hr> <!-- à retirer plus tard -->
         <form method="post" action=""> <!-- action à definir-->
         {% csrf_token %}
+        {{ form.non_field_errors }}
         <h3>Critique</h3>
-
         <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
             Titre
             <input size="250" name="review_headline" placeholder="Entrez le titre de votre réponse">

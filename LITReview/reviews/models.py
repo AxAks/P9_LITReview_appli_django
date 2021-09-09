@@ -26,6 +26,9 @@ class Ticket(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('ticket_view', kwargs={'post_id': self.id})
 
+    objects = models.Manager()
+
+
 class Review(models.Model):
     """
     Model for a Review
@@ -45,3 +48,5 @@ class Review(models.Model):
                f' Title: {self.headline},'\
                f' Reply by: {self.user},'\
                f' Description: {self.body}'
+
+    objects = models.Manager()

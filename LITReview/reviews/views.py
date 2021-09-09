@@ -3,7 +3,8 @@ from typing import Any
 
 from django.db.models import Value, CharField
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic import TemplateView
 
 from utils import add_url_name_to_context
@@ -11,6 +12,8 @@ from constants import RATINGS
 
 from reviews.models import Ticket, Review
 from subscriptions.models import UserFollows
+
+from constants import PAGE_TITLES
 
 
 class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts"
@@ -26,11 +29,7 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
         """
         self.context = {}
         url_name = add_url_name_to_context(request, self.context)
-        page_titles = {
-            'feed': "Page d'accueil - Flux",
-            'posts': "Mes posts",
-        }
-        self.context['title'] = page_titles[url_name]
+        self.context['title'] = PAGE_TITLES[url_name]
 
         if url_name == 'feed':
             followed_users_ids = [_user.followed_user_id
@@ -79,14 +78,7 @@ class PostsEditionView(TemplateView):
         """
         self.context = {}
         url_name = add_url_name_to_context(request, self.context)
-        page_titles = {
-            'ticket_creation': 'Créer un ticket',
-            'ticket_modification': 'Modifier un ticket',
-            'review_creation_no_ticket': 'Créer une critique (sans ticket préalable)',
-            'review_ticket_reply': 'Répondre à un ticket',
-            'review_modification': 'Modifier une critique',
-        }
-        self.context['title'] = page_titles[url_name]
+        self.context['title'] = PAGE_TITLES[url_name]
         self.context['possible_ratings'] = RATINGS
 
         if url_name in ('ticket_modification', 'review_ticket_reply'):
@@ -100,15 +92,9 @@ class PostsEditionView(TemplateView):
 
         """
         url_name = add_url_name_to_context(request, self.context)
-        ticket_to_reply_id = kwargs['id']
-        ticket_to_reply = Ticket.objects.get(id=ticket_to_reply_id)
 
-
-
-
-
-        if url_name in ('ticket_creation', 'review_creation_no_ticket'):
-        # new ticket creation
+        if url_name == 'ticket_creation':
+            # new ticket creation
             ticket_title = request.POST.get('ticket_title')
             ticket_description = request.POST.get('ticket_description')
             ticket_image = request.POST.get('ticket_image') if request.POST.get('ticket_image') else None
@@ -125,6 +111,10 @@ class PostsEditionView(TemplateView):
                 new_ticket = Ticket(title=ticket_infos['ticket_title'], description=ticket_infos['ticket_description'],
                                     user=request.user, image=ticket_infos['ticket_image'])
                 new_ticket.save()
+
+            return redirect(reverse('posts'))
+
+        elif url_name == 'review_creation_no_ticket':
             #  new review creation
             review_headline = request.POST.get('review_headline')
             review_rating = request.POST.get('review_rating')
@@ -140,13 +130,10 @@ class PostsEditionView(TemplateView):
 
             if review_infos:
                 #  imptt: ajouter "ticket= ," en premier argument de new review
-                # et trouver comment je lie au ticket correspond
-                new_review = Review(ticket=ticket_to_reply, headline=review_infos['review_headline'], rating=review_infos['review_rating'],
+                # et trouver comment je lie au ticket correspond (cré en meme temps)
+                new_review = Review(headline=review_infos['review_headline'], rating=review_infos['review_rating'],
                                     user=request.user, body=review_infos['review_comment'])
                 new_review.save()
-
-
-
 
         elif url_name == 'ticket_modification':
             #  ticket modification
@@ -167,6 +154,9 @@ class PostsEditionView(TemplateView):
                 self.context['post'].update(image=updated_ticket_infos['new_ticket_description'])
 
         elif url_name == 'review_ticket_reply':
+            ticket_to_reply_id = kwargs['id']
+            ticket_to_reply = Ticket.objects.get(id=ticket_to_reply_id)
+
             #  new review creation
             review_headline = request.POST.get('review_headline')
             review_rating = request.POST.get('review_rating')
@@ -181,11 +171,10 @@ class PostsEditionView(TemplateView):
             self.context['review_infos'] = review_infos
 
             if review_infos:
-                #  imptt: ajouter "ticket= ," en premier argument de new review
-                # et trouver comment je lie au ticket correspond
-                new_review = Review(ticket=ticket_to_reply, headline=review_infos['review_headline'], rating=review_infos['review_rating'],
-                                    user=request.user, body=review_infos['review_comment'])
+                new_review = Review(ticket=ticket_to_reply, headline=review_infos['review_headline'],
+                                    rating=review_infos['review_rating'], user=request.user,
+                                    body=review_infos['review_comment'])
                 new_review.save()
 
-        return render(request, self.template_name, {'context': self.context})
+            return render(request, self.template_name, {'context': self.context})
 

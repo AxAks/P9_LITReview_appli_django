@@ -21,3 +21,5 @@ class UserFollows(models.Model):
 
     def __str__(self):
         return f'{self.user} est abonné à {self.followed_user}'
+
+    objects = models.Manager()

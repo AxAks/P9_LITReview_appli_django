@@ -21,12 +21,12 @@
                 - <u>Reponse au ticket {{context.post.ticket }}</u><br/> <!--A bien formater-->
                 - Réponse par: {{ context.post.user }}<br/>
                 - Titre: {{ context.post.headline }}<br/>
-                - Description: {{ context.post.body }}
+                - Commentaire: {{ context.post.body }}
             {% else %}
                 - <u>Reponse au ticket {{post.ticket }}</u><br/> <!--A bien formater-->
                 - Réponse par: {{ post.user }}<br/>
                 - Titre: {{ post.headline }}<br/>
-                - Description: {{ post.body }}
+                - Commentaire: {{ post.body }}
             {% endif %}
         </li>
     </ul>
