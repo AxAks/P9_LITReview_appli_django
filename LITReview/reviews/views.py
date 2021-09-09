@@ -112,6 +112,7 @@ class PostsEditionView(TemplateView):
             new_ticket.save()
 
             return redirect(reverse('posts'))
+            # peut etre à rediriger autre part plus tard une page "ticket_created", à voir
 
         elif url_name == 'review_creation_no_ticket':
             #  new review creation
