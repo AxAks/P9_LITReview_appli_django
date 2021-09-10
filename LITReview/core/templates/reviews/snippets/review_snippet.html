@@ -22,11 +22,18 @@
                 - Réponse par: {{ context.post.user }}<br/>
                 - Titre: {{ context.post.headline }}<br/>
                 - Commentaire: {{ context.post.body }}
+            <p>
             {% else %}
                 - <u>Reponse au ticket {{post.ticket }}</u><br/> <!--A bien formater-->
                 - Réponse par: {{ post.user }}<br/>
                 - Titre: {{ post.headline }}<br/>
                 - Commentaire: {{ post.body }}
+            {% endif %}
+            </p>
+            {% if context.url_name == 'posts' %}
+                <a href="{% url 'review_modification' post.id %}">
+            <button class="btn btn-outline-dark">Modifier cette critique</button>
+                </a>
             {% endif %}
         </li>
     </ul>

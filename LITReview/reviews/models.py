@@ -50,3 +50,6 @@ class Review(models.Model):
                f' Description: {self.body}'
 
     objects = models.Manager()
+
+    def identifier(self):
+        pass

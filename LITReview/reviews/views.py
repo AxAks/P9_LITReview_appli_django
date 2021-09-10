@@ -88,6 +88,8 @@ class PostsEditionView(TemplateView):
         if url_name in ('ticket_modification', 'review_ticket_reply'):
             self.context['post'] = self.get_ticket_by_id(kwargs)
 
+        elif url_name == 'review_modification':
+            self.context['post'] = self.get_review_by_id(kwargs)
 
         return render(request, self.template_name, {'context': self.context})
 
@@ -126,11 +128,32 @@ class PostsEditionView(TemplateView):
                 Ticket.objects.filter(id=specific_ticket.id).update(description=new_ticket_description)
             if new_ticket_image is not None:
                 Ticket.objects.filter(id=specific_ticket.id).update(image=new_ticket_image)
+            return redirect(reverse('posts'))  # peut etre à rediriger autre part plus tard une page "ticket_created", à voir
 
-            return redirect(reverse('posts'))
-            # peut etre à rediriger autre part plus tard une page "ticket_created", à voir
+        elif url_name == 'review_modification':
+            specific_review = self.get_review_by_id(kwargs)  # pb Reverse for 'review_modification' with no arguments not found
+            #  review modification
+            new_review_headline = request.POST.get('new_review_headline')
+            new_review_rating = request.POST.get('new_review_rating')
+            new_review_comment = request.POST.get('new_review_comment')
 
-    def get_ticket_by_id(self, kwargs):
+            if new_review_headline is not None:
+                Ticket.objects.filter(id=specific_review.id).update(headline=new_review_headline)
+            if new_review_rating is not None:
+                Ticket.objects.filter(id=specific_review.id).update(description=new_review_rating)
+            if new_review_comment is not None:
+                Ticket.objects.filter(id=specific_review.id).update(image=new_review_comment)
+            return redirect(
+                reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "ticket_created", à voir
+
+    @classmethod
+    def get_review_by_id(cls, kwargs):  # pb Reverse for 'review_modification' with no arguments not found
+        review_id = kwargs['id']
+        review = Review.objects.get(id=review_id)
+        return review
+
+    @classmethod
+    def get_ticket_by_id(cls, kwargs):
         ticket_id = kwargs['id']
         ticket = Ticket.objects.get(id=ticket_id)
         return ticket

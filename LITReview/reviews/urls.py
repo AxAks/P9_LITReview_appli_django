@@ -16,7 +16,7 @@ urlpatterns = [
     path('ticket/reply/<int:id>',
          login_required(PostsEditionView.as_view(), login_url='login'), name='review_ticket_reply'),
     path('review/creation/',
-         login_required(PostsEditionView.as_view(), login_url='login'), name='review_creation_no_ticket'),  # pouvoir créer une review !
-    path('review/modification/',
+         login_required(PostsEditionView.as_view(), login_url='login'), name='review_creation_no_ticket'),
+    path('review/modification/<int:id>',
          login_required(PostsEditionView.as_view(), login_url='login'), name='review_modification'),  # id review à mettre ici
 ]
