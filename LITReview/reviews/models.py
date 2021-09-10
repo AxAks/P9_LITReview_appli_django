@@ -51,5 +51,3 @@ class Review(models.Model):
 
     objects = models.Manager()
 
-    def identifier(self):
-        pass
