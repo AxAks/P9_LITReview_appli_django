@@ -117,7 +117,7 @@ class PostsEditionView(TemplateView):
             return redirect(reverse('posts'))  # peut etre à rediriger autre part plus tard une page "ticket_created", à voir
 
         elif url_name == 'review_ticket_reply':
-            specific_ticket = self.get_ticket_by_id(**kwargs)
+            specific_ticket = self.get_ticket_by_id(kwargs)
             self.create_review(request, specific_ticket)  # new review creation
             return redirect(reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "review_created", à voir
 

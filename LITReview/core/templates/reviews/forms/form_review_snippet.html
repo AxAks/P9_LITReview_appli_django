@@ -24,7 +24,7 @@
             <div>- Titre: {{ context.post.headline }}</div>
             <p class="fieldWrapper">
                 {{ review.headline.errors }}
-                <input size="250" name="new_review_headline" placeholder="Changer le titre" value="">
+                <input size="250" name="review_new_headline" placeholder="Changer le titre" value="">
             <p/>
         </p>
         {% else %}
@@ -42,7 +42,8 @@
             {% for rating in context.possible_ratings %}
                 <li>
                     <p> {{ rating }}
-                        <input class="form-check-input d-inline-flex" name="review_rating" type="radio" value="{{ rating }}">
+                        <input class="form-check-input d-inline-flex"
+                               name="review_new_rating" type="radio" value="{{ rating }}">
                     </p>
                 </li>
             {% endfor %}
@@ -64,9 +65,9 @@
         </p>
         {% endif %}
         <p class="fieldWrapper">
-            Commentaire
         {% if context.url_name == 'review_modification'%}
-            <input size="250" name="new_review_comment" placeholder="Modifier votre réponse au ticket">
+        <div>- Commentaire: {{ context.post.body }}</div>
+            <input size="250" name="review_new_comment" placeholder="Modifier votre réponse au ticket">
         </p>
         {% else %}
         <p class="fieldWrapper">
