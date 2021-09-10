@@ -20,19 +20,21 @@
     {% block content %}
 
     {% if context.url_name == 'ticket_modification' %}
-        <h3>Template Ticket Modification (en cours !)</h3>
         {% include './forms/form_ticket_snippet.html' %}
     {% endif %}
 
-    {% if context.url_name == 'review_modification' %}
+    {% if 'review_modification' in context.url_name %}
+    <div>
         <h3>Template Critique Modification (en cours !)</h3>
+        <h4>Vous etes en train de modifier la critique du ticket suivant: </h4>
+        {% include './snippets/ticket_snippet.html' with Ticket='associated_ticket' %}
         {% include './forms/form_review_snippet.html'  %}
+    </div>
     {% endif %}
 
     {% if context.url_name in 'ticket_creation review_creation_no_ticket' %}
         {% include './forms/form_ticket_snippet.html' %}
     {% endif %}
-
 
     {% if 'review_ticket_reply' in context.url_name %}
     <!-- récupérer le ticket correspondant et l'afficher (non modifiable) -->
@@ -44,9 +46,5 @@
 
     {% if context.url_name in 'review_ticket_reply review_creation_no_ticket' %}
         {% include './forms/form_review_snippet.html' %}
-    {% endif %}
-
-    {% if context.url_name == 'à definir' %} <!-- à retirer -->
-        <h4>Créer un : Reste à écrire....</h4>
     {% endif %}
     {% endblock %}

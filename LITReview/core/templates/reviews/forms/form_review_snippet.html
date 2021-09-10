@@ -38,7 +38,15 @@
             <div>- Note: {{ context.post.rating }}</div>
             <p class="fieldWrapper">
                 {{ review.rating.errors }}
-                <input class="form-check-input d-inline-flex" name="new_review_rating" type="radio" value="{{ rating }}">
+                <ul class="d-inline-flex">  <!-- voir comment je peux utiliser bootstrap flex pour aligner horizontalement-->
+            {% for rating in context.possible_ratings %}
+                <li>
+                    <p> {{ rating }}
+                        <input class="form-check-input d-inline-flex" name="review_rating" type="radio" value="{{ rating }}">
+                    </p>
+                </li>
+            {% endfor %}
+            </ul>
             <p/>
         </p>
         {% else %}
@@ -65,8 +73,8 @@
             Commentaire
             <input size="250" name="review_comment" placeholder="Entrez votre réponse au ticket">
         </p>
-        <p class="fieldWrapper">
         {% endif %}
+        <p class="fieldWrapper">
             <button class="btn btn-sm btn-outline-dark" type="submit">
                 Envoyer
             </button>

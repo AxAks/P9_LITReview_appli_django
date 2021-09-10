@@ -35,22 +35,33 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
         self.context['title'] = PAGE_TITLES[url_name]
 
         if url_name == 'feed':
-            followed_users_ids = [_user.followed_user_id
-                                  for _user
-                                  in UserFollows.objects.filter(user_id=request.user.id).all()]
+            followed_users_ids = self.get_followed_users_by_id(request)
             self.context['followed_users_posts'] = self.get_posts(followed_users_ids)
 
         elif url_name == 'posts':
             self.context['user_posts'] = self.get_posts([request.user.id])
-
         return render(request, self.template_name, {'context': self.context})
 
-    def get_posts(self, filter_param: list[int]) -> list[Any]:
+    @classmethod
+    def get_followed_users_by_id(cls, request) -> list[int]:
+        """
+        Enables to get the IDs for users followed by the current user
+        """
+        followed_users_ids = [_user.followed_user_id
+                              for _user
+                              in UserFollows.objects.filter(user_id=request.user.id).all()]
+        return followed_users_ids
+
+    @classmethod
+    def get_posts(cls, filter_param: list[int]) -> list[Any]:
+        """
+        Enables to concatenate Tickets and Reviews under the variable name: Posts
+        for the users given as parameter
+        """
         tickets = Ticket.objects.filter(user__id__in=filter_param).all() \
             .annotate(content_type=Value('TICKET', CharField()))
         reviews = Review.objects.filter(user__id__in=filter_param).all() \
             .annotate(content_type=Value('REVIEW', CharField()))
-        # peut surement etre amélioré !
 
         posts = sorted(
             chain(reviews, tickets),
@@ -62,12 +73,11 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
         """
 
         """
-
         return render(request, self.template_name, {'context': self.context})
 
 
 class PostsEditionView(TemplateView):
-# faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts"
+# faire une seule classe au final ? (fusionner, factoriser tout ce qui est "posts"
 # PB le template n'est pas le meme ... coment faire !?
     """
 
@@ -88,7 +98,8 @@ class PostsEditionView(TemplateView):
         if url_name in ('ticket_modification', 'review_ticket_reply'):
             self.context['post'] = self.get_ticket_by_id(kwargs)
 
-        elif url_name == 'review_modification':
+        elif 'review_modification' in url_name:
+            self.context['associated_ticket'] = self.get_ticket_by_id(kwargs)
             self.context['post'] = self.get_review_by_id(kwargs)
 
         return render(request, self.template_name, {'context': self.context})
@@ -117,48 +128,19 @@ class PostsEditionView(TemplateView):
 
         elif url_name == 'ticket_modification':
             specific_ticket = self.get_ticket_by_id(kwargs)
-            #  ticket modification
-            new_ticket_title = request.POST.get('new_ticket_title')
-            new_ticket_description = request.POST.get('new_ticket_description')
-            new_ticket_image = request.POST.get('new_ticket_image')
-
-            if new_ticket_title is not None:
-                Ticket.objects.filter(id=specific_ticket.id).update(title=new_ticket_title)
-            if new_ticket_description is not None:
-                Ticket.objects.filter(id=specific_ticket.id).update(description=new_ticket_description)
-            if new_ticket_image is not None:
-                Ticket.objects.filter(id=specific_ticket.id).update(image=new_ticket_image)
+            self.edit_ticket(request, specific_ticket)  # ticket modification
             return redirect(reverse('posts'))  # peut etre à rediriger autre part plus tard une page "ticket_created", à voir
 
         elif url_name == 'review_modification':
             specific_review = self.get_review_by_id(kwargs)  # pb Reverse for 'review_modification' with no arguments not found
-            #  review modification
-            new_review_headline = request.POST.get('new_review_headline')
-            new_review_rating = request.POST.get('new_review_rating')
-            new_review_comment = request.POST.get('new_review_comment')
-
-            if new_review_headline is not None:
-                Ticket.objects.filter(id=specific_review.id).update(headline=new_review_headline)
-            if new_review_rating is not None:
-                Ticket.objects.filter(id=specific_review.id).update(description=new_review_rating)
-            if new_review_comment is not None:
-                Ticket.objects.filter(id=specific_review.id).update(image=new_review_comment)
+            self.edit_review(request, specific_review)  # review modification
             return redirect(
                 reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "ticket_created", à voir
 
-    @classmethod
-    def get_review_by_id(cls, kwargs):  # pb Reverse for 'review_modification' with no arguments not found
-        review_id = kwargs['id']
-        review = Review.objects.get(id=review_id)
-        return review
-
-    @classmethod
-    def get_ticket_by_id(cls, kwargs):
-        ticket_id = kwargs['id']
-        ticket = Ticket.objects.get(id=ticket_id)
-        return ticket
-
-    def create_ticket(self, request):
+    def create_ticket(self, request) -> Ticket:
+        """
+        Enable to create and save a ticket (a request for a review)
+        """
         ticket_title = request.POST.get('ticket_title')
         ticket_description = request.POST.get('ticket_description')
         ticket_image = request.POST.get('ticket_image') if request.POST.get('ticket_image') else None
@@ -175,7 +157,10 @@ class PostsEditionView(TemplateView):
         new_ticket.save()
         return new_ticket
 
-    def create_review(self, request, ticket):
+    def create_review(self, request, ticket: Ticket) -> Review:
+        """
+        Enables to create a review (a response to a Ticket)
+        """
         review_headline = request.POST.get('review_headline')
         review_rating = request.POST.get('review_rating')
         review_comment = request.POST.get('review_comment')
@@ -187,7 +172,60 @@ class PostsEditionView(TemplateView):
         }
 
         self.context['review_infos'] = review_infos
-        new_review = Review(ticket=ticket, headline=review_infos['review_headline'], rating=review_infos['review_rating'],
-                            user=request.user, body=review_infos['review_comment'])
+        new_review = Review(ticket=ticket, headline=review_infos['review_headline'],
+                            rating=review_infos['review_rating'], user=request.user,
+                            body=review_infos['review_comment'])
         new_review.save()
         return new_review
+
+    @classmethod
+    def edit_ticket(cls, request, ticket: Ticket) -> Ticket:
+        """
+        Enable to modify an already registered Ticket
+        """
+        ticket_new_title = request.POST.get('new_ticket_title')
+        ticket_new_description = request.POST.get('new_ticket_description')
+        ticket_new_image = request.POST.get('new_ticket_image')
+        if ticket_new_title is not None:
+            Ticket.objects.filter(id=ticket.id).update(title=ticket_new_title)
+        if ticket_new_description is not None:
+            Ticket.objects.filter(id=ticket.id).update(description=ticket_new_description)
+        if ticket_new_image is not None:
+            Ticket.objects.filter(id=ticket.id).update(image=ticket_new_image)
+        updated_ticket = Ticket.objects.get(id=ticket.id)
+        return updated_ticket
+
+    @classmethod
+    def edit_review(cls, request, review: Review) -> Review:
+        """
+        Enables to modify an already registered Review
+        """
+        review_new_headline = request.POST.get('new_review_headline')
+        review_new_rating = request.POST.get('new_review_rating')
+        review_new_comment = request.POST.get('new_review_comment')
+        if review_new_headline is not None:
+            Review.objects.filter(id=review.id).update(headline=review_new_headline)
+        if review_new_comment is not None:
+            Review.objects.filter(id=review.id).update(description=review_new_rating)
+        if review_new_comment is not None:
+            Review.objects.filter(id=review.id).update(body=review_new_comment)
+        updated_review = Review.objects.get(id=review.id)
+        return updated_review
+
+    @classmethod
+    def get_review_by_id(cls, kwargs) -> Review:  # pb Reverse for 'review_modification' with no arguments not found
+        """
+        Enbales to gget a given Review by its ID
+        """
+        review_id = kwargs['id']
+        review = Review.objects.get(id=review_id)
+        return review
+
+    @classmethod
+    def get_ticket_by_id(cls, kwargs) -> Ticket:
+        """
+        Enbales to get a given Ticket by its ID
+        """
+        ticket_id = kwargs['id']
+        ticket = Ticket.objects.get(id=ticket_id)
+        return ticket
