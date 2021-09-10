@@ -14,7 +14,6 @@
     <title>Title</title>
 </head>
 <body>
-    <!-- formulaire pour remplir ou modifier un ticket (pour sa propre critique /pour demander une critique)-->
     <form method="post" action="">
         {% csrf_token %}
         {{ form.non_field_errors }}
@@ -28,7 +27,7 @@
                 <p/>
             </p>
         {% else %}
-            <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
+            <p class="fieldWrapper">
                 <div>- Titre:</div>
                     {{ ticket.titre.errors }}
                     <input type="text" size="250"

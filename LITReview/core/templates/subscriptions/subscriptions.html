@@ -14,7 +14,7 @@
             <h3>Chercher d'autres utilisateurs à suivre</h3>
                 <form method="post" action="">
                     {% csrf_token %}
-                    <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
+                    <p class="fieldWrapper">
                         {{ form.user_name.errors}}
                         {{ form.username }}
                     </p>

@@ -18,7 +18,10 @@ from constants import PAGE_TITLES
 
 class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts"
     """
-
+    Displays the pages for post lists(Tickets and Reviews)
+    using the context to choose what to display:
+    - Feed: other users posts
+    - Posts:User's posts
     """
     context = {}
     template_name = 'reviews/posts_lists.html'
@@ -74,7 +77,8 @@ class PostsEditionView(TemplateView):
 
     def get(self, request, *args, **kwargs) -> HttpResponse:
         """
-
+        Displays the pages for post creation, edition (Tickets and Reviews)
+        using the context to choose what to display:
         """
         self.context = {}
         url_name = add_url_name_to_context(request, self.context)
@@ -82,98 +86,85 @@ class PostsEditionView(TemplateView):
         self.context['possible_ratings'] = RATINGS
 
         if url_name in ('ticket_modification', 'review_ticket_reply'):
-            ticket_id = kwargs['id']
-            self.context['post'] = Ticket.objects.get(id=ticket_id)
+            self.context['post'] = self.get_ticket_by_id(kwargs)
+
 
         return render(request, self.template_name, {'context': self.context})
 
     def post(self, request, *args, **kwargs):
         """
-
+        Enables to:
+        - create posts : Tickets and Reviews
+        - Edit posts
         """
         url_name = add_url_name_to_context(request, self.context)
 
         if url_name == 'ticket_creation':
-            # new ticket creation
-            ticket_title = request.POST.get('ticket_title')
-            ticket_description = request.POST.get('ticket_description')
-            ticket_image = request.POST.get('ticket_image') if request.POST.get('ticket_image') else None
+            self.create_ticket(request)
+            return redirect(reverse('posts'))  # peut etre à rediriger autre part plus tard une page "ticket_created", à voir
 
-            ticket_infos = {
-                'ticket_title': ticket_title,
-                'ticket_description': ticket_description,
-                'ticket_image': ticket_image
-            }
+        elif url_name == 'review_ticket_reply':
+            specific_ticket = self.get_ticket_by_id(**kwargs)
+            self.create_review(request, specific_ticket)  # new review creation
+            return redirect(reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "review_created", à voir
 
-            self.context['ticket_infos'] = ticket_infos
-
-            new_ticket = Ticket(title=ticket_infos['ticket_title'], description=ticket_infos['ticket_description'],
-                                user=request.user, image=ticket_infos['ticket_image'])
-            new_ticket.save()
-
-            return redirect(reverse('posts'))
-            # peut etre à rediriger autre part plus tard une page "ticket_created", à voir
-
-        elif url_name == 'review_creation_no_ticket':
-            #  new review creation
-            review_headline = request.POST.get('review_headline')
-            review_rating = request.POST.get('review_rating')
-            review_comment = request.POST.get('review_comment')
-
-            review_infos = {
-                'review_headline': review_headline,
-                'review_rating': review_rating,
-                'review_comment': review_comment
-            }
-
-            self.context['review_infos'] = review_infos
-
-            #  imptt: ajouter "ticket= ," en premier argument de new review
-            # et trouver comment je lie au ticket correspond (cré en meme temps)
-            new_review = Review(headline=review_infos['review_headline'], rating=review_infos['review_rating'],
-                                user=request.user, body=review_infos['review_comment'])
-            new_review.save()
+        elif url_name == 'review_creation_no_ticket':  # à compléter (coté template: validation via le bouton de validation des reviews, ne prend pas en compte les champs de création de ticket !)
+            ticket = self.create_ticket(request)  # new ticket creation
+            self.create_review(request, ticket)  #  new review creation
+            return redirect(reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "review_created", à voir
 
         elif url_name == 'ticket_modification':
+            specific_ticket = self.get_ticket_by_id(kwargs)
             #  ticket modification
             new_ticket_title = request.POST.get('new_ticket_title')
             new_ticket_description = request.POST.get('new_ticket_description')
             new_ticket_image = request.POST.get('new_ticket_image')
 
-            updated_ticket_infos = {
-                'new_ticket_title':  new_ticket_title if new_ticket_title else ticket_title,
-                'new_ticket_description': new_ticket_description if new_ticket_description else ticket_description,
-                'new_ticket_image': new_ticket_image if new_ticket_image else ticket_image
-            }
-            if updated_ticket_infos['new_ticket_title']:
-                self.context['post'].update(title=updated_ticket_infos['new_ticket_title'])
-            if updated_ticket_infos['new_ticket_description']:
-                self.context['post'].update(description=updated_ticket_infos['new_ticket_description'])
-            if updated_ticket_infos['new_ticket_image']:
-                self.context['post'].update(image=updated_ticket_infos['new_ticket_description'])
+            if new_ticket_title is not None:
+                Ticket.objects.filter(id=specific_ticket.id).update(title=new_ticket_title)
+            if new_ticket_description is not None:
+                Ticket.objects.filter(id=specific_ticket.id).update(description=new_ticket_description)
+            if new_ticket_image is not None:
+                Ticket.objects.filter(id=specific_ticket.id).update(image=new_ticket_image)
 
-        elif url_name == 'review_ticket_reply':
-            ticket_to_reply_id = kwargs['id']
-            ticket_to_reply = Ticket.objects.get(id=ticket_to_reply_id)
+            return redirect(reverse('posts'))
+            # peut etre à rediriger autre part plus tard une page "ticket_created", à voir
 
-            #  new review creation
-            review_headline = request.POST.get('review_headline')
-            review_rating = request.POST.get('review_rating')
-            review_comment = request.POST.get('review_comment')
+    def get_ticket_by_id(self, kwargs):
+        ticket_id = kwargs['id']
+        ticket = Ticket.objects.get(id=ticket_id)
+        return ticket
 
-            review_infos = {
-                'review_headline': review_headline,
-                'review_rating': review_rating,
-                'review_comment': review_comment
-            }
+    def create_ticket(self, request):
+        ticket_title = request.POST.get('ticket_title')
+        ticket_description = request.POST.get('ticket_description')
+        ticket_image = request.POST.get('ticket_image') if request.POST.get('ticket_image') else None
 
-            self.context['review_infos'] = review_infos
+        ticket_infos = {
+            'ticket_title': ticket_title,
+            'ticket_description': ticket_description,
+            'ticket_image': ticket_image
+        }
 
-            if review_infos:
-                new_review = Review(ticket=ticket_to_reply, headline=review_infos['review_headline'],
-                                    rating=review_infos['review_rating'], user=request.user,
-                                    body=review_infos['review_comment'])
-                new_review.save()
+        self.context['ticket_infos'] = ticket_infos
+        new_ticket = Ticket(title=ticket_infos['ticket_title'], description=ticket_infos['ticket_description'],
+                            user=request.user, image=ticket_infos['ticket_image'])
+        new_ticket.save()
+        return new_ticket
 
-            return render(request, self.template_name, {'context': self.context})
+    def create_review(self, request, ticket):
+        review_headline = request.POST.get('review_headline')
+        review_rating = request.POST.get('review_rating')
+        review_comment = request.POST.get('review_comment')
 
+        review_infos = {
+            'review_headline': review_headline,
+            'review_rating': review_rating,
+            'review_comment': review_comment
+        }
+
+        self.context['review_infos'] = review_infos
+        new_review = Review(ticket=ticket, headline=review_infos['review_headline'], rating=review_infos['review_rating'],
+                            user=request.user, body=review_infos['review_comment'])
+        new_review.save()
+        return new_review

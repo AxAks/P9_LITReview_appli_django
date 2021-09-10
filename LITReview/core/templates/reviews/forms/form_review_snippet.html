@@ -14,14 +14,12 @@
     <title>Title</title>
 </head>
 <body>
-    <!-- formulaire pour remplir un review (en réponse à une demande d'un autre utilisateur
-    ou à un de ses propre ticket)-->
     <hr> <!-- à retirer plus tard -->
-        <form method="post" action=""> <!-- action à definir-->
+        <form method="post" action="">
         {% csrf_token %}
         {{ form.non_field_errors }}
         <h3>Critique</h3>
-        <p class="fieldWrapper">  <!--fieldWrapper ne fait rien ...-->
+        <p class="fieldWrapper">
             Titre
             <input size="250" name="review_headline" placeholder="Entrez le titre de votre réponse">
         </p>
@@ -44,7 +42,7 @@
         <p class="fieldWrapper">
             <button class="btn btn-sm btn-outline-dark" type="submit">
                 Envoyer
-            </button> <!-- débugger, rediriger au bon endroit ensuite !-->
+            </button>
         </p>
     </form>
 </body>
