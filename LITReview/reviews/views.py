@@ -206,13 +206,13 @@ class PostsEditionView(TemplateView):
         """
         Enables to modify an already registered Review
         """
-        review_new_headline = request.POST.get('new_review_headline')
-        review_new_rating = request.POST.get('new_review_rating')
-        review_new_comment = request.POST.get('new_review_comment')
+        review_new_headline = request.POST.get('review_newheadline')
+        review_new_rating = request.POST.get('review_new_rating')
+        review_new_comment = request.POST.get('review_new_comment')
         if review_new_headline is not None:
             Review.objects.filter(id=review.id).update(headline=review_new_headline)
         if review_new_comment is not None:
-            Review.objects.filter(id=review.id).update(description=review_new_rating)
+            Review.objects.filter(id=review.id).update(rating=review_new_rating)
         if review_new_comment is not None:
             Review.objects.filter(id=review.id).update(body=review_new_comment)
         updated_review = Review.objects.get(id=review.id)

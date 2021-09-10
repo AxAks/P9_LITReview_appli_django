@@ -55,7 +55,7 @@
             <p class="fieldWrapper">
                 <div>- Description: {{ context.post.description }}</div>
                 {{ ticket.description.errors }}
-                <input name="new_ticket_description" placeholder="Changer la description du ticket" value="">
+                <input size="250" name="new_ticket_description" placeholder="Changer la description du ticket" value="">
             </p>
         {% else %}
                 <p class="fieldWrapper">
