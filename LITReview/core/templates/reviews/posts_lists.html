@@ -28,12 +28,14 @@
         <hr>
     </div>
 
-    <div> <!-- ca fonctionne mais très lourd ! à revoir  -->
+    <div>
     {% if context.url_name == 'feed' and not context.followed_users_posts %}
         <p>Pas de review ou ticket à afficher</p>
     {% elif context.url_name == 'posts' and not context.user_posts %}
         <p>Pas de review ou ticket à afficher</p>
+
     {% else%}
+
         {% if context.url_name == 'feed' %}
             {% if context.followed_users_posts %}
                 {% for post in context.followed_users_posts %}
@@ -44,6 +46,7 @@
                     {% endif %}
                 {% endfor %}
             {% endif %}
+
         {% elif context.url_name == 'posts' %}
             {% if context.user_posts %}
                 {% for post in context.user_posts %}
@@ -54,6 +57,7 @@
                     {% endif %}
                 {% endfor %}
             {% endif %}
+
         {% endif %}
     {% endif %}
     </div>

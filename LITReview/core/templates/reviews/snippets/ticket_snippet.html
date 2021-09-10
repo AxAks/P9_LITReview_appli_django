@@ -17,20 +17,14 @@
     <ul>
         <li>
             <h3>Ticket</h3>
-            {% if context.post %}
+            {% if post %}
             <p>
-                - Utilisateur: {{ context.post.user }}<br/>
-                - Titre: {{ context.post.title }}<br/>
-                - Image: {{ context.post.image }}<br/>
-                - Description: {{ context.post.description }}
-            </p>
-            {% else %}
                 - Utilisateur: {{ post.user }}<br/>
                 - Titre: {{ post.title }}<br/>
                 - Image: {{ post.image }}<br/>
                 - Description: {{ post.description }}
-            {% endif %}
             <p>
+            {% endif %}
             {% if context.url_name == 'feed' %}
                 <a href="{% url 'review_ticket_reply' post.id %}">
                     <button class="btn btn-outline-dark">Répondre à ce ticket</button>

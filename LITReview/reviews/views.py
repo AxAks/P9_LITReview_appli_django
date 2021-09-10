@@ -18,7 +18,7 @@ from constants import PAGE_TITLES
 
 class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts"
     """
-    Displays the pages for post lists(Tickets and Reviews)
+    Manages the pages for post lists(Tickets and Reviews)
     using the context to choose what to display:
     - Feed: other users posts
     - Posts:User's posts
@@ -77,10 +77,10 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
 
 
 class PostsEditionView(TemplateView):
-# faire une seule classe au final ? (fusionner, factoriser tout ce qui est "posts"
-# PB le template n'est pas le meme ... coment faire !?
+    #  faire une seule classe au final ? (fusionner, factoriser tout ce qui est "posts"
+    # PB le template n'est pas le meme ... comment faire !? voir plus tard si je le fais
     """
-
+    Manages the pages for post edition (Tickets and Reviews)
     """
     context = {}
     template_name = 'reviews/posts_edition.html'
@@ -114,25 +114,30 @@ class PostsEditionView(TemplateView):
 
         if url_name == 'ticket_creation':
             self.create_ticket(request)
-            return redirect(reverse('posts'))  # peut etre à rediriger autre part plus tard une page "ticket_created", à voir
+            return redirect(
+                reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "ticket_created", à voir
 
         elif url_name == 'review_ticket_reply':
             specific_ticket = self.get_ticket_by_id(kwargs)
             self.create_review(request, specific_ticket)  # new review creation
-            return redirect(reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "review_created", à voir
+            return redirect(
+                reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "review_created", à voir
 
         elif url_name == 'review_creation_no_ticket':  # à compléter (coté template: validation via le bouton de validation des reviews, ne prend pas en compte les champs de création de ticket !)
             ticket = self.create_ticket(request)  # new ticket creation
-            self.create_review(request, ticket)  #  new review creation
-            return redirect(reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "review_created", à voir
+            self.create_review(request, ticket)  # new review creation
+            return redirect(
+                reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "review_created", à voir
 
         elif url_name == 'ticket_modification':
             specific_ticket = self.get_ticket_by_id(kwargs)
-            self.edit_ticket(request, specific_ticket)  # ticket modification
-            return redirect(reverse('posts'))  # peut etre à rediriger autre part plus tard une page "ticket_created", à voir
+            self.edit_ticket(request, specific_ticket)  #  ticket modification
+            return redirect(
+                reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "ticket_created", à voir
 
         elif url_name == 'review_modification':
-            specific_review = self.get_review_by_id(kwargs)  # pb Reverse for 'review_modification' with no arguments not found
+            specific_review = self.get_review_by_id(
+                kwargs)  # pb Reverse for 'review_modification' with no arguments not found
             self.edit_review(request, specific_review)  # review modification
             return redirect(
                 reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "ticket_created", à voir
