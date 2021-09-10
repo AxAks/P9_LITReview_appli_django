@@ -26,7 +26,7 @@
 
     {% if context.url_name == 'review_modification' %}
         <h3>Template Critique Modification (en cours !)</h3>
-        {% include './snippets/review_snippet.html'  %}
+        {% include './forms/form_review_snippet.html'  %}
     {% endif %}
 
     {% if context.url_name in 'ticket_creation review_creation_no_ticket' %}
@@ -37,9 +37,8 @@
     {% if 'review_ticket_reply' in context.url_name %}
     <!-- récupérer le ticket correspondant et l'afficher (non modifiable) -->
         <div>
-            <h4>Vous etes en train de poster en réponse à: </h4> <!-- ticket à recupérer en base via views -->
-                <p>Récupérer le ticket en question en base: A FAIRE !!</p> <!-- à retirer plus tard -->
-                {% include './snippets/ticket_snippet.html' %} <!-- requete à ecrire pour récupérer le ticket en question !! -->
+            <h4>Vous etes en train de poster en réponse à: </h4>
+                {% include './snippets/ticket_snippet.html' %}
         </div>
     {% endif %}
 
