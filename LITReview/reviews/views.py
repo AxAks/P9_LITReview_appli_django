@@ -96,11 +96,13 @@ class PostsEditionView(TemplateView):
         self.context['possible_ratings'] = RATINGS
 
         if url_name in ('ticket_modification', 'review_ticket_reply'):
-            self.context['post'] = self.get_ticket_by_id(kwargs)
+            self.context['post'] = self.get_ticket_by_id(kwargs['id'])
 
         elif 'review_modification' in url_name:
-            self.context['associated_ticket'] = self.get_ticket_by_id(kwargs)
-            self.context['post'] = self.get_review_by_id(kwargs)
+            review_to_edit = self.get_review_by_id(kwargs['id'])
+            self.context['post'] = review_to_edit
+            associated_ticket_id = review_to_edit.ticket.id
+            self.context['associated_ticket'] = self.get_ticket_by_id(associated_ticket_id)
 
         return render(request, self.template_name, {'context': self.context})
 
@@ -118,7 +120,7 @@ class PostsEditionView(TemplateView):
                 reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "ticket_created", à voir
 
         elif url_name == 'review_ticket_reply':
-            specific_ticket = self.get_ticket_by_id(kwargs)
+            specific_ticket = self.get_ticket_by_id(kwargs['id'])
             self.create_review(request, specific_ticket)  # new review creation
             return redirect(
                 reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "review_created", à voir
@@ -130,14 +132,13 @@ class PostsEditionView(TemplateView):
                 reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "review_created", à voir
 
         elif url_name == 'ticket_modification':
-            specific_ticket = self.get_ticket_by_id(kwargs)
+            specific_ticket = self.get_ticket_by_id(kwargs['id'])
             self.edit_ticket(request, specific_ticket)  #  ticket modification
             return redirect(
                 reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "ticket_created", à voir
 
         elif url_name == 'review_modification':
-            specific_review = self.get_review_by_id(
-                kwargs)  # pb Reverse for 'review_modification' with no arguments not found
+            specific_review = self.get_review_by_id(kwargs['id'])
             self.edit_review(request, specific_review)  # review modification
             return redirect(
                 reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "ticket_created", à voir
@@ -218,19 +219,15 @@ class PostsEditionView(TemplateView):
         return updated_review
 
     @classmethod
-    def get_review_by_id(cls, kwargs) -> Review:  # pb Reverse for 'review_modification' with no arguments not found
+    def get_review_by_id(cls, review_id) -> Review:
         """
         Enbales to gget a given Review by its ID
         """
-        review_id = kwargs['id']
-        review = Review.objects.get(id=review_id)
-        return review
+        return Review.objects.get(id=review_id)
 
     @classmethod
-    def get_ticket_by_id(cls, kwargs) -> Ticket:
+    def get_ticket_by_id(cls, ticket_id) -> Ticket:
         """
         Enbales to get a given Ticket by its ID
         """
-        ticket_id = kwargs['id']
-        ticket = Ticket.objects.get(id=ticket_id)
-        return ticket
+        return Ticket.objects.get(id=ticket_id)

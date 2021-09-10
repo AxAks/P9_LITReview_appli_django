@@ -17,12 +17,19 @@
     <ul>
         <li>
             <h3>Ticket</h3>
-            {% if post %}
+            {% if post %}  <!-- from url with parameter-->
             <p>
                 - Utilisateur: {{ post.user }}<br/>
                 - Titre: {{ post.title }}<br/>
                 - Image: {{ post.image }}<br/>
                 - Description: {{ post.description }}
+            <p>
+            {% elif context.associated_ticket %} <!-- from views with context -->
+            <p>
+                - Utilisateur: {{ context.associated_ticket.user }}<br/>
+                - Titre: {{ context.associated_ticket.title }}<br/>
+                - Image: {{ context.associated_ticket.image }}<br/>
+                - Description: {{ context.associated_ticket.description }}
             <p>
             {% endif %}
             {% if context.url_name == 'feed' %}
