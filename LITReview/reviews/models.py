@@ -5,7 +5,6 @@ from django.urls import reverse_lazy
 from LITReview import settings
 
 
-# Create your models here.
 class Ticket(models.Model):
     """
     Model for a ticket
@@ -14,7 +13,7 @@ class Ticket(models.Model):
     description = models.TextField(max_length=2048, blank=True)
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(upload_to='ticket_images', null=True, blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -49,5 +48,7 @@ class Review(models.Model):
                f' Reply by: {self.user},'\
                f' Description: {self.body}'
 
-    objects = models.Manager()
+    def get_absolute_url(self):
+        return reverse_lazy('review_view', kwargs={'post_id': self.id})
 
+    objects = models.Manager()

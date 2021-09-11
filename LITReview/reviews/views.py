@@ -147,9 +147,9 @@ class PostsEditionView(TemplateView):
         """
         Enable to create and save a ticket (a request for a review)
         """
-        ticket_title = request.POST.get('ticket_title')
+        ticket_title = request.POST.get('ticket_title') # pb : ca créé le ticket quand meme si aucune info n'est donnée, il faut bloquer !
         ticket_description = request.POST.get('ticket_description')
-        ticket_image = request.POST.get('ticket_image') if request.POST.get('ticket_image') else None
+        ticket_image = request.FILES.get('ticket_image') if request.POST.get('ticket_image') else None
 
         ticket_infos = {
             'ticket_title': ticket_title,
@@ -189,9 +189,9 @@ class PostsEditionView(TemplateView):
         """
         Enable to modify an already registered Ticket
         """
-        ticket_new_title = request.POST.get('new_ticket_title')
-        ticket_new_description = request.POST.get('new_ticket_description')
-        ticket_new_image = request.POST.get('new_ticket_image')
+        ticket_new_title = request.POST.get('ticket_new_title')
+        ticket_new_description = request.POST.get('ticket_new_description')
+        ticket_new_image = request.FILES.get('ticket_new_image')
         if ticket_new_title is not None:
             Ticket.objects.filter(id=ticket.id).update(title=ticket_new_title)
         if ticket_new_description is not None:

@@ -14,7 +14,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form method="post" action="">
+    <form method="post" action="" enctype="multipart/form-data">>
         {% csrf_token %}
         {{ form.non_field_errors }}
         <h3>Ticket</h3>
@@ -23,7 +23,7 @@
                 <div>- Titre: {{ context.post.title }}</div>
                 <p class="fieldWrapper">
                     {{ ticket.titre.errors }}
-                    <input size="250" name="new_ticket_title" placeholder="Changer le titre" value="">
+                    <input size="250" name="ticket_new_title" placeholder="Changer le titre" value="">
                 <p/>
             </p>
         {% else %}
@@ -36,26 +36,26 @@
         {% endif %}
         {% if context.url_name == 'ticket_modification'%}
                 <p class="fieldWrapper">
-                    <div>- Image:</div>
-                    <img> {{ context.post.image }}<br/> <!--voir Pillow-->
+                    <div>- Remplacer l'image:</div>
+                    <img {{ context.post.image }}><br/> <!--voir Pillow-->
                     {{ ticket.image.errors }}
-                    <input size="250" type="hidden" name="new_ticket_image">
-                    <button type="submit" class="btn btn-outline-dark">Télécharger une nouvelle image</button>
+                    <input class="btn btn-outline-dark" type="file" name="ticket_new_image"
+                           value="{{ ticket_new_image }}" alt="connect" style="max-height:300px">
                 </p>
-            </p><br/>
+            </p>
         {% else %}
                 <p class="fieldWrapper"> <!--voir Pillow-->
-                    <div>- Image:</div>
+                    <div>- Télécharger une image:</div>
                     {{ ticket.image.errors }}
-                    <input type="hidden" name="ticket_image">
-                    <button type="submit" class="btn btn-outline-dark">Télécharger une image</button>
+                    <input class="btn btn-outline-dark" type="file" name="ticket_image"
+                           value="{{ ticket_image }}" alt="connect" style="max-height:300px">
                 </p>
         {% endif %}
         {% if context.url_name == 'ticket_modification'%}
             <p class="fieldWrapper">
                 <div>- Description: {{ context.post.description }}</div>
                 {{ ticket.description.errors }}
-                <input size="250" name="new_ticket_description" placeholder="Changer la description du ticket" value="">
+                <input size="250" name="ticket_new_description" placeholder="Changer la description du ticket" value="">
             </p>
         {% else %}
                 <p class="fieldWrapper">
