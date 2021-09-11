@@ -8,12 +8,10 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 
 from utils import add_url_name_to_context
-from constants import RATINGS
+from constants import PAGE_TITLES, RATINGS
 
 from reviews.models import Ticket, Review
 from subscriptions.models import UserFollows
-
-from constants import PAGE_TITLES
 
 
 class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts"
@@ -117,31 +115,33 @@ class PostsEditionView(TemplateView):
         if url_name == 'ticket_creation':
             self.create_ticket(request)
             return redirect(
-                reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "ticket_created", à voir
+                reverse('posts'))
 
         elif url_name == 'review_ticket_reply':
             specific_ticket = self.get_ticket_by_id(kwargs['id'])
-            self.create_review(request, specific_ticket)  # new review creation
+            self.create_review(request, specific_ticket)
             return redirect(
-                reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "review_created", à voir
+                reverse('posts'))
 
-        elif url_name == 'review_creation_no_ticket':  # à compléter (coté template: validation via le bouton de validation des reviews, ne prend pas en compte les champs de création de ticket !)
-            ticket = self.create_ticket(request)  # new ticket creation
-            self.create_review(request, ticket)  # new review creation
+        # à compléter (coté template: validation via le bouton de validation des reviews,
+        # ne prend pas en compte les champs de création de ticket !)
+        elif url_name == 'review_creation_no_ticket':
+            ticket = self.create_ticket(request)
+            self.create_review(request, ticket)
             return redirect(
-                reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "review_created", à voir
+                reverse('posts'))
 
         elif url_name == 'ticket_modification':
             specific_ticket = self.get_ticket_by_id(kwargs['id'])
-            self.edit_ticket(request, specific_ticket)  #  ticket modification
+            self.edit_ticket(request, specific_ticket)
             return redirect(
-                reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "ticket_created", à voir
+                reverse('posts'))
 
         elif url_name == 'review_modification':
             specific_review = self.get_review_by_id(kwargs['id'])
-            self.edit_review(request, specific_review)  # review modification
+            self.edit_review(request, specific_review)
             return redirect(
-                reverse('posts'))  #  peut etre à rediriger autre part plus tard une page "ticket_created", à voir
+                reverse('posts'))
 
     def create_ticket(self, request) -> Ticket:
         """
