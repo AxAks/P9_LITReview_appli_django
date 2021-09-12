@@ -17,7 +17,7 @@ class SignupView(TemplateView):
     def signup_view(self, request) -> Union[HttpResponse, HttpResponseRedirect]:
         """
         Handles the signup form
-        Lads directly to the home/feed page if the form is validated.
+        Leads directly to the home/feed page if the form is validated.
         """
         form = SignUpForm(request.POST)
         if form.is_valid():

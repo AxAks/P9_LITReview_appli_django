@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
 
+from reviews.forms import TicketCreationForm, ReviewCreationForm
 from utils import add_url_name_to_context
 from constants import PAGE_TITLES, RATINGS
 
@@ -147,6 +148,14 @@ class PostsEditionView(TemplateView):
         """
         Enable to create and save a ticket (a request for a review)
         """
+        form = TicketCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            form = TicketCreationForm()
+            return render(request, self.template_name, {'form': form})
+
+        """
         ticket_title = request.POST.get('ticket_title') # pb : ca créé le ticket quand meme si aucune info n'est donnée, il faut bloquer !
         ticket_description = request.POST.get('ticket_description')
         ticket_image = request.FILES.get('ticket_image') if request.POST.get('ticket_image') else None
@@ -162,6 +171,7 @@ class PostsEditionView(TemplateView):
                             user=request.user, image=ticket_infos['ticket_image'])
         new_ticket.save()
         return new_ticket
+        """
 
     def create_review(self, request, ticket: Ticket) -> Review:
         """

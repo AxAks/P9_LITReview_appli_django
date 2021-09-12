@@ -14,7 +14,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form method="post" action="" enctype="multipart/form-data">>
+    <form method="post" action="{% url 'posts' %}" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.non_field_errors }}
         <h3>Ticket</h3>
@@ -22,47 +22,43 @@
             <p>
                 <div>- Titre: {{ context.post.title }}</div>
                 <p class="fieldWrapper">
-                    {{ ticket.titre.errors }}
-                    <input size="250" name="ticket_new_title" placeholder="Changer le titre" value="">
+                    {{ form.title.errors }}
+                    {{ form.title | as_crispy_field }}
                 <p/>
             </p>
         {% else %}
             <p class="fieldWrapper">
                 <div>- Titre:</div>
-                    {{ ticket.title.errors }}
-                    <input type="text" size="250"
-                           name="ticket_title" placeholder="Entrez le titre et l'auteur de l'oeuvre">
+                {{ form.title.errors }}
+                {{ form.title | as_crispy_field }}
                 </p>
         {% endif %}
         {% if context.url_name == 'ticket_modification'%}
                 <p class="fieldWrapper">
                     <div>- Remplacer l'image:</div>
                     <img {{ context.post.image }}><br/> <!--voir Pillow-->
-                    {{ ticket.image.errors }}
-                    <input class="btn btn-outline-dark" type="file" name="ticket_new_image"
-                           value="{{ ticket_new_image }}" alt="connect" style="max-height:300px">
+                {{ form.image.errors }}
+                {{ form.image | as_crispy_field }}
                 </p>
             </p>
         {% else %}
                 <p class="fieldWrapper"> <!--voir Pillow-->
                     <div>- Télécharger une image:</div>
-                    {{ ticket.image.errors }}
-                    <input class="btn btn-outline-dark" type="file" name="ticket_image"
-                           value="{{ ticket_image }}" alt="connect" style="max-height:300px">
+                    {{ form.image.errors }}
+                    {{ form.image | as_crispy_field }}
                 </p>
         {% endif %}
         {% if context.url_name == 'ticket_modification'%}
             <p class="fieldWrapper">
                 <div>- Description: {{ context.post.description }}</div>
-                {{ ticket.description.errors }}
-                <input size="250" name="ticket_new_description" placeholder="Changer la description du ticket" value="">
+                    {{ form.description.errors }}
+                    {{ form.description | as_crispy_field }}
             </p>
         {% else %}
                 <p class="fieldWrapper">
                     <div>- Description:</div>
-                    {{ ticket.description.errors }}
-                    <input type="text" size="250"
-                           name="ticket_description" placeholder="Entrez la description du ticket">
+                    {{ form.description.errors }}
+                    {{ form.description | as_crispy_field }}
                 </p>
         {% endif %}
         {% if context.url_name == 'ticket_modification' %}
