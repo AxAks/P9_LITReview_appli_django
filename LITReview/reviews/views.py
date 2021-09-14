@@ -101,9 +101,9 @@ class PostsEditionView(TemplateView):
         
         'ticket_creation, A faire, avec la recupération d'un form vide'
         'review_creation_no_ticket' A faire, avec la recupération d'un form vide
-        'ticket_modification OK'
-        'review_ticket_reply OK'
-        'review_modification OK'
+        'ticket_modification OK mais à revoir'
+        'review_ticket_reply OK mais à revoir'
+        'review_modification OK mais à revoir'
         """
         if url_name == 'ticket_creation':
             form = TicketCreationForm()
@@ -131,6 +131,17 @@ class PostsEditionView(TemplateView):
         - Edit posts
         """
         url_name = add_url_name_to_context(request, self.context)
+
+        """
+        5 cas à placer dans les POST,
+        voir ce dont j'ai besoin ensuite
+
+        'ticket_creation OK mais à revoir'
+        'review_creation_no_ticket A faire'
+        'ticket_modification OK mais à revoir'
+        'review_ticket_reply OK mais à revoir'
+        'review_modification OK mais à revoir'
+        """
 
         if url_name == 'ticket_creation':
             self.create_ticket(request)
