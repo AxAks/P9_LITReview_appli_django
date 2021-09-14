@@ -14,7 +14,12 @@ class SignupView(TemplateView):
     """
     template_name = 'registration/signup.html'
 
-    def signup_view(self, request) -> Union[HttpResponse, HttpResponseRedirect]:
+    def get(self, request, *args, **kwargs) -> HttpResponse:
+        form = SignUpForm()
+        return render(request, self.template_name, {'form': form})
+
+    #def signup_view(self, request) -> Union[HttpResponse, HttpResponseRedirect]:
+    def post(self, request, *args, **kwargs) -> Union[HttpResponse, HttpResponseRedirect]:
         """
         Handles the signup form
         Leads directly to the home/feed page if the form is validated.
@@ -29,11 +34,11 @@ class SignupView(TemplateView):
             return redirect('feed')
         else:
             form = SignUpForm()
-            print("errors detected, FIND HOW TO display these errors for retry, validators work"
-                  "BUT no error display and retry (find validation rules and edit if needed + enable to retry")
-            # si trop long à debugger, pour trouver la solution, ne pas perdre de temps dessus, je le ferai à la fin !
-            # plutot se concentrer sur les fonctionnalités à développer
-            return render(request, self.template_name, {'form': form})
+        print("errors detected, FIND HOW TO display these errors for retry, validators work"
+              "BUT no error display and retry (find validation rules and edit if needed + enable to retry")
+        # si trop long à debugger, pour trouver la solution, ne pas perdre de temps dessus, je le ferai à la fin !
+        # plutot se concentrer sur les fonctionnalités à développer
+        return render(request, self.template_name, {'form': form})
 
 
 class LoginView(TemplateView):
