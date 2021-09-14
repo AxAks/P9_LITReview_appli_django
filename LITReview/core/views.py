@@ -18,7 +18,7 @@ class SignupView(TemplateView):
         form = SignUpForm()
         return render(request, self.template_name, {'form': form})
 
-    #def signup_view(self, request) -> Union[HttpResponse, HttpResponseRedirect]:
+
     def post(self, request, *args, **kwargs) -> Union[HttpResponse, HttpResponseRedirect]:
         """
         Handles the signup form
