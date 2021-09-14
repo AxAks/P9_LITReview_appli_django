@@ -4,13 +4,6 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import CustomUser
 
 
-class CustomUserChangeForm(UserChangeForm):  # pas utilisé (encore)!
-
-    class Meta:
-        model = CustomUser
-        fields = ('username', 'email')
-
-
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=100, help_text='Prénom')
     last_name = forms.CharField(max_length=100, help_text='Nom')
