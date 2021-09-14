@@ -1,6 +1,7 @@
 from typing import Union
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
@@ -10,19 +11,22 @@ from .forms import SignUpForm
 
 class SignupView(TemplateView):
     """
-
+    Manages the user's registration
     """
     template_name = 'registration/signup.html'
 
     def get(self, request, *args, **kwargs) -> HttpResponse:
+        """
+        Displays an empty registration form
+        """
         form = SignUpForm()
         return render(request, self.template_name, {'form': form})
 
-
     def post(self, request, *args, **kwargs) -> Union[HttpResponse, HttpResponseRedirect]:
         """
-        Handles the signup form
+        Handles the validation of data provided by the user in the registration form
         Leads directly to the home/feed page if the form is validated.
+        Otherwise, it displays the errors and prompts to retry
         """
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -33,22 +37,22 @@ class SignupView(TemplateView):
             login(request, user)
             return redirect('feed')
         else:
-            form = SignUpForm()
-        print("errors detected, FIND HOW TO display these errors for retry, validators work"
-              "BUT no error display and retry (find validation rules and edit if needed + enable to retry")
-        # si trop long à debugger, pour trouver la solution, ne pas perdre de temps dessus, je le ferai à la fin !
-        # plutot se concentrer sur les fonctionnalités à développer
-        return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {'form': form})
 
 
 class LoginView(TemplateView):
     """
-
+    Manages the user's authentication
     """
+    template_name = 'registration/login.html'
+    form = AuthenticationForm()
     success_to = 'feed'
     failure_redirect = 'login'
 
-    def login_view(self, request) -> HttpResponseRedirect:
+    def get(self, request) -> HttpResponse:
+        return render(request, self.template_name, {'form': self.form})
+
+    def post(self, request) -> HttpResponseRedirect:
         """
         Logs the user in after validating the provided login information
         """
@@ -59,7 +63,7 @@ class LoginView(TemplateView):
             login(request, user)
             return redirect(request, self.success_to)
         else:
-            return redirect(request, self.failure_redirect)
+            return render(request, self.template_name, {'form': self.form})
 
 
 class LogoutView(TemplateView):
@@ -68,7 +72,7 @@ class LogoutView(TemplateView):
     """
     template_name = 'registration/login.html'
 
-    def logout_view(self, request) -> HttpResponseRedirect:
+    def get(self, request) -> HttpResponse:
         """
         signs the user out
         and closes his session
