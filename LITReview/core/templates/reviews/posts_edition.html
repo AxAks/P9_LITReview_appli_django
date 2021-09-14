@@ -19,7 +19,7 @@
 
     {% block content %}
 
-    {% if context.url_name == 'ticket_modification' %}
+    {% if context.url_name in 'ticket_creation ticket_modification' %}
         {% include './forms/form_ticket_snippet.html' %}
     {% endif %}
 

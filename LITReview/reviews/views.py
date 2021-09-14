@@ -41,6 +41,12 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
             self.context['user_posts'] = self.get_posts([request.user.id])
         return render(request, self.template_name, {'context': self.context})
 
+    def post(self, request, *args, **kwargs):  # pas utilisé !
+        """
+
+        """
+        return render(request, self.template_name, {'context': self.context})
+
     @classmethod
     def get_followed_users_by_id(cls, request) -> list[int]:
         """
@@ -68,12 +74,6 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
             reverse=True)
         return posts
 
-    def post(self, request, *args, **kwargs):
-        """
-
-        """
-        return render(request, self.template_name, {'context': self.context})
-
 
 class PostsEditionView(TemplateView):
     #  faire une seule classe au final ? (fusionner, factoriser tout ce qui est "posts"
@@ -81,8 +81,9 @@ class PostsEditionView(TemplateView):
     """
     Manages the pages for post edition (Tickets and Reviews)
     """
-    context = {}
     template_name = 'reviews/posts_edition.html'
+    # template_name = 'reviews/forms/form_ticket_snippet.html'
+    context = {}
 
     def get(self, request, *args, **kwargs) -> HttpResponse:
         """
@@ -94,7 +95,25 @@ class PostsEditionView(TemplateView):
         self.context['title'] = PAGE_TITLES[url_name]
         self.context['possible_ratings'] = RATINGS
 
-        if url_name in ('ticket_modification', 'review_ticket_reply'):
+        """
+        5 cas à placer dans les GET,
+        voir ce dont j'ai besoin ensuite
+        
+        'ticket_creation, A faire, avec la recupération d'un form vide'
+        'review_creation_no_ticket' A faire, avec la recupération d'un form vide
+        'ticket_modification OK'
+        'review_ticket_reply OK'
+        'review_modification OK'
+        """
+        if url_name == 'ticket_creation':
+            form = TicketCreationForm()
+            return render(request, self.template_name, {'context': self.context}, {'form': form})
+
+        elif url_name == 'review_creation_no_ticket':
+            form = ReviewCreationForm()  # pb on a pas le form pour le ticket pour le moment
+            return render(request, self.template_name, {'form': form})
+
+        elif url_name in ('ticket_modification', 'review_ticket_reply'):
             self.context['post'] = self.get_ticket_by_id(kwargs['id'])
 
         elif 'review_modification' in url_name:
@@ -115,8 +134,6 @@ class PostsEditionView(TemplateView):
 
         if url_name == 'ticket_creation':
             self.create_ticket(request)
-            return redirect(
-                reverse('posts'))
 
         elif url_name == 'review_ticket_reply':
             specific_ticket = self.get_ticket_by_id(kwargs['id'])
@@ -151,6 +168,8 @@ class PostsEditionView(TemplateView):
         form = TicketCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect(
+                reverse('posts'))
         else:
             form = TicketCreationForm()
             return render(request, self.template_name, {'form': form})

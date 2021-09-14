@@ -17,7 +17,7 @@ from reviews.models import Ticket, Review
 
 
 class TicketCreationForm(forms.ModelForm):
-    title = forms.CharField(label="title", max_length=128, help_text='Titre')
+    title = forms.CharField(label="titre", max_length=128, help_text='Titre')
     description = forms.CharField(label="description", max_length=2048, help_text='Description')
     image = forms.ImageField(label="image", help_text='Image')
 
@@ -37,9 +37,9 @@ class TicketCreationForm(forms.ModelForm):
 
 
 class ReviewCreationForm(forms.ModelForm):
-    headline = forms.CharField(label="headline", max_length=128, help_text='Titre')
-    rating = forms.IntegerField(label="rating", help_text='Note')
-    body = forms.CharField(label="body", max_length=8192, help_text='Description')
+    headline = forms.CharField(label="titre", max_length=128, help_text='Titre')
+    rating = forms.IntegerField(label="note", help_text='Note')
+    body = forms.CharField(label="description", max_length=8192, help_text='Description')
 
     class Meta:
         model = Review
