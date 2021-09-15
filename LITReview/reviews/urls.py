@@ -13,10 +13,10 @@ urlpatterns = [
          login_required(PostsEditionView.as_view(), login_url='login'), name='ticket_creation'),
     path('ticket/modification/<int:id>',
          login_required(PostsEditionView.as_view(), login_url='login'), name='ticket_modification'),
-    path('ticket/reply/<int:id>',
+    path('ticket/reply/<int:id>/',
          login_required(PostsEditionView.as_view(), login_url='login'), name='review_ticket_reply'),
     path('review/creation/',
          login_required(PostsEditionView.as_view(), login_url='login'), name='review_creation_no_ticket'),
-    path('review/modification/<int:id>',
+    path('review/modification/<int:id>/',
          login_required(PostsEditionView.as_view(), login_url='login'), name='review_modification'),  # id review à mettre ici
 ]

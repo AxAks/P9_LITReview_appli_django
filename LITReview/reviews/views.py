@@ -272,7 +272,7 @@ class PostsEditionView(TemplateView):
     @classmethod
     def get_review_by_id(cls, review_id) -> Review:
         """
-        Enbales to gget a given Review by its ID
+        Enbales to get a given Review by its ID
         """
         return Review.objects.get(id=review_id)
 
