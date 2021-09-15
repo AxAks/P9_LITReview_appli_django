@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+</head>
+    <body>
+        <form method="post" action="{% url 'posts' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+            <h3>Ticket</h3>
+                <p class="fieldWrapper">
+                    <div>- Titre:</div>
+                        {{ form.title.errors }}
+                        {{ form.title | as_crispy_field }}
+                </p>
+                <p class="fieldWrapper"> <!--voir Pillow-->
+                    <div>- Télécharger une image:</div>
+                        {{ form.image.errors }}
+                        {{ form.image | as_crispy_field }}
+                </p>
+                <p class="fieldWrapper">
+                    <div>- Description:</div>
+                        {{ form.description.errors }}
+                        {{ form.description | as_crispy_field }}
+                </p>
+                <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
+        </form>
+    </body>
+</html>

@@ -20,7 +20,7 @@
     {% block content %}
 
     {% if context.url_name in 'ticket_creation ticket_modification' %}
-        {% include './forms/form_ticket_snippet.html' %}
+        {% include './forms/form_ticket_creation.html' %}
     {% endif %}
 
     {% if 'review_modification' in context.url_name %}
@@ -28,12 +28,12 @@
         <h3>Template Critique Modification (en cours !)</h3>
         <h4>Vous etes en train de modifier la critique du ticket suivant: </h4>
         {% include './snippets/ticket_snippet.html' %}
-        {% include './forms/form_review_snippet.html'  %}
+        {% include './forms/form_review_modification.html'  %}
     </div>
     {% endif %}
 
     {% if context.url_name in 'ticket_creation review_creation_no_ticket' %}
-        {% include './forms/form_ticket_snippet.html' %}
+        {% include './forms/form_ticket_creation.html' %}
     {% endif %}
 
     {% if 'review_ticket_reply' in context.url_name %}

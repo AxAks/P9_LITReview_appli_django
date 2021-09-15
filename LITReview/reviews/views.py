@@ -82,7 +82,7 @@ class PostsEditionView(TemplateView):
     Manages the pages for post edition (Tickets and Reviews)
     """
     template_name = 'reviews/posts_edition.html'
-    # template_name = 'reviews/forms/form_ticket_snippet.html'
+    # template_name = 'reviews/forms/form_ticket_modifciation.html'
     context = {}
 
     def get(self, request, *args, **kwargs) -> HttpResponse:
@@ -121,8 +121,7 @@ class PostsEditionView(TemplateView):
             self.context['post'] = review_to_edit
             associated_ticket_id = review_to_edit.ticket.id
             self.context['associated_ticket'] = self.get_ticket_by_id(associated_ticket_id)
-
-        return render(request, self.template_name, {'context': self.context})
+            return render(request, self.template_name, {'context': self.context})
 
     def post(self, request, *args, **kwargs):
         """

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <hr> <!-- à retirer plus tard -->
+    <form method="post" action="">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+        <h3>Critique</h3>
+            <p>
+                <div>- Titre: {{ context.post.headline }}</div>
+            <p class="fieldWrapper">
+                {{ review.headline.errors }}
+                <input size="250" name="review_new_headline" placeholder="Changer le titre" value="">
+            </p>
+            <p>
+                <div>- Note: {{ context.post.rating }}</div>
+            <p class="fieldWrapper">
+                {{ review.rating.errors }}
+                <ul class="d-inline-flex">  <!-- voir comment je peux utiliser bootstrap flex pour aligner horizontalement-->
+                {% for rating in context.possible_ratings %}
+                <li>
+                    <p> {{ rating }}
+                    <input class="form-check-input d-inline-flex"
+                           name="review_new_rating" type="radio" value="{{ rating }}">
+                    </p>
+                </li>
+                {% endfor %}
+                </ul>
+            </p>
+            <p class="fieldWrapper">
+                <div>- Commentaire: {{ context.post.body }}</div>
+                <input size="250" name="review_new_comment" placeholder="Modifier votre réponse au ticket">
+            </p>
+            <p class="fieldWrapper">
+                <button class="btn btn-sm btn-outline-dark" type="submit">
+                Envoyer
+                </button>
+            </p>
+    </form>
+</body>
+</html>
