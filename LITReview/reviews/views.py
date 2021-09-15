@@ -113,10 +113,13 @@ class PostsEditionView(TemplateView):
             form = ReviewCreationForm()  # pb on a pas le form pour le ticket pour le moment
             return render(request, self.template_name, {'form': form})
 
-        elif url_name in ('ticket_modification', 'review_ticket_reply'):
+        elif url_name == 'ticket_modification':
             form = TicketCreationForm()
             self.context['post'] = self.get_ticket_by_id(kwargs['id'])
             return render(request, self.template_name, {'context': self.context}, {'form': form})
+
+        elif url_name == 'review_ticket_reply':
+            pass
 
         elif 'review_modification' in url_name:
             review_to_edit = self.get_review_by_id(kwargs['id'])
