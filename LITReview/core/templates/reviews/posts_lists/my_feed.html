@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+<!--
+    Template pour Mon Feed
+    Le titre est recupéré via l'url_name
+-->
+    {% block title %} {{ context.title }} {% endblock %}
+
+    {% block content %}
+    <div>
+        <a href="{% url 'ticket_creation' %}">
+            <button class="btn btn-outline-dark">Demander une critique</button>
+        </a>
+        <a href="{% url 'review_creation_no_ticket' %}">
+            <button class="btn btn-outline-dark">Créer une critique</button>
+        </a>
+
+        <hr>
+    </div>
+
+    <div>
+        {% if context.followed_users_posts %}
+            {% for post in context.followed_users_posts %}
+                {% if post.content_type == 'TICKET' %}
+                    {% include 'reviews/snippets/ticket_snippet.html' %}
+                {% elif post.content_type == 'REVIEW' %}
+                    {% include 'reviews/snippets/review_snippet.html' %}
+                {% endif %}
+            {% endfor %}
+
+        {% else%}
+            <p>Pas de review ou ticket à afficher</p>
+        {% endif %}
+    </div>
+    {% endblock %}

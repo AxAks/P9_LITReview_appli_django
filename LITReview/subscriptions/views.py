@@ -10,7 +10,7 @@ class SubscriptionsView(TemplateView):
     """
     This class manages the Subscription Page
     """
-    template_name = 'subscriptions/subscriptions.html'
+    template_name = 'subscriptions/my_subscriptions.html'
     context = {}
 
     def get(self, request, *args, **kwargs):

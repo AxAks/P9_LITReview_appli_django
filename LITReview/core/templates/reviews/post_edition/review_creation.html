@@ -21,5 +21,11 @@
     {% block title %} {{ context.title }} {% endblock %}
 
     {% block content %}
-        {% include './forms/form_ticket_creation.html' %}
+        <div>
+            <h4>Vous etes en train de poster en réponse à: </h4>
+            {% include 'reviews/snippets/ticket_snippet.html' %}
+        </div>
+        <div>
+            {% include 'reviews/forms/form_review_creation.html' %}
+        </div>
     {% endblock %}

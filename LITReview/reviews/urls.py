@@ -5,7 +5,7 @@ from .views import PostListsView, PostsEditionView
 
 
 urlpatterns = [
-    path('',
+    path('feed/',
          login_required(PostListsView.as_view(), login_url='login'), name='feed'),
     path('posts/',
          login_required(PostListsView.as_view(), login_url='login'), name='posts'),

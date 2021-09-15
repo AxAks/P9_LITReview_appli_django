@@ -23,7 +23,7 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
     - Posts:User's posts
     """
     context = {}
-    template_name = 'reviews/posts_lists.html'
+    template_name = ''
 
     def get(self, request, *args, **kwargs) -> HttpResponse:
         """
@@ -35,10 +35,13 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
 
         if url_name == 'feed':
             followed_users_ids = self.get_followed_users_by_id(request)
+            self.template_name = 'reviews/posts_lists/my_feed.html'
             self.context['followed_users_posts'] = self.get_posts(followed_users_ids)
 
         elif url_name == 'posts':
+            self.template_name = 'reviews/posts_lists/my_posts.html'
             self.context['user_posts'] = self.get_posts([request.user.id])
+
         return render(request, self.template_name, {'context': self.context})
 
     def post(self, request, *args, **kwargs):  # pas utilisé !
@@ -106,24 +109,25 @@ class PostsEditionView(TemplateView):
         'review_modification OK mais à revoir'
         """
         if url_name == 'ticket_creation':
-            self.template_name = 'reviews/ticket_creation.html'
+            self.template_name = 'reviews/post_edition/ticket_creation.html'
             self.form = TicketCreationForm()
 
         elif url_name == 'review_creation_no_ticket':
-            self.template_name = 'reviews/review_creation_no_ticket.html'
+            self.template_name = 'reviews/post_edition/review_creation_no_ticket.html'
             self.form = ReviewCreationForm()  # pb on a pas le form pour le ticket pour le moment
 
         elif url_name == 'ticket_modification':
-            self.template_name = 'reviews/ticket_modification.html'
+            self.template_name = 'reviews/post_edition/ticket_modification.html'
             self.form = TicketCreationForm()
             self.context['post'] = self.get_ticket_by_id(kwargs['id'])
 
         elif url_name == 'review_ticket_reply':
-            self.template_name = 'reviews/review_creation.html'
+            self.template_name = 'reviews/post_edition/review_creation.html'
             self.form = ReviewCreationForm()
+            self.context['post'] = self.get_ticket_by_id(kwargs['id'])
 
         elif 'review_modification' in url_name:
-            self.template_name = 'reviews/review_modification.html'
+            self.template_name = 'reviews/post_edition/review_modification.html'
             review_to_edit = self.get_review_by_id(kwargs['id'])
             self.context['post'] = review_to_edit
             associated_ticket_id = review_to_edit.ticket.id
