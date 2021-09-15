@@ -15,7 +15,7 @@ from reviews.models import Ticket, Review
 from subscriptions.models import UserFollows
 
 
-class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts"
+class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts")
     """
     Manages the pages for post lists(Tickets and Reviews)
     using the context to choose what to display:
@@ -98,16 +98,6 @@ class PostsEditionView(TemplateView):
         self.context['title'] = PAGE_TITLES[url_name]
         self.context['possible_ratings'] = RATINGS
 
-        """
-        5 cas à placer dans les GET,
-        voir ce dont j'ai besoin ensuite
-        
-        'ticket_creation, A faire, avec la recupération d'un form vide'
-        'review_creation_no_ticket' A faire, avec la recupération d'un form vide
-        'ticket_modification OK mais à revoir'
-        'review_ticket_reply OK mais à revoir'
-        'review_modification OK mais à revoir'
-        """
         if url_name == 'ticket_creation':
             self.template_name = 'reviews/post_edition/ticket_creation.html'
             self.form = TicketCreationForm()
@@ -123,8 +113,8 @@ class PostsEditionView(TemplateView):
 
         elif url_name == 'review_ticket_reply':
             self.template_name = 'reviews/post_edition/review_creation.html'
-            self.form = ReviewCreationForm()
             self.context['post'] = self.get_ticket_by_id(kwargs['id'])
+            self.form = ReviewCreationForm()
 
         elif 'review_modification' in url_name:
             self.template_name = 'reviews/post_edition/review_modification.html'
@@ -142,17 +132,6 @@ class PostsEditionView(TemplateView):
         - Edit posts
         """
         url_name = add_url_name_to_context(request, self.context)
-
-        """
-        5 cas à placer dans les POST,
-        voir ce dont j'ai besoin ensuite
-
-        'ticket_creation OK mais à revoir'
-        'review_creation_no_ticket A faire'
-        'ticket_modification OK mais à revoir'
-        'review_ticket_reply OK mais à revoir'
-        'review_modification OK mais à revoir'
-        """
 
         if url_name == 'ticket_creation':
             self.create_ticket(request)
@@ -196,44 +175,18 @@ class PostsEditionView(TemplateView):
             form = TicketCreationForm()
             return render(request, self.template_name, {'form': form})
 
-        """
-        ticket_title = request.POST.get('ticket_title') # pb : ca créé le ticket quand meme si aucune info n'est donnée, il faut bloquer !
-        ticket_description = request.POST.get('ticket_description')
-        ticket_image = request.FILES.get('ticket_image') if request.POST.get('ticket_image') else None
-
-        ticket_infos = {
-            'ticket_title': ticket_title,
-            'ticket_description': ticket_description,
-            'ticket_image': ticket_image
-        }
-
-        self.context['ticket_infos'] = ticket_infos
-        new_ticket = Ticket(title=ticket_infos['ticket_title'], description=ticket_infos['ticket_description'],
-                            user=request.user, image=ticket_infos['ticket_image'])
-        new_ticket.save()
-        return new_ticket
-        """
-
     def create_review(self, request, ticket: Ticket) -> Review:
         """
         Enables to create a review (a response to a Ticket)
         """
-        review_headline = request.POST.get('review_headline')
-        review_rating = request.POST.get('review_rating')
-        review_comment = request.POST.get('review_comment')
-
-        review_infos = {
-            'review_headline': review_headline,
-            'review_rating': review_rating,
-            'review_comment': review_comment
-        }
-
-        self.context['review_infos'] = review_infos
-        new_review = Review(ticket=ticket, headline=review_infos['review_headline'],
-                            rating=review_infos['review_rating'], user=request.user,
-                            body=review_infos['review_comment'])
-        new_review.save()
-        return new_review
+        form = ReviewCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(
+                reverse('posts'))
+        else:
+            form = ReviewCreationForm()
+            return render(request, self.template_name, {'form': form})
 
     @classmethod
     def edit_ticket(cls, request, ticket: Ticket) -> Ticket:

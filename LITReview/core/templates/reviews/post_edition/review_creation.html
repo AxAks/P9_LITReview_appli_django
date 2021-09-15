@@ -21,7 +21,7 @@
     {% block title %} {{ context.title }} {% endblock %}
 
     {% block content %}
-        <h4>Vous etes en train de poster en réponse à: </h4>
+        <h4>Vous etes en train de poster en réponse à:</h4>
             {% include 'reviews/snippets/ticket_snippet.html' %}
             {% include 'reviews/forms/form_review_creation.html' %}
     {% endblock %}

@@ -13,36 +13,37 @@
     <meta charset="UTF-8">
     <title>Ticket</title>
 </head>
-<body>
-    <ul>
-        <li>
-            <h3>Ticket</h3>
-            {% if post %}  <!-- from url with parameter-->
-            <p>
-                - Utilisateur: {{ post.user }}<br/>
-                - Titre: {{ post.title }}<br/>
-                - Image: {{ post.image }}<br/>
-                - Description: {{ post.description }}
-            <p>
-            {% elif context.associated_ticket %} <!-- from views with context -->
-            <p>
-                - Utilisateur: {{ context.associated_ticket.user }}<br/>
-                - Titre: {{ context.associated_ticket.title }}<br/>
-                - Image: {{ context.associated_ticket.image }}<br/>
-                - Description: {{ context.associated_ticket.description }}
-            <p>
-            {% endif %}
-            {% if context.url_name == 'feed' %}
-                <a href="{% url 'review_ticket_reply' post.id %}">
-                    <button class="btn btn-outline-dark">Répondre à ce ticket</button>
-                </a>
-            {% elif context.url_name == 'posts' %}
-                <a href="{% url 'ticket_modification' post.id %}">
-            <button class="btn btn-outline-dark">Modifier ce ticket</button>
-                </a>
-            {% endif %}
-            </p>
-        </li>
-    </ul>
-</body>
+    <body>
+        <ul>
+            <li>
+                <h3>Ticket</h3>
+                {% if post %}  <!-- from url with parameter, reference à l'objet ticket en direct-->
+                <p>
+                    - Utilisateur: {{ post.user }}<br/>
+                    - Titre: {{ post.title }}<br/>
+                    - Image: {{ post.image }}<br/>
+                    - Description: {{ post.description }}
+                </p>
+                {% elif context.associated_ticket %}
+                <!-- from views with context, référence au ticket en passant par une critique en reponse -->
+                <!-- voir comment faire pour avoir toujours la meme reference plutot (ex: ticket. au lieu de post.) -->
+                <p>
+                    - Utilisateur: {{ context.associated_ticket.user }}<br/>
+                    - Titre: {{ context.associated_ticket.title }}<br/>
+                    - Image: {{ context.associated_ticket.image }}<br/>
+                    - Description: {{ context.associated_ticket.description }}
+                </p>
+                {% endif %}
+                {% if context.url_name == 'feed' %}
+                    <a href="{% url 'review_ticket_reply' post.id %}">
+                        <button class="btn btn-outline-dark">Répondre à ce ticket</button>
+                    </a>
+                {% elif context.url_name == 'posts' %}
+                    <a href="{% url 'ticket_modification' post.id %}">
+                <button class="btn btn-outline-dark">Modifier ce ticket</button>
+                    </a>
+                {% endif %}
+            </li>
+        </ul>
+    </body>
 </html>
