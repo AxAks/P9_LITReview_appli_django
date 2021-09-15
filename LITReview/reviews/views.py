@@ -81,8 +81,8 @@ class PostsEditionView(TemplateView):
     """
     Manages the pages for post edition (Tickets and Reviews)
     """
-    template_name = 'reviews/posts_edition.html'
-    # template_name = 'reviews/forms/form_ticket_modification.html'
+    template_name = ''
+    form = None
     context = {}
 
     def get(self, request, *args, **kwargs) -> HttpResponse:
@@ -106,27 +106,30 @@ class PostsEditionView(TemplateView):
         'review_modification OK mais à revoir'
         """
         if url_name == 'ticket_creation':
-            form = TicketCreationForm()
-            return render(request, self.template_name, {'context': self.context}, {'form': form})
+            self.template_name = 'reviews/ticket_creation.html'
+            self.form = TicketCreationForm()
 
         elif url_name == 'review_creation_no_ticket':
-            form = ReviewCreationForm()  # pb on a pas le form pour le ticket pour le moment
-            return render(request, self.template_name, {'form': form})
+            self.template_name = 'reviews/review_creation_no_ticket.html'
+            self.form = ReviewCreationForm()  # pb on a pas le form pour le ticket pour le moment
 
         elif url_name == 'ticket_modification':
-            form = TicketCreationForm()
+            self.template_name = 'reviews/ticket_modification.html'
+            self.form = TicketCreationForm()
             self.context['post'] = self.get_ticket_by_id(kwargs['id'])
-            return render(request, self.template_name, {'context': self.context}, {'form': form})
 
         elif url_name == 'review_ticket_reply':
-            pass
+            self.template_name = 'reviews/review_creation.html'
+            self.form = ReviewCreationForm()
 
         elif 'review_modification' in url_name:
+            self.template_name = 'reviews/review_modification.html'
             review_to_edit = self.get_review_by_id(kwargs['id'])
             self.context['post'] = review_to_edit
             associated_ticket_id = review_to_edit.ticket.id
             self.context['associated_ticket'] = self.get_ticket_by_id(associated_ticket_id)
-            return render(request, self.template_name, {'context': self.context})
+
+        return render(request, self.template_name, {'context': self.context}, {'form': self.form})
 
     def post(self, request, *args, **kwargs):
         """

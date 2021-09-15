@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+
+<!--
+    Utilisation d'un seul template multi-fonctions pour:
+    - Critique/Ticket, Creation/Modification,
+    - Critique en réponse à un ticket ou non ?
+    Via if/else et include:
+    Le titre est variable selon l'url_name
+-->
+    {% block title %} {{ context.title }} {% endblock %}
+
+    {% block content %}
+        <div>
+            <h4>Vous etes en train de poster en réponse à: </h4>
+                {% include './snippets/ticket_snippet.html' %}
+                {% include './forms/form_review_snippet.html' %}
+        </div>
+    {% endblock %}

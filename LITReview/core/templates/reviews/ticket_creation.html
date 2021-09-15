@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+
+<!--
+    Utilisation d'un template pour chaque fonction:
+    - Creation de ticket
+    - Creation de Critique
+    - Modification ticket,
+    - Modification de Critique
+    - Critique en réponse à un ticket
+    - Critique sans ticket préalable
+    Le titre est variable selon l'url_name
+-->
+    {% block title %} {{ context.title }} {% endblock %}
+
+    {% block content %}
+        {% include './forms/form_ticket_creation.html' %}
+    {% endblock %}
