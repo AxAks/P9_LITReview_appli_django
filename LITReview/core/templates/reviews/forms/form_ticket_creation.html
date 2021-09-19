@@ -14,24 +14,25 @@
 <title>Ticket - Creation</title>
 </head>
     <body>
-        <form method="post" action="{% url 'posts' %}" enctype="multipart/form-data">
+        <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.non_field_errors }}
             <h3>Ticket</h3>
+
+            {{ form.non_field_errors }}
                 <p class="fieldWrapper">
                     <div>- Titre:</div>
                         {{ form.title.errors }}
-                        {{ form.title }}
+                        {{ form.title | as_crispy_field }}
                 </p>
                 <p class="fieldWrapper"> <!--voir Pillow-->
                     <div>- Télécharger une image:</div>
                         {{ form.image.errors }}
-                        {{ form.image }}
+                        {{ form.image | as_crispy_field }}
                 </p>
                 <p class="fieldWrapper">
                     <div>- Description:</div>
                         {{ form.description.errors }}
-                        {{ form.description }}
+                        {{ form.description | as_crispy_field }}
                 </p>
                 <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
         </form>

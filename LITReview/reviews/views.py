@@ -48,6 +48,7 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
         """
 
         """
+        print("hello")
         return render(request, self.template_name, {'context': self.context})
 
     @classmethod
@@ -123,7 +124,7 @@ class PostsEditionView(TemplateView):
             associated_ticket_id = review_to_edit.ticket.id
             self.context['associated_ticket'] = self.get_ticket_by_id(associated_ticket_id)
 
-        return render(request, self.template_name, {'context': self.context}, {'form': self.form})
+        return render(request, self.template_name, {'form': self.form})
 
     def post(self, request, *args, **kwargs):
         """
