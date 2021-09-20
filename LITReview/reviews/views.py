@@ -48,7 +48,6 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
         """
 
         """
-        print("hello")
         return render(request, self.template_name, {'context': self.context})
 
     @classmethod
@@ -135,7 +134,17 @@ class PostsEditionView(TemplateView):
         url_name = add_url_name_to_context(request, self.context)
 
         if url_name == 'ticket_creation':
-            self.create_ticket(request)
+            self.template_name = 'reviews/post_edition/ticket_creation.html'
+            form = TicketCreationForm(request.POST or None, request.FILES or None)
+            if form.is_valid():
+                form.save(commit=False)
+                form.user = request.user
+                form.save()
+                return redirect(
+                    reverse('posts'))
+            else:
+                return render(request, self.template_name, {'form': form})
+
 
         elif url_name == 'review_ticket_reply':
             specific_ticket = self.get_ticket_by_id(kwargs['id'])
@@ -167,14 +176,7 @@ class PostsEditionView(TemplateView):
         """
         Enable to create and save a ticket (a request for a review)
         """
-        form = TicketCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect(
-                reverse('posts'))
-        else:
-            form = TicketCreationForm()
-            return render(request, self.template_name, {'form': form})
+        pass
 
     def create_review(self, request, ticket: Ticket) -> Review:
         """
