@@ -184,9 +184,9 @@ class PostsEditionView(TemplateView):
         template_name = 'reviews/post_edition/ticket_modification.html'
         form = TicketModificationForm(request.POST or None, request.FILES or None, instance=ticket_to_edit)
         if form.is_valid():
-            ticket = form.save(commit=False)
-            ticket.user = request.user
-            form.save()
+            ticket_to_edit = form.save(commit=False)
+            ticket_to_edit.user = request.user
+            ticket_to_edit.save()
             return redirect('posts')
         else:
             form = TicketModificationForm()
