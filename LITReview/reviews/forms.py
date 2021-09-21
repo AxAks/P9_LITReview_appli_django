@@ -17,19 +17,36 @@ from reviews.models import Ticket, Review
 
 
 class TicketCreationForm(forms.ModelForm):
-    title = forms.CharField(label="titre", max_length=128, help_text='Titre')
-    description = forms.CharField(label="description", max_length=2048, help_text='Description')
-    image = forms.ImageField(label="image", help_text='Image', required=False)
+    title = forms.CharField(label="titre", max_length=128,
+                            help_text='Le titre que vous souhaitez donner à votre Ticket')
+    description = forms.CharField(label="description", max_length=2048,
+                                  help_text="L'explication de votre demande")
+    image = forms.ImageField(label="Ajouter une image",
+                             help_text="L'illustration de votre demande: peut etre vide", required=False)
 
     class Meta:
         model = Ticket
         fields = ('title', 'description', 'image',)
 
 
+class TicketModificationForm(forms.ModelForm):
+    new_title = forms.CharField(label="Nouveau titre", max_length=128,
+                                help_text='Le titre que vous souhaitez donner à votre Ticket')
+    new_description = forms.CharField(label="Nouvelle description",
+                                      max_length=2048, help_text="L'explication de votre demande")
+    new_image = forms.ImageField(label="Remplacer l'image",
+                                 help_text="L'illustration de votre demande: peut etre vide", required=False)
+
+    class Meta:
+        model = Ticket
+        fields = ('new_title', 'new_description', 'new_image',)
+
+
 class ReviewCreationForm(forms.ModelForm):
-    headline = forms.CharField(label="titre", max_length=128, help_text='Titre')
-    rating = forms.IntegerField(label="note", help_text='Note')
-    body = forms.CharField(label="description", max_length=8192, help_text='Description')
+    headline = forms.CharField(label="Titre", max_length=128,
+                               help_text='Le titre que vous souhaitez donner à votre critique')
+    rating = forms.IntegerField(label="Note", help_text='La note que vous souhaitez donner')
+    body = forms.CharField(label="Description", max_length=8192, help_text='Le corps de votre critique')
 
     class Meta:
         model = Review

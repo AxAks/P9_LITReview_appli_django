@@ -14,28 +14,28 @@
 <title>Ticket - Modification</title>
 </head>
     <body>
+        <h3>Ticket</h3>
         <form method="post" action="{% url 'posts' %}" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.non_field_errors }}
-            <h3>Ticket</h3>
-                <p>
-                    <div>- Titre: {{ context.post.title }}</div>
-                        <p class="fieldWrapper">
-                            {{ form.title.errors }}
-                            {{ form.title | as_crispy_field }}
-                        </p>
+            {{ form.non_field_errors }}
+            <p>
+                <div>- Titre Actuel: {{ context.post.title }}</div>
                     <p class="fieldWrapper">
-                        <div>- Remplacer l'image:</div>
-                        <img {{ context.post.image }}><br/> <!--voir Pillow-->
-                            {{ form.image.errors }}
-                            {{ form.image | as_crispy_field }}
+                        {{ form.new_title.errors }}
+                        {{ form.new_title | as_crispy_field }}
                     </p>
-                    <p class="fieldWrapper">
-                        <div>- Description: {{ context.post.description }}</div>
-                            {{ form.description.errors }}
-                            {{ form.description | as_crispy_field }}
-                    </p>
-                    <button class="btn btn-outline-dark" type="submit">Modifier le ticket</button><br/>
+                <p class="fieldWrapper">
+                    <div>- Remplacer l'image:</div>
+                    <img {{ context.post.image  }}><br/> <!--voir Pillow-->
+                        {{ form.new_image.errors }}
+                        {{ form.new_image | as_crispy_field }}
+                </p>
+                <p class="fieldWrapper">
+                    <div>- Description Actuelle: {{ context.post.description }}</div>
+                        {{ form.new_description.errors }}
+                        {{ form.new_description | as_crispy_field }}
+                </p>
+                <button class="btn btn-outline-dark" type="submit">Modifier le ticket</button><br/>
         </form>
     </body>
 </html>
