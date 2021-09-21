@@ -23,8 +23,7 @@ class TicketCreationForm(forms.ModelForm):
 
     class Meta:
         model = Ticket
-        fields = ('title', 'description', 'user',
-                  'image',)
+        fields = ('title', 'description', 'image',)
 
 
 class ReviewCreationForm(forms.ModelForm):

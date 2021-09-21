@@ -20,17 +20,14 @@
 
             {{ form.non_field_errors }}
                 <p class="fieldWrapper">
-                    <div>- Titre:</div>
                         {{ form.title.errors }}
                         {{ form.title | as_crispy_field }}
                 </p>
                 <p class="fieldWrapper"> <!--voir Pillow-->
-                    <div>- Télécharger une image:</div>
                         {{ form.image.errors }}
                         {{ form.image | as_crispy_field }}
                 </p>
                 <p class="fieldWrapper">
-                    <div>- Description:</div>
                         {{ form.description.errors }}
                         {{ form.description | as_crispy_field }}
                 </p>

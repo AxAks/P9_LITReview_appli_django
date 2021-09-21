@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
 
+from core.models import CustomUser
 from reviews.forms import TicketCreationForm, ReviewCreationForm
 from utils import add_url_name_to_context
 from constants import PAGE_TITLES, RATINGS
@@ -134,17 +135,7 @@ class PostsEditionView(TemplateView):
         url_name = add_url_name_to_context(request, self.context)
 
         if url_name == 'ticket_creation':
-            self.template_name = 'reviews/post_edition/ticket_creation.html'
-            form = TicketCreationForm(request.POST or None, request.FILES or None)
-            if form.is_valid():
-                form.save(commit=False)
-                form.user = request.user
-                form.save()
-                return redirect(
-                    reverse('posts'))
-            else:
-                return render(request, self.template_name, {'form': form})
-
+            return self.create_ticket(request)
 
         elif url_name == 'review_ticket_reply':
             specific_ticket = self.get_ticket_by_id(kwargs['id'])
@@ -176,7 +167,16 @@ class PostsEditionView(TemplateView):
         """
         Enable to create and save a ticket (a request for a review)
         """
-        pass
+        self.template_name = 'reviews/post_edition/ticket_creation.html'
+        form = TicketCreationForm(request.POST or None, request.FILES or None)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+            return redirect('posts')
+        else:
+            form = TicketCreationForm()
+            return render(request, self.template_name, {'form': form})
 
     def create_review(self, request, ticket: Ticket) -> Review:
         """
