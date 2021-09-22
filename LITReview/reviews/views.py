@@ -85,8 +85,10 @@ class PostsEditionView(TemplateView):
     Manages the pages for post edition (Tickets and Reviews)
     """
     template_name = ''
-    form = None
     context = {}
+    form = None
+    form_ticket = None
+    form_review = None
 
     def get(self, request, *args, **kwargs) -> HttpResponse:
         """
@@ -112,18 +114,23 @@ class PostsEditionView(TemplateView):
             self.context['post'] = self.get_ticket_by_id(kwargs['id'])
             self.form = ReviewForm()
 
-        elif url_name == 'review_creation_no_ticket':
-            self.template_name = 'reviews/post_edition/review_creation_no_ticket.html'
-            self.form = ReviewForm()  # pb on a pas le form pour le ticket pour le moment
-
         elif 'review_modification' in url_name:
             self.template_name = 'reviews/post_edition/review_modification.html'
             review_to_edit = self.get_review_by_id(kwargs['id'])
             self.context['post'] = review_to_edit
-            associated_ticket_id = review_to_edit.ticket.id
+            #  associated_ticket_id = review_to_edit.ticket.id à retirer : j'ai le ticket dans la review (review.ticket)
             self.form = ReviewForm()
 
-        return render(request, self.template_name, {'form': self.form, 'context': self.context})
+        elif url_name == 'review_creation_no_ticket':
+            self.template_name = 'reviews/post_edition/review_creation_no_ticket.html'
+            self.form_ticket = TicketForm()
+            self.form_review = ReviewForm()  # pb on a pas le form pour le ticket pour le moment
+
+        return render(request, self.template_name, {'form': self.form if self.form else None,
+                                                    'form_ticket': self.form_ticket if self.form_ticket else None,
+                                                    'form_review': self.form_review if self.form_review else None,
+                                                    'context': self.context})
+        # à la rigueur je pourrais enlever form et adapter le html par la suite
 
     def post(self, request, *args, **kwargs):
         """
