@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
 
-from reviews.forms import TicketCreationForm, ReviewCreationForm, TicketModificationForm
+from reviews.forms import TicketForm, ReviewForm
 from utils import add_url_name_to_context
 from constants import PAGE_TITLES, RATINGS
 
@@ -100,21 +100,21 @@ class PostsEditionView(TemplateView):
 
         if url_name == 'ticket_creation':
             self.template_name = 'reviews/post_edition/ticket_creation.html'
-            self.form = TicketCreationForm()
+            self.form = TicketForm()
 
         elif url_name == 'ticket_modification':
             self.template_name = 'reviews/post_edition/ticket_modification.html'
-            self.form = TicketModificationForm()
+            self.form = TicketForm()
             self.context['post'] = self.get_ticket_by_id(kwargs['id'])
 
         elif url_name == 'review_creation_no_ticket':
             self.template_name = 'reviews/post_edition/review_creation_no_ticket.html'
-            self.form = ReviewCreationForm()  # pb on a pas le form pour le ticket pour le moment
+            self.form = ReviewForm()  # pb on a pas le form pour le ticket pour le moment
 
         elif url_name == 'review_ticket_reply':
             self.template_name = 'reviews/post_edition/review_creation.html'
             self.context['post'] = self.get_ticket_by_id(kwargs['id'])
-            self.form = ReviewCreationForm()
+            self.form = ReviewForm()
 
         elif 'review_modification' in url_name:
             self.template_name = 'reviews/post_edition/review_modification.html'
@@ -137,8 +137,8 @@ class PostsEditionView(TemplateView):
             return self.create_ticket(request)
 
         elif url_name == 'ticket_modification':
-            specific_ticket = self.get_ticket_by_id(kwargs['id'])
-            return self.edit_ticket(request, specific_ticket)
+            ticket_to_edit = self.get_ticket_by_id(kwargs['id'])
+            return self.edit_ticket(request, ticket_to_edit)
 
         elif url_name == 'review_ticket_reply':
             specific_ticket = self.get_ticket_by_id(kwargs['id'])
@@ -166,14 +166,15 @@ class PostsEditionView(TemplateView):
         Enable to create and save a ticket (a request for a review)
         """
         template_name = 'reviews/post_edition/ticket_creation.html'
-        form = TicketCreationForm(request.POST or None, request.FILES or None)
+        form = TicketForm(request.POST or None, request.FILES or None)
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.save()
-            return redirect('posts')
+            return redirect(
+                reverse('posts'))
         else:
-            form = TicketCreationForm()
+            form = TicketForm()
             return render(request, template_name, {'form': form})
 
     @classmethod
@@ -182,41 +183,28 @@ class PostsEditionView(TemplateView):
         Enable to modify an already registered Ticket
         """
         template_name = 'reviews/post_edition/ticket_modification.html'
-        form = TicketModificationForm(request.POST or None, request.FILES or None, instance=ticket_to_edit)
+        form = TicketForm(request.POST or None, request.FILES or None, instance=ticket_to_edit)
         if form.is_valid():
             ticket_to_edit = form.save(commit=False)
             ticket_to_edit.user = request.user
             ticket_to_edit.save()
-            return redirect('posts')
+            return redirect(
+                reverse('posts'))
         else:
-            form = TicketModificationForm()
+            form = TicketForm()
             return render(request, template_name, {'form': form})
 
-
-        """
-        ticket_new_title = request.POST.get('ticket_new_title')
-        ticket_new_description = request.POST.get('ticket_new_description')
-        ticket_new_image = request.FILES.get('ticket_new_image')
-        if ticket_new_title is not None:
-            Ticket.objects.filter(id=ticket.id).update(title=ticket_new_title)
-        if ticket_new_description is not None:
-            Ticket.objects.filter(id=ticket.id).update(description=ticket_new_description)
-        if ticket_new_image is not None:
-            Ticket.objects.filter(id=ticket.id).update(image=ticket_new_image)
-        updated_ticket = Ticket.objects.get(id=ticket.id)
-        return updated_ticket
-        """
     def create_review(self, request, ticket: Ticket) -> Review:
         """
         Enables to create a review (a response to a Ticket)
         """
-        form = ReviewCreationForm(request.POST)
+        form = ReviewForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect(
                 reverse('posts'))
         else:
-            form = ReviewCreationForm()
+            form = ReviewForm()
             return render(request, self.template_name, {'form': form})
 
     @classmethod
@@ -248,4 +236,4 @@ class PostsEditionView(TemplateView):
         """
         Enbales to get a given Ticket by its ID
         """
-        return Ticket.objects.get(id=ticket_id)
+        return Ticket.objects.get(pk=ticket_id)

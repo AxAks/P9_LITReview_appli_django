@@ -22,6 +22,9 @@ class Ticket(models.Model):
                f' by {self.user},'\
                f' Description: {self.description}'
 
+    def save(self, *args, **kwargs):
+        return super().save(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse_lazy('ticket_view', kwargs={'post_id': self.id})
 
