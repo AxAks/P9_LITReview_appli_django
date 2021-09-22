@@ -159,9 +159,8 @@ class PostsEditionView(TemplateView):
         # ne prend pas en compte les champs de création de ticket !)
         elif url_name == 'review_creation_no_ticket':
             ticket = self.create_ticket(request)
-            self.create_review(request, ticket)
-            return redirect(
-                reverse('posts'))
+            return self.create_review(request, ticket)
+
 
     @classmethod
     def create_ticket(cls, request) -> Ticket:
