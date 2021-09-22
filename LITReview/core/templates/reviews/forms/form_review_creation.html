@@ -18,28 +18,22 @@
         <form method="post" action="">
         {% csrf_token %}
         {{ form.non_field_errors }}
-            <h3>Critique</h3>
+            <h3>Vous etes en train de poster en réponse à:<br /> {{ context.post }}</h3>
             <p class="fieldWrapper">
-                Titre
-                <input size="250" name="review_headline" placeholder="Entrez le titre de votre réponse">
+                    {{ form.headline.errors }}
+                    {{ form.headline | as_crispy_field }}
             </p>
             <p class="fieldWrapper">
-                Note
                 <ul class="d-inline-flex">
-                <!-- voir comment je peux utiliser bootstrap flex pour aligner horizontalement-->
-                {% for rating in context.possible_ratings %}
                     <li>
-                        <p> {{ rating }}
-                            <input class="form-check-input d-inline-flex"
-                                   name="review_rating" type="radio" value="{{ rating }}">
-                        </p>
+                        {{ form.rating.errors }}
+                        {{ form.rating | as_crispy_field }} <!-- Changer l'affichage pour des boutons -->
                     </li>
-                {% endfor %}
                 </ul>
             </p>
             <p class="fieldWrapper">
-                Commentaire
-                <input size="250" name="review_comment" placeholder="Entrez votre réponse au ticket">
+                    {{ form.body.errors }}
+                    {{ form.body | as_crispy_field }}
             </p>
             <p class="fieldWrapper">
                 <button class="btn btn-sm btn-outline-dark" type="submit">

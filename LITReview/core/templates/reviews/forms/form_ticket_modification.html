@@ -14,7 +14,7 @@
 <title>Ticket - Modification</title>
 </head>
     <body>
-        <h3>Ticket{{ context.post }} </h3>
+        <h3>Ticket{{ context.post }}</h3>
         <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
             {{ form.non_field_errors }}
