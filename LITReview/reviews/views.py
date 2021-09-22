@@ -121,7 +121,7 @@ class PostsEditionView(TemplateView):
             review_to_edit = self.get_review_by_id(kwargs['id'])
             self.context['post'] = review_to_edit
             associated_ticket_id = review_to_edit.ticket.id
-            self.context['associated_ticket'] = self.get_ticket_by_id(associated_ticket_id)
+            self.form = ReviewForm()
 
         return render(request, self.template_name, {'form': self.form, 'context': self.context})
 
@@ -144,17 +144,15 @@ class PostsEditionView(TemplateView):
             ticket_replied_to = self.get_ticket_by_id(kwargs['id'])
             return self.create_review(request, ticket_replied_to)
 
+        elif url_name == 'review_modification':
+            review_to_edit = self.get_review_by_id(kwargs['id'])
+            return self.edit_review(request, review_to_edit)
+
         # à compléter (coté template: validation via le bouton de validation des reviews,
         # ne prend pas en compte les champs de création de ticket !)
         elif url_name == 'review_creation_no_ticket':
             ticket = self.create_ticket(request)
             self.create_review(request, ticket)
-            return redirect(
-                reverse('posts'))
-
-        elif url_name == 'review_modification':
-            specific_review = self.get_review_by_id(kwargs['id'])
-            self.edit_review(request, specific_review)
             return redirect(
                 reverse('posts'))
 
@@ -183,9 +181,7 @@ class PostsEditionView(TemplateView):
         template_name = 'reviews/post_edition/ticket_modification.html'
         form = TicketForm(request.POST or None, request.FILES or None, instance=ticket_to_edit)
         if form.is_valid():
-            ticket_to_edit = form.save(commit=False)
-            ticket_to_edit.user = request.user
-            ticket_to_edit.save()
+            form.save()
             return redirect(
                 reverse('posts'))
         else:
@@ -210,28 +206,26 @@ class PostsEditionView(TemplateView):
             return render(request, template_name, {'form': form})
 
     @classmethod
-    def edit_review(cls, request, review: Review) -> Review:
+    def edit_review(cls, request, review_to_edit: Review) -> Review:
         """
         Enables to modify an already registered Review
         """
-        review_new_headline = request.POST.get('review_new_headline')
-        review_new_rating = request.POST.get('review_new_rating')
-        review_new_comment = request.POST.get('review_new_comment')
-        if review_new_headline is not None:
-            Review.objects.filter(id=review.id).update(headline=review_new_headline)
-        if review_new_rating is not None:
-            Review.objects.filter(id=review.id).update(rating=review_new_rating)
-        if review_new_comment is not None:
-            Review.objects.filter(id=review.id).update(body=review_new_comment)
-        updated_review = Review.objects.get(id=review.id)
-        return updated_review
+        template_name = 'reviews/post_edition/review_modification.html'
+        form = ReviewForm(request.POST, instance=review_to_edit)
+        if form.is_valid():
+            form.save()
+            return redirect(
+                reverse('posts'))
+        else:
+            form = ReviewForm()
+            return render(request, template_name, {'form': form})
 
     @classmethod
     def get_review_by_id(cls, review_id) -> Review:
         """
         Enbales to get a given Review by its ID
         """
-        return Review.objects.get(id=review_id)
+        return Review.objects.get(pk=review_id)
 
     @classmethod
     def get_ticket_by_id(cls, ticket_id) -> Ticket:
