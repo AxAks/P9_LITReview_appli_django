@@ -1,8 +1,8 @@
 from itertools import chain
-from typing import Any
+from typing import Any, Union
 
 from django.db.models import Value, CharField
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
@@ -15,7 +15,7 @@ from reviews.models import Ticket, Review
 from subscriptions.models import UserFollows
 
 
-class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusionner, factoriser tout ce qui est "posts")
+class PostListsView(TemplateView):
     """
     Manages the pages for post lists(Tickets and Reviews)
     using the context to choose what to display:
@@ -77,10 +77,7 @@ class PostListsView(TemplateView):  #  faire une seule classe au final ! (fusio
             reverse=True)
         return posts
 
-
 class PostsEditionView(TemplateView):
-    #  faire une seule classe au final ? (fusionner, factoriser tout ce qui est "posts"
-    # PB le template n'est pas le meme ... comment faire !? voir plus tard si je le fais
     """
     Manages the pages for post edition (Tickets and Reviews)
     """
@@ -106,7 +103,7 @@ class PostsEditionView(TemplateView):
 
         elif url_name == 'ticket_modification':
             self.template_name = 'reviews/post_edition/ticket_modification.html'
-            self.context['post'] = self.get_ticket_by_id(kwargs['id'])
+            self.context['post'] = self.get_ticket_by_id(kwargs['id']) # voir pourquoi il attend un Review ici !
             self.form = TicketForm()
 
         elif url_name == 'review_ticket_reply':
@@ -132,7 +129,7 @@ class PostsEditionView(TemplateView):
                                                     'context': self.context})
         # à la rigueur je pourrais enlever form et adapter le html par la suite
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs) -> Union[HttpResponse, HttpResponseRedirect]:
         """
         Enables to:
         - create posts : Tickets and Reviews
@@ -141,43 +138,69 @@ class PostsEditionView(TemplateView):
         url_name = add_url_name_to_context(request, self.context)
 
         if url_name == 'ticket_creation':
-            return self.create_ticket(request)
+            try:
+                self.create_ticket(request)
+                return redirect(reverse('posts'))
+            except Exception:  #  voir pour faire un FormException plus specifique
+                template_name = 'reviews/post_edition/ticket_creation.html'
+                form = TicketForm()
+                return render(request, template_name, {'form': form})
 
         elif url_name == 'ticket_modification':
-            ticket_to_edit = self.get_ticket_by_id(kwargs['id'])
-            return self.edit_ticket(request, ticket_to_edit)
+            try:
+                ticket_to_edit = self.get_ticket_by_id(kwargs['id'])
+                self.edit_ticket(request, ticket_to_edit)
+                return redirect(reverse('posts'))
+            except Exception:  #  voir pour faire un FormException plus specifique
+                template_name = 'reviews/post_edition/ticket_modification.html'
+                form = TicketForm()
+                return render(request, template_name, {'form': form})
 
         elif url_name == 'review_ticket_reply':
-            ticket_replied_to = self.get_ticket_by_id(kwargs['id'])
-            return self.create_review(request, ticket_replied_to)
+            try:
+                ticket_replied_to = self.get_ticket_by_id(kwargs['id'])
+                self.create_review(request, ticket_replied_to)
+                return redirect(reverse('posts'))
+            except Exception: #  voir pour faire un FormException plus specifique
+                template_name = 'reviews/post_edition/review_creation.html'
+                form = ReviewForm()
+                return render(request, template_name, {'form': form})
 
         elif url_name == 'review_modification':
-            review_to_edit = self.get_review_by_id(kwargs['id'])
-            return self.edit_review(request, review_to_edit)
+            try:
+                review_to_edit = self.get_review_by_id(kwargs['id'])
+                self.edit_review(request, review_to_edit)
+                return redirect(reverse('posts'))
+            except Exception:  #   voir pour faire un FormException plus specifique
+                template_name = 'reviews/post_edition/review_modification.html'
+                form = ReviewForm()
+                return render(request, template_name, {'form': form})
 
         # à compléter (coté template: validation via le bouton de validation des reviews,
         # ne prend pas en compte les champs de création de ticket !)
         elif url_name == 'review_creation_no_ticket':
-            ticket = self.create_ticket(request)
-            return self.create_review(request, ticket)
-
+            try:
+                ticket = self.create_ticket(request)
+                self.create_review(request, ticket)
+                return redirect(reverse('posts'))
+            except Exception:  # voir pour faire un FormException plus specifique
+                template_name = 'reviews/post_edition/review_creation_no_ticket.html'
+                form = TicketForm()
+                return render(request, template_name, {'form': form})
 
     @classmethod
     def create_ticket(cls, request) -> Ticket:
         """
         Enable to create and save a ticket (a request for a review)
         """
-        template_name = 'reviews/post_edition/ticket_creation.html'
         form = TicketForm(request.POST or None, request.FILES or None)
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.save()
-            return redirect(
-                reverse('posts'))
+            return ticket
         else:
-            form = TicketForm()
-            return render(request, template_name, {'form': form})
+            raise Exception()
 
     @classmethod
     def edit_ticket(cls, request, ticket_to_edit: Ticket) -> Ticket:
@@ -188,11 +211,9 @@ class PostsEditionView(TemplateView):
         form = TicketForm(request.POST or None, request.FILES or None, instance=ticket_to_edit)
         if form.is_valid():
             form.save()
-            return redirect(
-                reverse('posts'))
+            return ticket_to_edit
         else:
-            form = TicketForm()
-            return render(request, template_name, {'form': form})
+            raise Exception()
 
     @classmethod
     def create_review(cls, request, ticket_replied_to: Ticket) -> Review:
@@ -205,11 +226,9 @@ class PostsEditionView(TemplateView):
             review = form.save(commit=False)
             review.ticket, review.user = ticket_replied_to, request.user
             review.save()
-            return redirect(
-                reverse('posts'))
+            return review
         else:
-            form = ReviewForm()
-            return render(request, template_name, {'form': form})
+            raise Exception()
 
     @classmethod
     def edit_review(cls, request, review_to_edit: Review) -> Review:
@@ -220,11 +239,9 @@ class PostsEditionView(TemplateView):
         form = ReviewForm(request.POST, instance=review_to_edit)
         if form.is_valid():
             form.save()
-            return redirect(
-                reverse('posts'))
+            return review_to_edit
         else:
-            form = ReviewForm()
-            return render(request, template_name, {'form': form})
+            raise Exception()
 
     @classmethod
     def get_review_by_id(cls, review_id) -> Review:
