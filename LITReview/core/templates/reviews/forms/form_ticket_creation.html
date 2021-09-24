@@ -5,10 +5,6 @@
 
 {% load crispy_forms_tags %}
 
-
-
-
-
 <head>
 <meta charset="UTF-8">
 <title>Ticket - Creation</title>
@@ -16,18 +12,18 @@
     <body>
         <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
-            {{ form.non_field_errors }}
+            {{ form_ticket.non_field_errors }}
             <p class="fieldWrapper">
-                    {{ form.title.errors }}
-                    {{ form.title | as_crispy_field }}
+                    {{ form_ticket.title.errors }}
+                    {{ form_ticket.title | as_crispy_field }}
             </p>
             <p class="fieldWrapper"> <!--voir Pillow-->
-                    {{ form.image.errors }}
-                    {{ form.image | as_crispy_field }}
+                    {{ form_ticket.image.errors }}
+                    {{ form_ticket.image | as_crispy_field }}
             </p>
             <p class="fieldWrapper">
-                    {{ form.description.errors }}
-                    {{ form.description | as_crispy_field }}
+                    {{ form_ticket.description.errors }}
+                    {{ form_ticket.description | as_crispy_field }}
             </p>
             <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
         </form>

@@ -5,10 +5,6 @@
 
 {% load crispy_forms_tags %}
 
-
-
-
-
 <head>
 <meta charset="UTF-8">
 <title>Ticket - Modification</title>
@@ -20,17 +16,17 @@
             {{ form.non_field_errors }}
             <p>
                 <p class="fieldWrapper">
-                    {{ form.title.errors }}
-                    {{ form.title | as_crispy_field }}
+                    {{ form_ticket.title.errors }}
+                    {{ form_ticket.title | as_crispy_field }}
                 </p>
                 <p class="fieldWrapper">
                     <img {{ context.post.image  }}><br/> <!--voir Pillow-->
-                        {{ form.image.errors }}
-                        {{ form.image | as_crispy_field }}
+                        {{ form_ticket.image.errors }}
+                        {{ form_ticket.image | as_crispy_field }}
                 </p>
                 <p class="fieldWrapper">
-                        {{ form.description.errors }}
-                        {{ form.description | as_crispy_field }}
+                        {{ form_ticket.description.errors }}
+                        {{ form_ticket.description | as_crispy_field }}
                 </p>
                 <button class="btn btn-outline-dark" type="submit">Modifier le ticket</button><br/>
         </form>

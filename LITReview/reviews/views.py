@@ -100,31 +100,30 @@ class PostsEditionView(TemplateView):
 
         if url_name == 'ticket_creation':
             self.template_name = 'reviews/post_edition/ticket_creation.html'
-            self.form = TicketForm()
+            self.form_ticket = TicketForm()
 
         elif url_name == 'ticket_modification':
             self.template_name = 'reviews/post_edition/ticket_modification.html'
             self.context['post'] = self.get_ticket_by_id(kwargs['id']) # voir pourquoi il attend un Review ici !
-            self.form = TicketForm()
+            self.form_ticket = TicketForm()
 
         elif url_name == 'review_ticket_reply':
             self.template_name = 'reviews/post_edition/review_creation.html'
             self.context['post'] = self.get_ticket_by_id(kwargs['id'])
-            self.form = ReviewForm()
+            self.form_review = ReviewForm()
 
         elif 'review_modification' in url_name:
             self.template_name = 'reviews/post_edition/review_modification.html'
             review_to_edit = self.get_review_by_id(kwargs['id'])
             self.context['post'] = review_to_edit
-            self.form = ReviewForm()
+            self.form_review = ReviewForm()
 
         elif url_name == 'review_creation_no_ticket':
             self.template_name = 'reviews/post_edition/review_creation_no_ticket.html'
             self.form_ticket = TicketForm()
             self.form_review = ReviewForm()  # pb on a pas le form pour le ticket pour le moment
 
-        return render(request, self.template_name, {'form': self.form if self.form else None,
-                                                    'form_ticket': self.form_ticket if self.form_ticket else None,
+        return render(request, self.template_name, {'form_ticket': self.form_ticket if self.form_ticket else None,
                                                     'form_review': self.form_review if self.form_review else None,
                                                     'context': self.context})
         # à la rigueur je pourrais enlever form et adapter le html par la suite
