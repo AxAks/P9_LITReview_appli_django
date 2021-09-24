@@ -203,7 +203,6 @@ class PostsEditionView(TemplateView):
         """
         Enable to modify an already registered Ticket
         """
-        template_name = 'reviews/post_edition/ticket_modification.html'
         form = TicketForm(request.POST or None, request.FILES or None, instance=ticket_to_edit)
         if form.is_valid():
             form.save()
@@ -216,7 +215,6 @@ class PostsEditionView(TemplateView):
         """
         Enables to create a review (a response to a Ticket)
         """
-        template_name = 'reviews/post_edition/review_creation.html'
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
@@ -231,7 +229,6 @@ class PostsEditionView(TemplateView):
         """
         Enables to modify an already registered Review
         """
-        template_name = 'reviews/post_edition/review_modification.html'
         form = ReviewForm(request.POST, instance=review_to_edit)
         if form.is_valid():
             form.save()
