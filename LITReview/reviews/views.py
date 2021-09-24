@@ -121,12 +121,11 @@ class PostsEditionView(TemplateView):
         elif url_name == 'review_creation_no_ticket':
             self.template_name = 'reviews/post_edition/review_creation_no_ticket.html'
             self.form_ticket = TicketForm()
-            self.form_review = ReviewForm()  # pb on a pas le form pour le ticket pour le moment
+            self.form_review = ReviewForm()
 
         return render(request, self.template_name, {'form_ticket': self.form_ticket if self.form_ticket else None,
                                                     'form_review': self.form_review if self.form_review else None,
                                                     'context': self.context})
-        # à la rigueur je pourrais enlever form et adapter le html par la suite
 
     def post(self, request, *args, **kwargs) -> Union[HttpResponse, HttpResponseRedirect]:
         """
@@ -243,13 +242,13 @@ class PostsEditionView(TemplateView):
     @classmethod
     def get_review_by_id(cls, review_id) -> Review:
         """
-        Enbales to get a given Review by its ID
+        Enables to get a given Review by its ID
         """
         return Review.objects.get(pk=review_id)
 
     @classmethod
     def get_ticket_by_id(cls, ticket_id) -> Ticket:
         """
-        Enbales to get a given Ticket by its ID
+        Enables to get a given Ticket by its ID
         """
         return Ticket.objects.get(pk=ticket_id)
