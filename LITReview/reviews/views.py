@@ -77,6 +77,7 @@ class PostListsView(TemplateView):
             reverse=True)
         return posts
 
+
 class PostsEditionView(TemplateView):
     """
     Manages the pages for post edition (Tickets and Reviews)
@@ -115,7 +116,6 @@ class PostsEditionView(TemplateView):
             self.template_name = 'reviews/post_edition/review_modification.html'
             review_to_edit = self.get_review_by_id(kwargs['id'])
             self.context['post'] = review_to_edit
-            #  associated_ticket_id = review_to_edit.ticket.id à retirer : j'ai le ticket dans la review (review.ticket)
             self.form = ReviewForm()
 
         elif url_name == 'review_creation_no_ticket':
@@ -176,8 +176,6 @@ class PostsEditionView(TemplateView):
                 form = ReviewForm()
                 return render(request, template_name, {'form': form})
 
-        # à compléter (coté template: validation via le bouton de validation des reviews,
-        # ne prend pas en compte les champs de création de ticket !)
         elif url_name == 'review_creation_no_ticket':
             try:
                 ticket = self.create_ticket(request)
