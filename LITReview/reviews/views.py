@@ -145,6 +145,9 @@ class PostsEditionView(TemplateView):
                 return render(request, template_name, {'form': form})
 
         elif url_name == 'ticket_modification':
+            # empecher de modifier une critique si il y a deja une reponse !
+            # autoriser le fait de ne pas etre obligé de changer tous les champs du formulaire:
+                # laisser l'ancienne valeur du champs si il est vide dans le nouveau formulaire
             try:
                 ticket_to_edit = self.get_ticket_by_id(kwargs['id'])
                 self.edit_ticket(request, ticket_to_edit)
@@ -155,6 +158,7 @@ class PostsEditionView(TemplateView):
                 return render(request, template_name, {'form': form})
 
         elif url_name == 'review_ticket_reply':
+            # empecher de créer une critique si il existe deja une critique pour le ticket
             try:
                 ticket_replied_to = self.get_ticket_by_id(kwargs['id'])
                 self.create_review(request, ticket_replied_to)
@@ -165,6 +169,8 @@ class PostsEditionView(TemplateView):
                 return render(request, template_name, {'form': form})
 
         elif url_name == 'review_modification':
+            # autoriser le fait de ne pas etre obligé de changer tous les champs du formulaire:
+                # laisser l'ancienne valeur du champs si il est vide dans le nouveau formulaire
             try:
                 review_to_edit = self.get_review_by_id(kwargs['id'])
                 self.edit_review(request, review_to_edit)
