@@ -20,7 +20,11 @@
                 <p>
                     - Utilisateur: {{ post.user }}<br/>
                     - Titre: {{ post.title }}<br/>
+                    {% if post.image %}
                     <img src="{% get_media_prefix %}{{ post.image }}"><br/>
+                    {% else %}
+                    <img src="{% get_media_prefix %}ticket_images/no_image.png"><br/>
+                    {% endif %}
                     - Description: {{ post.description }}
                 </p>
                 {% elif context.associated_ticket %}
