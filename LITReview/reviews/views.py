@@ -105,12 +105,24 @@ class PostsEditionView(TemplateView):
         elif url_name == 'ticket_modification':
             self.template_name = 'reviews/post_edition/ticket_modification.html'
             self.context['post'] = self.get_ticket_by_id(kwargs['id']) # voir pourquoi il attend un Review ici !
-            self.form_ticket = TicketForm()
+            self.context['nb_replies'] = len(Review.objects.filter(ticket=self.context['post']))
+            if self.context['nb_replies'] < 1:
+                self.form_ticket = TicketForm()
+            else:
+                # empecher de créer une critique si il existe deja une critique pour le ticket
+                # pas bon ca il faut l'afficher et continuer la navigation!
+                raise Exception('Ce ticket a deja une réponse')
 
         elif url_name == 'review_ticket_reply':
             self.template_name = 'reviews/post_edition/review_creation.html'
             self.context['post'] = self.get_ticket_by_id(kwargs['id'])
-            self.form_review = ReviewForm()
+            self.context['nb_replies'] = len(Review.objects.filter(ticket=self.context['post']))
+            if self.context['nb_replies'] < 1:
+                self.form_review = ReviewForm()
+            else:
+                # empecher de créer une critique si il existe deja une critique pour le ticket
+                # pas bon ca il faut l'afficher et continuer la navigation!
+                raise Exception('Ce ticket a deja une réponse')
 
         elif 'review_modification' in url_name:
             self.template_name = 'reviews/post_edition/review_modification.html'
@@ -158,15 +170,14 @@ class PostsEditionView(TemplateView):
                 return render(request, template_name, {'form': form})
 
         elif url_name == 'review_ticket_reply':
-            # empecher de créer une critique si il existe deja une critique pour le ticket
-            try:
-                ticket_replied_to = self.get_ticket_by_id(kwargs['id'])
-                self.create_review(request, ticket_replied_to)
-                return redirect(reverse('posts'))
-            except Exception: #  voir pour faire un FormException plus specifique
-                template_name = 'reviews/post_edition/review_creation.html'
-                form = ReviewForm()
-                return render(request, template_name, {'form': form})
+                try:
+                    ticket_replied_to = self.get_ticket_by_id(kwargs['id'])
+                    self.create_review(request, ticket_replied_to)
+                    return redirect(reverse('posts'))
+                except Exception: #  voir pour faire un FormException plus specifique
+                    template_name = 'reviews/post_edition/review_creation.html'
+                    form = ReviewForm()
+                    return render(request, template_name, {'form': form})
 
         elif url_name == 'review_modification':
             # autoriser le fait de ne pas etre obligé de changer tous les champs du formulaire:

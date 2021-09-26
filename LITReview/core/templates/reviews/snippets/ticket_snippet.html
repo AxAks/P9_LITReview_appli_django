@@ -38,13 +38,21 @@
                 </p>
                 {% endif %}
                 {% if context.url_name == 'feed' %}
+                    {% if nb_replies > 0 %}
+                        <p> Ce ticket a dejà une réponse </p>
+                    {% else %}
                     <a href="{% url 'review_ticket_reply' post.id %}">
                         <button class="btn btn-outline-dark">Répondre à ce ticket</button>
                     </a>
+                    {% endif %}
                 {% elif context.url_name == 'posts' %}
+                    {% if nb_replies > 0 %}
+                        <p> Ce ticket a dejà une réponse </p>
+                    {% else %}
                     <a href="{% url 'ticket_modification' post.id %}">
                 <button class="btn btn-outline-dark">Modifier ce ticket</button>
                     </a>
+                    {% endif %}
                 {% endif %}
             </li>
         </ul>
