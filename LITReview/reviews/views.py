@@ -111,7 +111,7 @@ class PostsEditionView(TemplateView):
             else:
                 # empecher de créer une critique si il existe deja une critique pour le ticket
                 # pas bon ca il faut l'afficher et continuer la navigation!
-                raise Exception('Ce ticket a deja une réponse')
+                raise Exception('Ce ticket a deja une réponse') # voir from django.contrib import messages
 
         elif url_name == 'review_ticket_reply':
             self.template_name = 'reviews/post_edition/review_creation.html'
@@ -122,7 +122,7 @@ class PostsEditionView(TemplateView):
             else:
                 # empecher de créer une critique si il existe deja une critique pour le ticket
                 # pas bon ca il faut l'afficher et continuer la navigation!
-                raise Exception('Ce ticket a deja une réponse')
+                raise Exception('Ce ticket a deja une réponse')  # voir from django.contrib import messages
 
         elif 'review_modification' in url_name:
             self.template_name = 'reviews/post_edition/review_modification.html'
