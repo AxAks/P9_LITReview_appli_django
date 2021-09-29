@@ -22,9 +22,9 @@
                     - Titre: {{ post.title }}<br/>
                     - Description: {{ post.description }}<br/>
                     {% if post.image %}
-                    <img height="50px" src="{% get_media_prefix %}{{ post.image }}">
+                    <img height="100px" src="{% get_media_prefix %}{{ post.image }}">
                     {% else %}
-                    <img height="50px" src="{% get_media_prefix %}ticket_images/no_image.png">
+                    <img height="100px" src="{% get_media_prefix %}ticket_images/no_image.png">
                     {% endif %}
 
                 </p>
@@ -37,9 +37,9 @@
                     - Description: {{ context.associated_ticket.description }}<br/>
                     - Image:<br/>
                     {% if context.associated_ticket.image %}
-                        <img height="50px" src="{% get_media_prefix %}{{ context.associated_ticket.image }}">
+                        <img height="100px" src="{% get_media_prefix %}{{ context.associated_ticket.image }}">
                     {% else %}
-                        <img height="50px" src="{% get_media_prefix %}ticket_images/no_image.png">
+                        <img height="100px" src="{% get_media_prefix %}ticket_images/no_image.png">
                     {% endif %}
                 </p>
                 {% endif %}
@@ -57,7 +57,10 @@
                         <p> Ce ticket a dejà une réponse </p>
                     {% else %}
                     <a href="{% url 'ticket_modification' post.id %}">
-                <button class="btn btn-outline-dark">Modifier ce ticket</button>
+                        <button class="btn btn-outline-dark">Modifier ce ticket</button>
+                    </a>
+                    <a href="{% url 'ticket_delete' post.id %}">
+                        <button class="btn btn-outline-dark">Supprimer ce ticket</button>
                     </a>
                     {% endif %}
                 {% endif %}
