@@ -85,7 +85,6 @@ class PostsEditionView(TemplateView):
     """
     template_name = ''
     context = {}
-    form = None
     form_ticket = None
     form_review = None
 
