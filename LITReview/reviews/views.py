@@ -1,6 +1,7 @@
 from itertools import chain
 from typing import Any, Union
 
+from django.core.exceptions import ValidationError
 from django.db.models import Value, CharField
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -151,7 +152,7 @@ class PostsEditionView(TemplateView):
             try:
                 self.create_ticket(request)
                 return redirect(reverse('posts'))
-            except Exception:  #  voir pour faire un FormException plus specifique
+            except ValidationError:
                 template_name = 'reviews/post_edition/ticket_creation.html'
                 form = TicketForm()
                 return render(request, template_name, {'form': form})
@@ -164,20 +165,20 @@ class PostsEditionView(TemplateView):
                 ticket_to_edit = self.get_ticket_by_id(kwargs['id'])
                 self.edit_ticket(request, ticket_to_edit)
                 return redirect(reverse('posts'))
-            except Exception:  #  voir pour faire un FormException plus specifique
+            except ValidationError:
                 template_name = 'reviews/post_edition/ticket_modification.html'
                 form = TicketForm()
                 return render(request, template_name, {'form': form})
 
         elif url_name == 'review_ticket_reply':
-                try:
-                    ticket_replied_to = self.get_ticket_by_id(kwargs['id'])
-                    self.create_review(request, ticket_replied_to)
-                    return redirect(reverse('posts'))
-                except Exception: #  voir pour faire un FormException plus specifique
-                    template_name = 'reviews/post_edition/review_creation.html'
-                    form = ReviewForm()
-                    return render(request, template_name, {'form': form})
+            try:
+                ticket_replied_to = self.get_ticket_by_id(kwargs['id'])
+                self.create_review(request, ticket_replied_to)
+                return redirect(reverse('posts'))
+            except ValidationError:
+                template_name = 'reviews/post_edition/review_creation.html'
+                form = ReviewForm()
+                return render(request, template_name, {'form': form})
 
         elif url_name == 'review_modification':
             # autoriser le fait de ne pas etre obligé de changer tous les champs du formulaire:
@@ -186,7 +187,7 @@ class PostsEditionView(TemplateView):
                 review_to_edit = self.get_review_by_id(kwargs['id'])
                 self.edit_review(request, review_to_edit)
                 return redirect(reverse('posts'))
-            except Exception:  #   voir pour faire un FormException plus specifique
+            except ValidationError:
                 template_name = 'reviews/post_edition/review_modification.html'
                 form = ReviewForm()
                 return render(request, template_name, {'form': form})
@@ -196,7 +197,7 @@ class PostsEditionView(TemplateView):
                 ticket = self.create_ticket(request)
                 self.create_review(request, ticket)
                 return redirect(reverse('posts'))
-            except Exception:  # voir pour faire un FormException plus specifique
+            except ValidationError:
                 template_name = 'reviews/post_edition/review_creation_no_ticket.html'
                 form = TicketForm()
                 return render(request, template_name, {'form': form})
@@ -213,7 +214,7 @@ class PostsEditionView(TemplateView):
             ticket.save()
             return ticket
         else:
-            raise Exception()
+            raise ValidationError() #  voir pour faire un FormException plus specifique (j'utilise ValidationError de Django, voir si c'est bon)
 
     @classmethod
     def edit_ticket(cls, request, ticket_to_edit: Ticket) -> Ticket:
@@ -225,7 +226,7 @@ class PostsEditionView(TemplateView):
             form.save()
             return ticket_to_edit
         else:
-            raise Exception()
+            raise ValidationError()
 
     @classmethod
     def create_review(cls, request, ticket_replied_to: Ticket) -> Review:
@@ -239,7 +240,7 @@ class PostsEditionView(TemplateView):
             review.save()
             return review
         else:
-            raise Exception()
+            raise ValidationError()
 
     @classmethod
     def edit_review(cls, request, review_to_edit: Review) -> Review:
@@ -251,7 +252,7 @@ class PostsEditionView(TemplateView):
             form.save()
             return review_to_edit
         else:
-            raise Exception()
+            raise ValidationError()
 
     @classmethod
     def get_review_by_id(cls, review_id) -> Review:
