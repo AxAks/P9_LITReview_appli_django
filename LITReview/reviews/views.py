@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
+from django.contrib import messages
 
 from reviews.forms import TicketForm, ReviewForm
 from utils import add_url_name_to_context
@@ -107,6 +108,7 @@ class PostsEditionView(TemplateView):
             self.context['post'] = self.get_ticket_by_id(kwargs['id']) # voir pourquoi il attend un Review ici !
             self.context['nb_replies'] = len(Review.objects.filter(ticket=self.context['post']))
             if self.context['nb_replies'] < 1:
+                #  voir comment utiliser self.context['post'].review_set pour verifier si le ticket a une/des reviews
                 self.form_ticket = TicketForm()
             else:
                 # empecher de modifier un ticket si il existe deja une critique pour le ticket
@@ -127,7 +129,6 @@ class PostsEditionView(TemplateView):
                 # empecher de supprimer un ticket si il existe deja une critique pour le ticket
                 # pas bon ca il faut l'afficher et continuer la navigation!
                 raise Exception('Suppression Impossible, ce ticket a deja une réponse')  # voir from django.contrib import messages
-
 
         elif url_name == 'review_ticket_reply':
             self.template_name = 'reviews/post_edition/review_creation.html'
@@ -237,7 +238,7 @@ class PostsEditionView(TemplateView):
             ticket.save()
             return ticket
         else:
-            raise ValidationError() #  voir pour faire un FormException plus specifique (j'utilise ValidationError de Django, voir si c'est bon)
+            raise ValidationError()  #  voir pour faire un FormException plus specifique (j'utilise ValidationError de Django, voir si c'est bon)
 
     @classmethod
     def edit_ticket(cls, request, ticket_to_edit: Ticket) -> Ticket:
@@ -292,14 +293,14 @@ class PostsEditionView(TemplateView):
         return Ticket.objects.get(pk=ticket_id)
 
     @classmethod
-    def delete_ticket(cls, ticket_id) -> Ticket:
+    def delete_ticket(cls, ticket_id) -> None:
         """
         Enables to delete a given Ticket
         """
         return Ticket.objects.filter(pk=ticket_id).delete()
 
     @classmethod
-    def delete_review(cls, review_id) -> Review:
+    def delete_review(cls, review_id) -> None:
         """
         Enables to delete a given Review
         """

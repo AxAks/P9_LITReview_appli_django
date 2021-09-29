@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.urls import reverse
+from django.contrib import messages
 
 from core.models import CustomUser
 from subscriptions.models import UserFollows
