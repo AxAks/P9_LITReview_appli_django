@@ -22,7 +22,7 @@
                     - Titre: {{ post.title }}<br/>
                     - Description: {{ post.description }}<br/>
                     {% if post.image %}
-                    <img src="{% get_media_prefix %}{{ post.image }}">
+                    <img height="50px" src="{% get_media_prefix %}{{ post.image }}">
                     {% else %}
                     <img height="50px" src="{% get_media_prefix %}ticket_images/no_image.png">
                     {% endif %}
@@ -37,7 +37,7 @@
                     - Description: {{ context.associated_ticket.description }}<br/>
                     - Image:<br/>
                     {% if context.associated_ticket.image %}
-                        <img src="{% get_media_prefix %}{{ context.associated_ticket.image }}">
+                        <img height="50px" src="{% get_media_prefix %}{{ context.associated_ticket.image }}">
                     {% else %}
                         <img height="50px" src="{% get_media_prefix %}ticket_images/no_image.png">
                     {% endif %}

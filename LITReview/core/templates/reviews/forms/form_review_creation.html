@@ -10,10 +10,21 @@
 </head>
     <body>
         <hr> <!-- à retirer plus tard -->
+        <h3>Vous etes en train de poster en réponse à:</h3>
+            <p>
+                {{ context.post.time_created|date:"H:m, d F Y" }}<br />
+                {{ context.post.user }} a demandé une critique<br />
+                {{ context.post.title }}<br />
+                {{ context.post.description }}<br />
+                {% if context.post.image %}
+                    <img height="50px" src="{% get_media_prefix %}{{ context.post.image }}">
+                {% else %}
+                    <img height="50px" src="{% get_media_prefix %}ticket_images/no_image.png">
+                {% endif %}
+            </p>
         <form method="post" action="">
         {% csrf_token %}
         {{ form_review.non_field_errors }}
-            <h3>Vous etes en train de poster en réponse à:<br /> {{ context.post }}</h3>
             <p class="fieldWrapper">
                     {{ form_review.headline.errors }}
                     {{ form_review.headline | as_crispy_field }}
