@@ -22,3 +22,6 @@ RATINGS = {
     '4': 4,
     '5': 5,
 }
+
+
+ticket_already_replied = 'Ce ticket a deja une réponse'

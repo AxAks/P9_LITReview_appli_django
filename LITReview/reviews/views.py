@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 from django.contrib import messages
 
+import constants
 from reviews.forms import TicketForm, ReviewForm
 from utils import add_url_name_to_context
 from constants import PAGE_TITLES, RATINGS
@@ -111,9 +112,8 @@ class PostsEditionView(TemplateView):
                 #  voir comment utiliser self.context['post'].review_set pour verifier si le ticket a une/des reviews
                 self.form_ticket = TicketForm()
             else:
-                # empecher de modifier un ticket si il existe deja une critique pour le ticket
-                # pas bon ca il faut l'afficher et continuer la navigation!
-                raise Exception('Modification impossible, ce ticket a deja une réponse')  # voir from django.contrib import messages
+                messages.info(request, f"Modification impossible, {constants.ticket_already_replied}")
+                return redirect(reverse('posts'))
 
         elif url_name == 'ticket_delete':
             ticket_to_delete = self.get_ticket_by_id(kwargs['id'])
@@ -126,9 +126,8 @@ class PostsEditionView(TemplateView):
                 except Exception as e:
                     raise Exception(e)
             else:
-                # empecher de supprimer un ticket si il existe deja une critique pour le ticket
-                # pas bon ca il faut l'afficher et continuer la navigation!
-                raise Exception('Suppression Impossible, ce ticket a deja une réponse')  # voir from django.contrib import messages
+                messages.info(request, f"Suppression Impossible, {constants.ticket_already_replied}")
+                return redirect(reverse('posts'))
 
         elif url_name == 'review_ticket_reply':
             self.template_name = 'reviews/post_edition/review_creation.html'
@@ -139,7 +138,8 @@ class PostsEditionView(TemplateView):
             else:
                 # empecher de créer une critique si il existe deja une critique pour le ticket
                 # pas bon ca il faut l'afficher et continuer la navigation!
-                raise Exception('Ce ticket a deja une réponse')  # voir from django.contrib import messages
+                messages.info(request, constants.ticket_already_replied)
+                return redirect(reverse('feed'))
 
         elif 'review_modification' in url_name:
             self.template_name = 'reviews/post_edition/review_modification.html'
