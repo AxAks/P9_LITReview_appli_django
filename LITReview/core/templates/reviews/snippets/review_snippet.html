@@ -14,52 +14,48 @@
     <ul class="list-unstyled">
         <li>
             {% if context.post %}
-            <p>{{ context.post.time_created|date:"H:m, d F Y" }}</p>
-            {% if context.post.user == request.user %}
-                <p>vous avez publié une critique </p>
-            {% else %}
-                <p>{{ context.post.user }} a publié une critique </p>
-            {% endif %}
-            <p>{{ context.post.headline }}</p>
-            <p>{{ context.post.rating }}</p>
-            <p>{{ context.post.body }}</p>
-
-            <p>
-                <p><u>Ticket</u> - {{ context.post.ticket.user }}:</p>
-                <p>{{ context.post.ticket.title }}</p>
-                <p>{{ context.post.ticket.description }}</p>
-            </p>
-                {% if context.post.ticket.image %}
-                        <img height="50px" src="{% get_media_prefix %}{{ context.post.ticket.image }}"><br/>
+                <p>{{ context.post.time_created|date:"H:m, d F Y" }}</p>
+                {% if context.post.user == request.user %}
+                    <p>vous avez publié une critique </p>
                 {% else %}
-                        <img height="50px" src="{% get_media_prefix %}ticket_images/no_image.png"><br/>
-                 <!--A bien formater-->
+                    <p>{{ context.post.user }} a publié une critique </p>
                 {% endif %}
-            </p>
+                    <p>{{ context.post.headline }} - {{ context.post.rating }}</p>
+                    <p>{{ context.post.body }}</p>
 
+                <p>
+                    <p><u>Ticket</u> - {{ context.post.ticket.user }}</p>
+                    <p>{{ context.post.ticket.title }}</p>
+                    <p>{{ context.post.ticket.description }}</p>
+                        {% if context.post.ticket.image %}
+                                <img height="50px" src="{% get_media_prefix %}{{ context.post.ticket.image }}"><br/>
+                        {% else %}
+                                <img height="50px" src="{% get_media_prefix %}ticket_images/no_image.png"><br/>
+                        {% endif %}
+                </p>
 
             {% else %}
-            {% if post.user == request.user %}
-                <p>vous avez publié une critique </p>
-            {% else %}
-                <p>{{ post.user }} a publié une critique </p>
-            {% endif %}
-            <p>
-                - <u>Réponse au ticket n°{{ post.ticket.id }}:</u><br/>
-                -> Titre: {{ post.ticket.title }}<br />
-                -> Utilisateur: {{ post.ticket.user }}<br/>
-                -> Description: {{ post.ticket.description }}<br/>
-                {% if post.ticket.image %}
+                <p>{{ post.time_created|date:"H:m, d F Y" }}</p>
+                {% if post.user == request.user %}
+                    <p>vous avez publié une critique </p>
+                {% else %}
+                    <p>{{ post.user }} a publié une critique </p>
+                {% endif %}
+                    <p>{{ post.headline }} - {{ post.rating }}</p>
+                    <p>{{ post.body }}</p>
+
+                <p>
+                    <p><u>Ticket</u> - {{ post.ticket.user }}</p>
+                    <p>{{ post.ticket.title }}</p>
+                    <p>-> Description: {{ post.ticket.description }}</p>
+
+
+                    {% if post.ticket.image %}
                         <img height="50px" src="{% get_media_prefix %}{{ post.ticket.image }}"><br/>
-                {% else %}
+                    {% else %}
                         <img height="50px" src="{% get_media_prefix %}ticket_images/no_image.png"><br/>
-                 <!--A bien formater-->
-                {% endif %}
-
-                - Réponse par: {{ post.user }}<br/>
-                - Titre: {{ post.headline }}<br/>
-                - Commentaire: {{ post.body }}
-            </p>
+                    {% endif %}
+                </p>
             {% endif %}
             {% if context.url_name == 'posts' %}
              <a href="{% url 'review_modification' post.id %}">
@@ -68,7 +64,6 @@
             <a href="{% url 'review_delete' post.id %}">
             <button class="btn btn-outline-dark">Supprimer cette critique</button>
                 </a>
-
             {% endif %}
         </li>
     </ul>
