@@ -112,16 +112,23 @@ class PostsEditionView(TemplateView):
             else:
                 # empecher de modifier un ticket si il existe deja une critique pour le ticket
                 # pas bon ca il faut l'afficher et continuer la navigation!
-                raise Exception('Ce ticket a deja une réponse') # voir from django.contrib import messages
+                raise Exception('Modification impossible, ce ticket a deja une réponse')  # voir from django.contrib import messages
 
         elif url_name == 'ticket_delete':
-            # empecher de supprimer un ticket si il existe deja une critique pour le ticket
-            try:
-                ticket_to_delete = self.get_ticket_by_id(kwargs['id'])
-                self.delete_ticket(ticket_to_delete.id)
-                return redirect(reverse('posts'))
-            except Exception as e:
-                raise Exception(e)
+            ticket_to_delete = self.get_ticket_by_id(kwargs['id'])
+            self.context['post'] = ticket_to_delete
+            self.context['nb_replies'] = len(Review.objects.filter(ticket=self.context['post']))
+            if self.context['nb_replies'] < 1:
+                try:
+                    self.delete_ticket(ticket_to_delete.id)
+                    return redirect(reverse('posts'))
+                except Exception as e:
+                    raise Exception(e)
+            else:
+                # empecher de supprimer un ticket si il existe deja une critique pour le ticket
+                # pas bon ca il faut l'afficher et continuer la navigation!
+                raise Exception('Suppression Impossible, ce ticket a deja une réponse')  # voir from django.contrib import messages
+
 
         elif url_name == 'review_ticket_reply':
             self.template_name = 'reviews/post_edition/review_creation.html'
