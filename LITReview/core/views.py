@@ -50,7 +50,7 @@ class LoginView(TemplateView):
     success_to = 'feed'
     failure_redirect = 'login'
 
-    def get(self, request) -> HttpResponse:
+    def get(self, request, *args, **kwargs) -> HttpResponse:
         return render(request, self.template_name, {'form': self.form})
 
     def post(self, request) -> HttpResponseRedirect:
