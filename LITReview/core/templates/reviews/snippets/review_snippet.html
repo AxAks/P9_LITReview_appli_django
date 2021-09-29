@@ -6,9 +6,6 @@
 {% load crispy_forms_tags %}
 
 
-
-
-
 <head>
     <meta charset="UTF-8">
     <title>Critique</title>
@@ -19,14 +16,34 @@
             <h3>Critique</h3>
             {% if context.post %}
             <p>
-                - <u>Reponse au ticket {{context.post.ticket }}</u><br/> <!--A bien formater-->
+                - <u>Reponse au ticket n°{{ context.post.ticket.id }}:</u><br/>
+                -> Titre: {{ context.post.ticket.title }}<br/>
+                -> Utilisateur: {{ context.post.ticket.user }}<br/>
+                -> Description: {{ context.post.ticket.description }}<br/>
+                {% if context.post.ticket.image %}
+                        <img src="{% get_media_prefix %}{{ context.post.ticket.image }}"><br/>
+                {% else %}
+                        <img height="20px" src="{% get_media_prefix %}ticket_images/no_image.png"><br/>
+                 <!--A bien formater-->
+                {% endif %}
+
                 - Réponse par: {{ context.post.user }}<br/>
                 - Titre: {{ context.post.headline }}<br/>
                 - Commentaire: {{ context.post.body }}
             </p>
             {% else %}
             <p>
-                - <u>Reponse au ticket {{post.ticket }}</u><br/> <!--A bien formater-->
+                - <u>Reponse au ticket n°{{ post.ticket.id }}:</u><br/>
+                -> Titre: {{ post.ticket.title }}<br />
+                -> Utilisateur: {{ post.ticket.user }}<br/>
+                -> Description: {{ post.ticket.description }}<br/>
+                {% if post.ticket.image %}
+                        <img src="{% get_media_prefix %}{{ post.ticket.image }}"><br/>
+                {% else %}
+                        <img height="20px" src="{% get_media_prefix %}ticket_images/no_image.png"><br/>
+                 <!--A bien formater-->
+                {% endif %}
+
                 - Réponse par: {{ post.user }}<br/>
                 - Titre: {{ post.headline }}<br/>
                 - Commentaire: {{ post.body }}

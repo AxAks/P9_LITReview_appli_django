@@ -20,12 +20,13 @@
                 <p>
                     - Utilisateur: {{ post.user }}<br/>
                     - Titre: {{ post.title }}<br/>
+                    - Description: {{ post.description }}<br/>
                     {% if post.image %}
-                    <img src="{% get_media_prefix %}{{ post.image }}"><br/>
+                    <img src="{% get_media_prefix %}{{ post.image }}">
                     {% else %}
-                    <img height="50px" src="{% get_media_prefix %}ticket_images/no_image.png"><br/>
+                    <img height="50px" src="{% get_media_prefix %}ticket_images/no_image.png">
                     {% endif %}
-                    - Description: {{ post.description }}
+
                 </p>
                 {% elif context.associated_ticket %}
                 <!-- from views with context, référence au ticket en passant par une critique en reponse -->
@@ -33,13 +34,19 @@
                 <p>
                     - Utilisateur: {{ context.associated_ticket.user }}<br/>
                     - Titre: {{ context.associated_ticket.title }}<br/>
-                    - Image: {{ context.associated_ticket.image }}<br/>
-                    - Description: {{ context.associated_ticket.description }}
+                    - Description: {{ context.associated_ticket.description }}<br/>
+                    - Image:<br/>
+                    {% if context.associated_ticket.image %}
+                        <img src="{% get_media_prefix %}{{ context.associated_ticket.image }}">
+                    {% else %}
+                        <img height="50px" src="{% get_media_prefix %}ticket_images/no_image.png">
+                    {% endif %}
                 </p>
                 {% endif %}
                 {% if context.url_name == 'feed' %}
-                    {% if nb_replies > 0 %}
+                    {% if context.nb_replies > 0 %}
                         <p> Ce ticket a dejà une réponse </p>
+
                     {% else %}
                     <a href="{% url 'review_ticket_reply' post.id %}">
                         <button class="btn btn-outline-dark">Répondre à ce ticket</button>

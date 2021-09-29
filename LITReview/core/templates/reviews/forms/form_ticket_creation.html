@@ -17,13 +17,13 @@
                     {{ form_ticket.title.errors }}
                     {{ form_ticket.title | as_crispy_field }}
             </p>
-            <p class="fieldWrapper"> <!--voir Pillow-->
-                    {{ form_ticket.image.errors }}
-                    {{ form_ticket.image | as_crispy_field }}
-            </p>
             <p class="fieldWrapper">
                     {{ form_ticket.description.errors }}
                     {{ form_ticket.description | as_crispy_field }}
+            </p>
+            <p class="fieldWrapper"> <!--voir Pillow-->
+                    {{ form_ticket.image.errors }}
+                    {{ form_ticket.image | as_crispy_field }}
             </p>
             <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
         </form>

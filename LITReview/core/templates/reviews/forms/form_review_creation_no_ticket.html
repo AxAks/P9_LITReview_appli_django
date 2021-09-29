@@ -11,21 +11,21 @@
 
 <body>
 <hr> <!-- à retirer plus tard -->
-<h3>Ticket</h3>
 <form method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
+    <h3>Ticket</h3>
     {{ form_ticket.non_field_errors }} <!-- l'appeler form_ticket -->
     <p class="fieldWrapper">
         {{ form_ticket.title.errors }}
         {{ form_ticket.title | as_crispy_field }}
     </p>
-    <p class="fieldWrapper"> <!--voir Pillow-->
-        {{ form_ticket.image.errors }}
-        {{ form_ticket.image | as_crispy_field }}
-    </p>
     <p class="fieldWrapper">
         {{ form_ticket.description.errors }}
         {{ form_ticket.description | as_crispy_field }}
+    </p>
+    <p class="fieldWrapper"> <!--voir Pillow-->
+        {{ form_ticket.image.errors }}
+        {{ form_ticket.image | as_crispy_field }}
     </p>
 
     <h3>Critique</h3>
