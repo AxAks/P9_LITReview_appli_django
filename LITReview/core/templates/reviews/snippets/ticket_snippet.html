@@ -15,45 +15,50 @@
     <body>
         <ul class="list-unstyled">
             <li>
-                <h3>Ticket</h3>
                 {% if post %}  <!-- from url with parameter, reference à l'objet ticket en direct-->
-                <p>
-                    - Utilisateur: {{ post.user }}<br/>
-                    - Titre: {{ post.title }}<br/>
-                    - Description: {{ post.description }}<br/>
-                    {% if post.image %}
-                    <img height="100px" src="{% get_media_prefix %}{{ post.image }}">
+                    <p>{{ post.time_created|date:"H:m, d F Y" }}</p>
+                    {% if post.user == request.user %}
+                        <p>vous avez demandé une critique </p>
                     {% else %}
-                    <img height="100px" src="{% get_media_prefix %}ticket_images/no_image.png">
+                        <p>{{ post.user}} a demandé une critique </p>
+                    {% endif %}
+                    <p>{{ post.title }}<p>
+                    <p>{{ post.description }}</p>
+                    {% if post.image %}
+                        <img height="100px" src="{% get_media_prefix %}{{ post.image }}">
+                    {% else %}
+                        <img height="100px" src="{% get_media_prefix %}ticket_images/no_image.png">
                     {% endif %}
 
                 </p>
                 {% elif context.associated_ticket %}
                 <!-- from views with context, référence au ticket en passant par une critique en reponse -->
                 <!-- voir comment faire pour avoir toujours la meme reference plutot (ex: ticket. au lieu de post.) -->
-                <p>
-                    - Utilisateur: {{ context.associated_ticket.user }}<br/>
-                    - Titre: {{ context.associated_ticket.title }}<br/>
-                    - Description: {{ context.associated_ticket.description }}<br/>
-                    - Image:<br/>
+                    <p>{{ context.associated_ticket.time_created|date:"H:m, d F Y" }}</p>
+                {% if context.associated_ticket.user == request.user %}
+                    <p>vous avez demandé une critique </p>
+                {% else %}
+                    <p>{{ context.associated_ticket.user }} a demandé une critique </p>
+                {% endif %}
+                    <p>{{ context.associated_ticket.title }}<p>
+                    <p>{{ context.associated_ticket.description }}</p>
                     {% if context.associated_ticket.image %}
                         <img height="100px" src="{% get_media_prefix %}{{ context.associated_ticket.image }}">
                     {% else %}
                         <img height="100px" src="{% get_media_prefix %}ticket_images/no_image.png">
                     {% endif %}
-                </p>
                 {% endif %}
                 {% if context.url_name == 'feed' %}
-                    {% if context.nb_replies > 0 %}
+                    {% if context.replied %}
                         <p> Ce ticket a dejà une réponse </p>
 
                     {% else %}
                     <a href="{% url 'review_ticket_reply' post.id %}">
-                        <button class="btn btn-outline-dark">Répondre à ce ticket</button>
+                        <button class="btn btn-outline-dark">Créer un critique pour ce ticket</button>
                     </a>
                     {% endif %}
                 {% elif context.url_name == 'posts' %}
-                    {% if nb_replies > 0 %}
+                    {% if replied %}
                         <p> Ce ticket a dejà une réponse </p>
                     {% else %}
                     <a href="{% url 'ticket_modification' post.id %}">

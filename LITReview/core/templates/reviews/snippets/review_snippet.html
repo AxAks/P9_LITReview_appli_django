@@ -13,25 +13,37 @@
 <body>
     <ul class="list-unstyled">
         <li>
-            <h3>Critique</h3>
             {% if context.post %}
+            <p>{{ context.post.time_created|date:"H:m, d F Y" }}</p>
+            {% if context.post.user == request.user %}
+                <p>vous avez publié une critique </p>
+            {% else %}
+                <p>{{ context.post.user }} a publié une critique </p>
+            {% endif %}
+            <p>{{ context.post.headline }}</p>
+            <p>{{ context.post.rating }}</p>
+            <p>{{ context.post.body }}</p>
+
             <p>
-                - <u>Reponse au ticket n°{{ context.post.ticket.id }}:</u><br/>
-                -> Titre: {{ context.post.ticket.title }}<br/>
-                -> Utilisateur: {{ context.post.ticket.user }}<br/>
-                -> Description: {{ context.post.ticket.description }}<br/>
+                <p><u>Ticket</u> - {{ context.post.ticket.user }}:</p>
+                <p>{{ context.post.ticket.title }}</p>
+                <p>{{ context.post.ticket.description }}</p>
+            </p>
                 {% if context.post.ticket.image %}
                         <img height="50px" src="{% get_media_prefix %}{{ context.post.ticket.image }}"><br/>
                 {% else %}
                         <img height="50px" src="{% get_media_prefix %}ticket_images/no_image.png"><br/>
                  <!--A bien formater-->
                 {% endif %}
-
-                - Réponse par: {{ context.post.user }}<br/>
-                - Titre: {{ context.post.headline }}<br/>
-                - Commentaire: {{ context.post.body }}
             </p>
+
+
             {% else %}
+            {% if post.user == request.user %}
+                <p>vous avez publié une critique </p>
+            {% else %}
+                <p>{{ post.user }} a publié une critique </p>
+            {% endif %}
             <p>
                 - <u>Réponse au ticket n°{{ post.ticket.id }}:</u><br/>
                 -> Titre: {{ post.ticket.title }}<br />

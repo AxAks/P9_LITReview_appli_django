@@ -37,9 +37,12 @@ class PostListsView(TemplateView):
         self.context['title'] = PAGE_TITLES[url_name]
 
         if url_name == 'feed':
+            current_user_and_followed_user_ids = []
             followed_users_ids = self.get_followed_users_by_id(request)
+            [current_user_and_followed_user_ids.append(i) for i in followed_users_ids]
+            current_user_and_followed_user_ids.append(request.user.id)
             self.template_name = 'reviews/posts_lists/my_feed.html'
-            self.context['followed_users_posts'] = self.get_posts(followed_users_ids)
+            self.context['followed_users_posts'] = self.get_posts(current_user_and_followed_user_ids)
 
         elif url_name == 'posts':
             self.template_name = 'reviews/posts_lists/my_posts.html'
@@ -107,37 +110,37 @@ class PostsEditionView(TemplateView):
         elif url_name == 'ticket_modification':
             self.template_name = 'reviews/post_edition/ticket_modification.html'
             self.context['post'] = self.get_ticket_by_id(kwargs['id']) # voir pourquoi il attend un Review ici !
-            self.context['nb_replies'] = len(Review.objects.filter(ticket=self.context['post']))
-            if self.context['nb_replies'] < 1:
-                #  voir comment utiliser self.context['post'].review_set pour verifier si le ticket a une/des reviews
-                self.form_ticket = TicketForm()
-            else:
+            self.context['replied'] = Review.objects.filter(ticket=self.context['post']).exists()
+            if self.context['replied']:
                 messages.info(request, f"Modification impossible, {constants.ticket_already_replied}")
                 return redirect(reverse('posts'))
+                #  voir comment utiliser self.context['post'].review_set pour verifier si le ticket a une/des reviews
+            else:
+                self.form_ticket = TicketForm()
 
         elif url_name == 'ticket_delete':
             ticket_to_delete = self.get_ticket_by_id(kwargs['id'])
             self.context['post'] = ticket_to_delete
-            self.context['nb_replies'] = len(Review.objects.filter(ticket=self.context['post']))
-            if self.context['nb_replies'] < 1:
+            self.context['replied'] = Review.objects.filter(ticket=self.context['post']).exists()
+            if self.context['replied']:
+                messages.info(request, f"Suppression Impossible, {constants.ticket_already_replied}")
+                return redirect(reverse('posts'))
+            else:
                 try:
                     self.delete_ticket(ticket_to_delete.id)
                     return redirect(reverse('posts'))
                 except Exception as e:
                     raise Exception(e)
-            else:
-                messages.info(request, f"Suppression Impossible, {constants.ticket_already_replied}")
-                return redirect(reverse('posts'))
 
         elif url_name == 'review_ticket_reply':
             self.template_name = 'reviews/post_edition/review_creation.html'
             self.context['post'] = self.get_ticket_by_id(kwargs['id'])
-            self.context['nb_replies'] = len(Review.objects.filter(ticket=self.context['post']))
-            if self.context['nb_replies'] < 1:
-                self.form_review = ReviewForm()
-            else:
+            self.context['replied'] = Review.objects.filter(ticket=self.context['post']).exists()
+            if self.context['replied']:
                 messages.info(request, constants.ticket_already_replied)
                 return redirect(reverse('feed'))
+            else:
+                self.form_review = ReviewForm()
 
         elif 'review_modification' in url_name:
             self.template_name = 'reviews/post_edition/review_modification.html'
