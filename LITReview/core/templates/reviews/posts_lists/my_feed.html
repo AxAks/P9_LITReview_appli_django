@@ -28,9 +28,11 @@
         {% if context.followed_users_posts %}
             {% for post in context.followed_users_posts %}
                 {% if post.content_type == 'TICKET' %}
-                    {% include 'reviews/snippets/ticket_snippet.html' %}
+                    <p>{{ post.user.username }} a demandé une critique </p>
+                        {% include 'reviews/snippets/ticket_snippet.html' %}
                 {% elif post.content_type == 'REVIEW' %}
-                    {% include 'reviews/snippets/review_snippet.html' %}
+                    <p>{{ post.user.username }} a publié une critique </p>
+                        {% include 'reviews/snippets/review_snippet.html' %}
                 {% endif %}
             {% endfor %}
 

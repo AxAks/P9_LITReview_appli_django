@@ -28,9 +28,11 @@
         {% if context.user_posts %}
             {% for post in context.user_posts %}
                 {% if post.content_type == 'TICKET' %}
-                    {% include 'reviews/snippets/ticket_snippet.html' %}
+                    <p>Vous avez publié un ticket </p>
+                        {% include 'reviews/snippets/ticket_snippet.html' %}
                 {% elif post.content_type == 'REVIEW' %}
-                    {% include 'reviews/snippets/review_snippet.html' %}
+                    <p>Vous avez publié une critique </p>
+                        {% include 'reviews/snippets/review_snippet.html' %}
                 {% endif %}
             {% endfor %}
 
