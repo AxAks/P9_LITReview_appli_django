@@ -68,6 +68,7 @@ class SubscriptionsView(TemplateView):
             .get(user_id=request.user.id, followed_user_id=user_to_unfollow.id) \
             .delete()
         self.context['unfollowed_user'] = user_unfollowed
+        messages.info(request, f"L'utilisateur {user_to_unfollow_username} n'est maintenant plus suivi")
         return redirect(reverse('subscriptions', kwargs={}))
 
     def follow(self, request):
@@ -77,6 +78,7 @@ class SubscriptionsView(TemplateView):
         new_user_followed = UserFollows(user_id=request.user.id, followed_user_id=user_to_follow.id)
         new_user_followed.save()
         self.context['new_user_followed'] = new_user_followed
+        messages.info(request, f"L'utilisateur {user_to_follow_username} est maintenant suivi")
         return redirect(reverse('subscriptions', kwargs={}))
 
     def get_subscriptions_status_for_user(self, request):
