@@ -110,9 +110,9 @@ class PostsEditionView(TemplateView):
         elif url_name == 'ticket_modification':
             self.template_name = 'reviews/post_edition/ticket_modification.html'
             self.context['post'] = self.get_ticket_by_id(kwargs['id']) # voir pourquoi il attend un Review ici !
-            self.context['replied'] = Review.objects.filter(ticket=self.context['post']).exists()
+            self.context['replied'] = self.context['post'].review_set.exists()
             if self.context['replied']:
-                messages.info(request, f"Modification impossible, {constants.ticket_already_replied}")
+                messages.info(request, constants.ticket_already_replied)
                 return redirect(reverse('posts'))
                 #  voir comment utiliser self.context['post'].review_set pour verifier si le ticket a une/des reviews
             else:
@@ -121,9 +121,9 @@ class PostsEditionView(TemplateView):
         elif url_name == 'ticket_delete':
             ticket_to_delete = self.get_ticket_by_id(kwargs['id'])
             self.context['post'] = ticket_to_delete
-            self.context['replied'] = Review.objects.filter(ticket=self.context['post']).exists()
+            self.context['replied'] = self.context['post'].review_set.exists()
             if self.context['replied']:
-                messages.info(request, f"Suppression Impossible, {constants.ticket_already_replied}")
+                messages.info(request, constants.ticket_already_replied)
                 return redirect(reverse('posts'))
             else:
                 try:
@@ -135,7 +135,7 @@ class PostsEditionView(TemplateView):
         elif url_name == 'review_ticket_reply':
             self.template_name = 'reviews/post_edition/review_creation.html'
             self.context['post'] = self.get_ticket_by_id(kwargs['id'])
-            self.context['replied'] = Review.objects.filter(ticket=self.context['post']).exists()
+            self.context['replied'] = self.context['post'].review_set.exists()
             if self.context['replied']:
                 messages.info(request, constants.ticket_already_replied)
                 return redirect(reverse('feed'))

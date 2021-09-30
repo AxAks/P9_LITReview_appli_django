@@ -24,4 +24,4 @@ RATINGS = {
 }
 
 
-ticket_already_replied = 'Ce ticket a deja une réponse'
+ticket_already_replied = 'Action Impossible: ce ticket a deja une réponse'
