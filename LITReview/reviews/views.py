@@ -246,15 +246,31 @@ class PostsEditionView(TemplateView):
         """
         Enable to modify an already registered Ticket
         """
-        form = TicketForm(request.POST or None, request.FILES or None, instance=ticket_to_edit)
+
+        edited_request_post = request.POST.copy()
+        edited_request_files = request.FILES.copy()
+
+        if request.POST['title'] == '':
+            edited_request_post['title'] = ticket_to_edit.title
+        else:
+            edited_request_post['title'] = request.POST['title']
+        if request.POST['description'] == '':
+            edited_request_post['description'] = ticket_to_edit.description
+        else:
+            edited_request_post['description'] = request.POST['description']
+
+        if not request.FILES['image']:
+            edited_request_files['image'] = ticket_to_edit.image
+
+        elif not request.POST['image']:
+            edited_request_post['image'] = ticket_to_edit.image
+        else:
+            edited_request_post['image'] = request.POST['image']
+        """    
+        else:
+            edited_request_files['image'] = request.FILES['image']
         """
-        for field in request.POST:
-            if field == ''
-                field = ticket_to_edit.field        
-        """
-        """
-        if request.FILES == ''
-        """
+        form = TicketEditForm(edited_request_post or None, edited_request_files or None, instance=ticket_to_edit)
         if form.is_valid():
             form.save()
             return ticket_to_edit
@@ -280,7 +296,22 @@ class PostsEditionView(TemplateView):
         """
         Enables to modify an already registered Review
         """
-        form = ReviewForm(request.POST, instance=review_to_edit)
+        edited_request_post = request.POST.copy()
+
+        if request.POST['headline'] == '':
+            edited_request_post['headline'] = review_to_edit.headline
+        else:
+            edited_request_post['headline'] = request.POST['headline']
+        if request.POST['rating'] == '':
+            edited_request_post['rating'] = review_to_edit.rating
+        else:
+            edited_request_post['rating'] = request.POST['rating']
+        if request.POST['body'] == '':
+            edited_request_post['body'] = review_to_edit.body
+        else:
+            edited_request_post['body'] = request.POST['body']
+
+        form = ReviewEditForm(edited_request_post, instance=review_to_edit)
         if form.is_valid():
             form.save()
             return review_to_edit
