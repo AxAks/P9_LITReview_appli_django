@@ -10,7 +10,7 @@ from django.views.generic import TemplateView
 from django.contrib import messages
 
 import constants
-from reviews.forms import TicketForm, ReviewForm
+from reviews.forms import TicketForm, ReviewForm, TicketEditForm, ReviewEditForm
 from utils import add_url_name_to_context
 from constants import PAGE_TITLES, RATINGS
 
@@ -116,7 +116,7 @@ class PostsEditionView(TemplateView):
                 return redirect(reverse('posts'))
                 #  voir comment utiliser self.context['post'].review_set pour verifier si le ticket a une/des reviews
             else:
-                self.form_ticket = TicketForm()
+                self.form_ticket = TicketEditForm()
 
         elif url_name == 'ticket_delete':
             ticket_to_delete = self.get_ticket_by_id(kwargs['id'])
@@ -146,7 +146,7 @@ class PostsEditionView(TemplateView):
             self.template_name = 'reviews/post_edition/review_modification.html'
             review_to_edit = self.get_review_by_id(kwargs['id'])
             self.context['post'] = review_to_edit
-            self.form_review = ReviewForm()
+            self.form_review = ReviewEditForm()
 
         elif url_name == 'review_delete':
             try:
@@ -191,7 +191,7 @@ class PostsEditionView(TemplateView):
                 return redirect(reverse('posts'))
             except ValidationError:
                 template_name = 'reviews/post_edition/ticket_modification.html'
-                form = TicketForm()
+                form = TicketEditForm()
                 return render(request, template_name, {'form': form})
 
         elif url_name == 'review_ticket_reply':
@@ -213,7 +213,7 @@ class PostsEditionView(TemplateView):
                 return redirect(reverse('posts'))
             except ValidationError:
                 template_name = 'reviews/post_edition/review_modification.html'
-                form = ReviewForm()
+                form = ReviewEditForm()
                 return render(request, template_name, {'form': form})
 
         elif url_name == 'review_creation_no_ticket':
@@ -247,6 +247,11 @@ class PostsEditionView(TemplateView):
         Enable to modify an already registered Ticket
         """
         form = TicketForm(request.POST or None, request.FILES or None, instance=ticket_to_edit)
+        """
+        for field in request.post:
+            if field == ''
+                field = ticket_to_edit.field
+        """
         if form.is_valid():
             form.save()
             return ticket_to_edit
