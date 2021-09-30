@@ -248,9 +248,12 @@ class PostsEditionView(TemplateView):
         """
         form = TicketForm(request.POST or None, request.FILES or None, instance=ticket_to_edit)
         """
-        for field in request.post:
+        for field in request.POST:
             if field == ''
-                field = ticket_to_edit.field
+                field = ticket_to_edit.field        
+        """
+        """
+        if request.FILES == ''
         """
         if form.is_valid():
             form.save()
