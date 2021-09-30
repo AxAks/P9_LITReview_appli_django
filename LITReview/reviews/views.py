@@ -245,6 +245,7 @@ class PostsEditionView(TemplateView):
     def edit_ticket(cls, request, ticket_to_edit: Ticket) -> Ticket:
         """
         Enable to modify an already registered Ticket
+        If one fields remains empty, the previous value is kept
         """
 
         edited_request_post = request.POST.copy()
@@ -307,6 +308,7 @@ class PostsEditionView(TemplateView):
     def edit_review(cls, request, review_to_edit: Review) -> Review:
         """
         Enables to modify an already registered Review
+        If one fields remains empty, the previous value is kept
         """
         edited_request_post = request.POST.copy()
 
