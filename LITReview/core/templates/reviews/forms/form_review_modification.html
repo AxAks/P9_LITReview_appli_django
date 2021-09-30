@@ -14,6 +14,9 @@
     {% csrf_token %}
     {{ form_review.non_field_errors }}
         <h4>Vous etes en train de modifier la critique du ticket suivant: {{ context.post.ticket }}</h4>
+        <!--
+        <p>{% include 'reviews/snippets/ticket_snippet.html' with ticket=post.ticket %}</p>
+        -->
             <p>
                 <div>- Titre: {{ context.post.headline }}</div>
                 <p class="fieldWrapper">

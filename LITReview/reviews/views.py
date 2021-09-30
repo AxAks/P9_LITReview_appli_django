@@ -259,17 +259,29 @@ class PostsEditionView(TemplateView):
         else:
             edited_request_post['description'] = request.POST['description']
 
-        if not request.FILES['image']:
-            edited_request_files['image'] = ticket_to_edit.image
-
-        elif not request.POST['image']:
+        # gestion des images à faire correctement !
+        # actuellement je peux remplacer une image mais pas enlever une image d'un ticket
+        if ticket_to_edit.image != '' \
+                and 'image' not in request.FILES.keys() \
+                and request.POST['image'] == '':
             edited_request_post['image'] = ticket_to_edit.image
-        else:
-            edited_request_post['image'] = request.POST['image']
-        """    
-        else:
+
+        elif ticket_to_edit.image == '' \
+                and 'image' in request.FILES.keys() \
+                and 'image' not in request.POST.keys():
             edited_request_files['image'] = request.FILES['image']
-        """
+
+        elif 'image' not in request.FILES.keys() \
+                and request.POST['image'] == '':
+            edited_request_post = request.POST['image']
+
+        elif 'image' in request.FILES.keys() \
+                and 'image' not in request.POST.keys():
+            edited_request_post = ''
+
+        else:
+            raise Exception
+
         form = TicketEditForm(edited_request_post or None, edited_request_files or None, instance=ticket_to_edit)
         if form.is_valid():
             form.save()
