@@ -1,5 +1,5 @@
 from itertools import chain
-from typing import Any, Union
+from typing import Any, Union, List
 
 from django.core.exceptions import ValidationError
 from django.db.models import Value, CharField
@@ -67,7 +67,7 @@ class PostListsView(TemplateView):
         return followed_users_ids
 
     @classmethod
-    def get_posts(cls, filter_param: list[int]) -> list[Any]:
+    def get_posts(cls, filter_param: List[int]) -> List[Any]:
         """
         Enables to concatenate Tickets and Reviews under the variable name: Posts
         for the users given as parameter
@@ -183,8 +183,6 @@ class PostsEditionView(TemplateView):
                 return render(request, template_name, {'form': form})
 
         elif url_name == 'ticket_modification':
-            # autoriser le fait de ne pas etre obligé de changer tous les champs du formulaire:
-            # laisser l'ancienne valeur du champs si il est vide dans le nouveau formulaire
             try:
                 ticket_to_edit = self.get_ticket_by_id(kwargs['id'])
                 self.edit_ticket(request, ticket_to_edit)
@@ -205,8 +203,6 @@ class PostsEditionView(TemplateView):
                 return render(request, template_name, {'form': form})
 
         elif url_name == 'review_modification':
-            # autoriser le fait de ne pas etre obligé de changer tous les champs du formulaire:
-            # laisser l'ancienne valeur du champs si il est vide dans le nouveau formulaire
             try:
                 review_to_edit = self.get_review_by_id(kwargs['id'])
                 self.edit_review(request, review_to_edit)
@@ -232,14 +228,14 @@ class PostsEditionView(TemplateView):
         Enable to create and save a ticket (a request for a review)
         """
         form = TicketForm(request.POST or None, request.FILES or None)
-        if form.is_valid():
+        try:
+            form.is_valid()
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.save()
             return ticket
-        else:
-            raise ValidationError()
-            #  voir pour faire un FormException plus specifique (j'utilise ValidationError de Django, voir si c'est bon)
+        except ValidationError as e:
+            raise ValidationError(e)
 
     @classmethod
     def edit_ticket(cls, request, ticket_to_edit: Ticket) -> Ticket:
@@ -281,15 +277,13 @@ class PostsEditionView(TemplateView):
                 and 'image' not in request.POST.keys():
             edited_request_post = ''
 
-        else:
-            raise Exception
-
         form = TicketEditForm(edited_request_post or None, edited_request_files or None, instance=ticket_to_edit)
-        if form.is_valid():
+        try:
+            form.is_valid()
             form.save()
             return ticket_to_edit
-        else:
-            raise ValidationError()
+        except ValidationError as e:
+            raise ValidationError(e)
 
     @classmethod
     def create_review(cls, request, ticket_replied_to: Ticket) -> Review:
@@ -297,13 +291,14 @@ class PostsEditionView(TemplateView):
         Enables to create a review (a response to a Ticket)
         """
         form = ReviewForm(request.POST)
-        if form.is_valid():
+        try:
+            form.is_valid()
             review = form.save(commit=False)
             review.ticket, review.user = ticket_replied_to, request.user
             review.save()
             return review
-        else:
-            raise ValidationError()
+        except Exception as e:
+            raise ValidationError(e)
 
     @classmethod
     def edit_review(cls, request, review_to_edit: Review) -> Review:
@@ -327,11 +322,12 @@ class PostsEditionView(TemplateView):
             edited_request_post['body'] = request.POST['body']
 
         form = ReviewEditForm(edited_request_post, instance=review_to_edit)
-        if form.is_valid():
+        try:
+            form.is_valid()
             form.save()
             return review_to_edit
-        else:
-            raise ValidationError()
+        except Exception as e:
+            raise ValidationError(e)
 
     @classmethod
     def get_review_by_id(cls, review_id) -> Review:
