@@ -25,8 +25,8 @@
     </div>
 
     <div>
-        {% if context.followed_users_posts %}
-            {% for post in context.followed_users_posts %}
+        {% if context.current_user_and_followed_user_posts %}
+            {% for post in context.current_user_and_followed_user_posts %}
                 {% if post.content_type == 'TICKET' %}
                         {% include 'reviews/snippets/ticket_snippet.html' %}
                 {% elif post.content_type == 'REVIEW' %}

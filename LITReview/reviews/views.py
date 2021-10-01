@@ -42,7 +42,7 @@ class PostListsView(TemplateView):
             [current_user_and_followed_user_ids.append(i) for i in followed_users_ids]
             current_user_and_followed_user_ids.append(request.user.id)
             self.template_name = 'reviews/posts_lists/my_feed.html'
-            self.context['followed_users_posts'] = self.get_posts(current_user_and_followed_user_ids)
+            self.context['current_user_and_followed_user_posts'] = self.get_posts(current_user_and_followed_user_ids)
 
         elif url_name == 'posts':
             self.template_name = 'reviews/posts_lists/my_posts.html'
