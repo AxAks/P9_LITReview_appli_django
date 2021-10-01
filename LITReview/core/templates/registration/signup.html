@@ -38,16 +38,11 @@
                     {{ form.password2.errors }}
                     {{ form.password2 | as_crispy_field }}
                 </p>
-                    <a href="{% url 'login' %}">
-                        <button class="btn btn-outline-dark">Retourner</button>
-                    </a>
-                <!-- Pb car pour que le bouton "retourner" fonctionne, il faut que
-                les champs de formulaire soient correctement remplis  ! -->
-                <button class="btn btn-outline-dark" type="submit">S'inscrire</button>
+                <button class=" float-right btn btn-outline-dark" type="submit">S'inscrire</button>
             </form>
             <p>
                 <a href="{% url 'login' %}">
-                    <button class="btn btn-outline-dark">Retourner (Debug)</button>
+                    <button class="btn btn-outline-dark">Retourner</button>
                 </a>
             </p>
         </div>

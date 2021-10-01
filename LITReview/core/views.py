@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.contrib import messages
 
+import constants
 from .forms import SignUpForm
 
 
@@ -36,8 +37,10 @@ class SignupView(TemplateView):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
+            messages.info(request, constants.registration_success)
             return redirect('feed')
         else:
+            messages.info(request, constants.form_error)
             return render(request, self.template_name, {'form': form})
 
 
@@ -62,8 +65,10 @@ class LoginView(TemplateView):
         user = authenticate(request, username=username, password=password)
         if not user:
             login(request, user)
+            messages.info(request, constants.login_success)
             return redirect(request, self.success_to)
         else:
+            messages.info(request, constants.form_error)
             return render(request, self.template_name, {'form': self.form})
 
 

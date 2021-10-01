@@ -18,7 +18,7 @@
                 {% if post %}  <!-- from url with parameter, reference à l'objet ticket en direct-->
                     <p>{{ post.time_created|date:"H:m, d F Y" }}</p>
                     {% if post.user == request.user %}
-                        <p>vous avez demandé une critique </p>
+                        <p>Vous avez demandé une critique </p>
                     {% else %}
                         <p>{{ post.user}} a demandé une critique </p>
                     {% endif %}
@@ -36,7 +36,7 @@
                 <!-- voir comment faire pour avoir toujours la meme reference plutot (ex: ticket. au lieu de post.) -->
                     <p>{{ context.associated_ticket.time_created|date:"H:m, d F Y" }}</p>
                 {% if context.associated_ticket.user == request.user %}
-                    <p>vous avez demandé une critique </p>
+                    <p>Vous avez demandé une critique </p>
                 {% else %}
                     <p>{{ context.associated_ticket.user }} a demandé une critique </p>
                 {% endif %}
