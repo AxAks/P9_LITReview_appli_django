@@ -24,8 +24,8 @@ RATINGS = {
 }
 
 
-ticket_already_replied = 'Action Impossible: ce ticket a déja une réponse'
 ticket_created = "Le ticket a bien été créé"
+ticket_already_replied = 'Action Impossible: ce ticket a déja une réponse'
 ticket_modified = "Le ticket a bien été modifié"
 ticket_deleted = "Le ticket a bien été supprimé"
 review_created = "La critique a bien été créée"
