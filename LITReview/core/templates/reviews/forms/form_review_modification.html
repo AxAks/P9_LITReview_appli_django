@@ -26,12 +26,17 @@
             </p>
             <p class="fieldWrapper">
                 - Note: {{ context.post.rating }}
+                <div>{{ form_review.rating.label }}</div>
                 <p class="form-check-inline">
                     {{ form_review.rating.errors }}
                     {% for notation in form_review.rating %}
                         {{ notation }} <!-- Affichage OK mais plus de crispy form, plus de help text à cause de la boucle-->
                     {% endfor %}
-                        <p>{{ form_review.rating.help_text }}</p> <!-- pas bon ! mal affiché et il faut que j'arrive à le mette comme dans les autres champs  -->
+                    <p>
+                    <small class="form-text text-muted">
+                        {{ form_review.rating.help_text }}
+                    </small> <!-- pas bon ! mal affiché et il faut que j'arrive à le mette comme dans les autres champs  -->
+                    </p>
                 </p>
             </p>
 
