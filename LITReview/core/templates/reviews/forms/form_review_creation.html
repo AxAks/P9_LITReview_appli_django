@@ -30,12 +30,8 @@
                     {{ form_review.headline | as_crispy_field }}
             </p>
             <p class="fieldWrapper">
-                <ul class="d-inline-flex">
-                    <li>
                         {{ form_review.rating.errors }}
                         {{ form_review.rating | as_crispy_field }} <!-- Changer l'affichage pour des boutons -->
-                    </li>
-                </ul>
             </p>
             <p class="fieldWrapper">
                     {{ form_review.body.errors }}

@@ -12,7 +12,6 @@ pour:
 à voir ...
 """
 from django import forms
-
 from reviews.models import Ticket, Review
 
 
@@ -45,7 +44,8 @@ class TicketEditForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     headline = forms.CharField(label="Titre", max_length=128,
                                help_text='Le titre que vous souhaitez donner à votre critique')
-    rating = forms.IntegerField(label="Note", min_value=0, max_value=5, help_text='La note que vous souhaitez donner')
+    rating = forms.IntegerField(label="Note", min_value=0, max_value=5,
+                                help_text='La note que vous souhaitez donner')
     body = forms.CharField(label="Description", max_length=8192, help_text='Le corps de votre critique')
 
     class Meta:
