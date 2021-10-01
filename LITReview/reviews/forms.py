@@ -12,6 +12,7 @@ pour:
 à voir ...
 """
 from django import forms
+from constants import RATINGS
 from reviews.models import Ticket, Review
 
 
@@ -44,8 +45,9 @@ class TicketEditForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     headline = forms.CharField(label="Titre", max_length=128,
                                help_text='Le titre que vous souhaitez donner à votre critique')
-    rating = forms.IntegerField(label="Note", min_value=0, max_value=5,
-                                help_text='La note que vous souhaitez donner')
+    rating = forms.ChoiceField(label="Note", choices=sorted({(RATINGS[k], k) for k in RATINGS}),
+                               help_text='La note de 0 à 5 que vous souhaitez donner',
+                               widget=forms.widgets.RadioSelect)
     body = forms.CharField(label="Description", max_length=8192, help_text='Le corps de votre critique')
 
     class Meta:
@@ -57,8 +59,9 @@ class ReviewForm(forms.ModelForm):
 class ReviewEditForm(forms.ModelForm):
     headline = forms.CharField(label="Titre", max_length=128,
                                help_text='Le titre que vous souhaitez donner à votre critique', required=False)
-    rating = forms.IntegerField(label="Note", min_value=0, max_value=5, help_text='La note que vous souhaitez donner',
-                                required=False)
+    rating = forms.ChoiceField(label="Note", choices=sorted({(RATINGS[k], k) for k in RATINGS}),
+                               help_text='La note de 0 à 5 que vous souhaitez donner',
+                               required=False, widget=forms.widgets.RadioSelect)
     body = forms.CharField(label="Description", max_length=8192, help_text='Le corps de votre critique',
                            required=False)
 
