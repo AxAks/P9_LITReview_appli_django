@@ -128,6 +128,7 @@ class PostsEditionView(TemplateView):
             else:
                 try:
                     self.delete_ticket(ticket_to_delete.id)
+                    messages.info(request, constants.ticket_deleted)
                     return redirect(reverse('posts'))
                 except Exception as e:
                     raise Exception(e)
@@ -152,6 +153,7 @@ class PostsEditionView(TemplateView):
             try:
                 review_to_delete = self.get_review_by_id(kwargs['id'])
                 self.delete_review(review_to_delete.id)
+                messages.info(request, constants.review_deleted)
                 return redirect(reverse('posts'))
             except Exception as e:
                 raise Exception(e)
@@ -176,50 +178,60 @@ class PostsEditionView(TemplateView):
         if url_name == 'ticket_creation':
             try:
                 self.create_ticket(request)
+                messages.info(request, constants.ticket_created)
                 return redirect(reverse('posts'))
             except ValidationError:
                 template_name = 'reviews/post_edition/ticket_creation.html'
                 form = TicketForm()
+                messages.info(request, constants.form_error)
                 return render(request, template_name, {'form': form})
 
         elif url_name == 'ticket_modification':
             try:
                 ticket_to_edit = self.get_ticket_by_id(kwargs['id'])
                 self.edit_ticket(request, ticket_to_edit)
+                messages.info(request, constants.ticket_modified)
                 return redirect(reverse('posts'))
             except ValidationError:
                 template_name = 'reviews/post_edition/ticket_modification.html'
                 form = TicketEditForm()
+                messages.info(request, constants.form_error)
                 return render(request, template_name, {'form': form})
 
         elif url_name == 'review_ticket_reply':
             try:
                 ticket_replied_to = self.get_ticket_by_id(kwargs['id'])
                 self.create_review(request, ticket_replied_to)
+                messages.info(request, constants.review_created)
                 return redirect(reverse('posts'))
             except ValidationError:
                 template_name = 'reviews/post_edition/review_creation.html'
                 form = ReviewForm()
+                messages.info(request, constants.form_error)
                 return render(request, template_name, {'form': form})
 
         elif url_name == 'review_modification':
             try:
                 review_to_edit = self.get_review_by_id(kwargs['id'])
                 self.edit_review(request, review_to_edit)
+                messages.info(request, constants.review_modified)
                 return redirect(reverse('posts'))
             except ValidationError:
                 template_name = 'reviews/post_edition/review_modification.html'
                 form = ReviewEditForm()
+                messages.info(request, constants.form_error)
                 return render(request, template_name, {'form': form})
 
         elif url_name == 'review_creation_no_ticket':
             try:
                 ticket = self.create_ticket(request)
                 self.create_review(request, ticket)
+                messages.info(request, constants.review_created)
                 return redirect(reverse('posts'))
             except ValidationError:
                 template_name = 'reviews/post_edition/review_creation_no_ticket.html'
                 form = TicketForm()
+                messages.info(request, constants.form_error)
                 return render(request, template_name, {'form': form})
 
     @classmethod
@@ -286,6 +298,13 @@ class PostsEditionView(TemplateView):
             raise ValidationError(e)
 
     @classmethod
+    def delete_ticket(cls, ticket_id) -> None:
+        """
+        Enables to delete a given Ticket
+        """
+        return Ticket.objects.filter(pk=ticket_id).delete()
+
+    @classmethod
     def create_review(cls, request, ticket_replied_to: Ticket) -> Review:
         """
         Enables to create a review (a response to a Ticket)
@@ -330,6 +349,13 @@ class PostsEditionView(TemplateView):
             raise ValidationError(e)
 
     @classmethod
+    def delete_review(cls, review_id) -> None:
+        """
+        Enables to delete a given Review
+        """
+        return Review.objects.filter(pk=review_id).delete()
+
+    @classmethod
     def get_review_by_id(cls, review_id) -> Review:
         """
         Enables to get a given Review by its ID
@@ -342,17 +368,3 @@ class PostsEditionView(TemplateView):
         Enables to get a given Ticket by its ID
         """
         return Ticket.objects.get(pk=ticket_id)
-
-    @classmethod
-    def delete_ticket(cls, ticket_id) -> None:
-        """
-        Enables to delete a given Ticket
-        """
-        return Ticket.objects.filter(pk=ticket_id).delete()
-
-    @classmethod
-    def delete_review(cls, review_id) -> None:
-        """
-        Enables to delete a given Review
-        """
-        return Review.objects.filter(pk=review_id).delete()
