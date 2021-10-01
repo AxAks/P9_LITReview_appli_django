@@ -5,9 +5,6 @@
 {% load crispy_forms_tags %}
 
 
-
-
-
 <head>
     <meta charset="UTF-8">
     <title>Ticket</title>
@@ -49,8 +46,8 @@
                     {% endif %}
                 {% endif %}
                 {% if context.url_name == 'feed' %}
-                    {% if context.replied %}
-                        <p> Ce ticket a dejà une réponse </p>
+                    {% if post in context.ticket_already_replied %}
+                        <p>Ce ticket a dejà une réponse. Vous ne pouvez plsu le commenter</p>
 
                     {% else %}
                     <a href="{% url 'review_ticket_reply' post.id %}">
@@ -58,8 +55,8 @@
                     </a>
                     {% endif %}
                 {% elif context.url_name == 'posts' %}
-                    {% if replied %}
-                        <p> Ce ticket a dejà une réponse </p>
+                    {% if post in context.ticket_already_replied %}
+                        <p>Ce ticket a dejà une réponse. Il n'est plus éditable</p>
                     {% else %}
                     <a href="{% url 'ticket_modification' post.id %}">
                         <button class="btn btn-outline-dark">Modifier ce ticket</button>
