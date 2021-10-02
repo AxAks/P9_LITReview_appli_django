@@ -10,9 +10,9 @@
     <meta charset="UTF-8">
     <title>Critique</title>
 </head>
-<body>
-    <ul class="list-unstyled">
-        <li>
+<article>
+    <ul class="list-group">
+        <li class="list-group-item">
             {% if context.post %}
                 <p>{{ context.post.time_created|date:"H:m, d F Y" }}</p>
                 {% if context.post.user == request.user %}
@@ -67,5 +67,5 @@
             {% endif %}
         </li>
     </ul>
-</body>
+</article>
 </html>

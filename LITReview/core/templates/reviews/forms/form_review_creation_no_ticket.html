@@ -35,8 +35,8 @@
         {{ form_review.headline | as_crispy_field }}
     </p>
     <p class="fieldWrapper">
-    <div>{{ form_review.rating.label }}</div>
         <p class="form-check-inline">
+        <div>{{ form_review.rating.label }}*</div>
             {{ form_review.rating.errors }}
             {% for notation in form_review.rating %}
                 {{ notation }} <!-- Affichage OK mais plus de crispy form, plus de help text à cause de la boucle-->

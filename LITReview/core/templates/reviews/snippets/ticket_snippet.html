@@ -9,9 +9,9 @@
     <meta charset="UTF-8">
     <title>Ticket</title>
 </head>
-    <body>
-        <ul class="list-unstyled">
-            <li>
+    <article>
+        <ul class="list-group">
+            <li class="list-group-item">
                 {% if post %}  <!-- from url with parameter, reference à l'objet ticket en direct-->
                     <p>{{ post.time_created|date:"H:m, d F Y" }}</p>
                     {% if post.user == request.user %}
@@ -68,5 +68,5 @@
                 {% endif %}
             </li>
         </ul>
-    </body>
+    </article>
 </html>

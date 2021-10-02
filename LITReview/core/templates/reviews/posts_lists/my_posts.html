@@ -1,28 +1,12 @@
 {% extends 'base.html' %}
 
 {% load static %}
-
 {% load crispy_forms_tags %}
 
-
-
-
-<!--
-    Template pour Mes Posts
-    Le titre est recupéré via l'url_name
--->
     {% block title %} {{ context.title }} {% endblock %}
 
     {% block content %}
-    <div>
-        <a href="{% url 'ticket_creation' %}">
-            <button class="btn btn-outline-dark">Demander une critique</button>
-        </a>
-        <a href="{% url 'review_creation_no_ticket' %}">
-            <button class="btn btn-outline-dark">Créer une critique</button>
-        </a>
-        <hr>
-    </div>
+    {% include 'reviews/snippets/header_links.html' %}
 
     <div>
         {% if context.user_posts %}
