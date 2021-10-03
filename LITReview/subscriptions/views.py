@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib import messages
 
 from core.models import CustomUser
+from subscriptions.forms import UserSearchForm
 from subscriptions.models import UserFollows
 
 
@@ -13,6 +14,7 @@ class SubscriptionsView(TemplateView):
     """
     template_name = 'subscriptions/my_subscriptions.html'
     context = {}
+    search_form = UserSearchForm()
 
     def get(self, request, *args, **kwargs):
         """
@@ -25,10 +27,10 @@ class SubscriptionsView(TemplateView):
                         'new_user_followed': [],
                         'unfollowed_user': []
                         }
-
         self.get_subscriptions_status_for_user(request)
 
-        return render(request, self.template_name, {'context': self.context})
+
+        return render(request, self.template_name, {'context': self.context, 'search_form': self.search_form})
 
     def post(self, request, *args, **kwargs):
         """
@@ -41,24 +43,27 @@ class SubscriptionsView(TemplateView):
         users_excluded_from_search = [user.id for user in self.context['followed_users']]
         users_excluded_from_search.append(request.user.id)
         form_name = request.POST.get('form_name')
+        search_form = UserSearchForm(request.POST)
 
-        if form_name == 'search':
+        if form_name is None and search_form['username'] != '':
             return self.search(request, users_excluded_from_search)
-        if form_name == 'follow':
+        elif form_name == 'follow':
             return self.follow(request)
         elif form_name == 'unfollow':
             return self.unfollow(request)
 
     def search(self, request, users_excluded_from_search):
-        query = request.POST.get('searched_user')
+        query = request.POST.get('username')
         if query:
             found_users = CustomUser.objects.filter(username__icontains=query) \
                 .distinct() \
                 .exclude(id__in=users_excluded_from_search)
-        else:
-            found_users = []
-        self.context['found_users'] = found_users
-        return render(request, self.template_name, {'context': self.context})
+            self.context['found_users'] = found_users
+            if found_users:
+                return render(request, self.template_name, {'context': self.context, 'search_form': self.search_form})
+            else:
+                messages.info(request, "La recherche n'a retourné aucun utilisateur")
+                return redirect(reverse('subscriptions'))
 
     def unfollow(self, request):
         user_to_unfollow_username = request.POST.get('user_to_unfollow')
@@ -69,7 +74,7 @@ class SubscriptionsView(TemplateView):
             .delete()
         self.context['unfollowed_user'] = user_unfollowed
         messages.info(request, f"L'utilisateur {user_to_unfollow_username} n'est maintenant plus suivi")
-        return redirect(reverse('subscriptions', kwargs={}))
+        return redirect(reverse('subscriptions'))
 
     def follow(self, request):
         user_to_follow_username = request.POST.get('user_to_follow')

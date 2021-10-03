@@ -1,31 +1,17 @@
 {% extends 'base.html' %}
 
 {% load static %}
-
 {% load crispy_forms_tags %}
-
-
-
-
 
     {% block title %} Page des abonnements {% endblock %}
     {% block content %}
         <div>
             <h3>Chercher d'autres utilisateurs à suivre</h3>
-                <form method="post" action="">
-                    {% csrf_token %}
-                    <p class="fieldWrapper">
-                        {{ form.user_name.errors}}
-                        {{ form.username }}
-                    </p>
-                    <input type="hidden" name="form_name" value="search">
-                    <input name="searched_user" placeholder="Rechercher un utilisateur">
-                    <button class="btn btn-outline-dark" type="submit">Envoyer</button>
-                </form>
+            {% include 'subscriptions/form_user_search.html' %}
+
                 <div>
                     <p>
-                        {% if context.found_users is not None %}
-                            {% if context.found_users %}
+                        {% if context.found_users %}
                             <p>{{ context.found_users.count }} utilisateur(s) trouvé(s) </p>
                                 <ul>
                                     {% for user in context.found_users %}
@@ -42,9 +28,6 @@
                                     </form>
                                 {% endfor %}
                                 </ul>
-                            {% else %}
-                                <p> Pas de resultat à afficher</p>
-                            {% endif %}
                         {% endif %}
                     </p>
                 </div>

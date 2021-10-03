@@ -8,7 +8,6 @@
 
     {% block content %}
     {% include 'reviews/snippets/header_links.html' %}
-
     <div>
         {% if context.current_user_and_followed_user_posts %}
             {% for post in context.current_user_and_followed_user_posts %}

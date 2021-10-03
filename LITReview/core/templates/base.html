@@ -25,7 +25,7 @@
 
 <!-- retirer les styles dans la balise <body> par la suite, c'est juste pour le fun !-->
   <body class="container">
-  <header class="container">
+  <header>
     <h1>
         LITReview
         {% if user.is_authenticated %}
@@ -41,11 +41,10 @@
     <hr size="5px" color="black">  <!-- temporaire -->
   </header>
 
-  <div class="page-header header-filter" data-parallax="true" style="background-image: {% static 'material-kit-master/assets/img/bg3.jpg' %}">
+  <div class="page-header header-filter" data-parallax="true">
       <h2>{% block title %}{% endblock %}</h2>
       <p>{% include 'messages.html' %}</p>
   </div>
-  <hr> <!-- temporaire -->
 
   <div class="main main-raised">
       {% block content %}
