@@ -7,7 +7,7 @@
     {% block content %}
         <div>
             <h3>Chercher d'autres utilisateurs à suivre</h3>
-            {% include 'subscriptions/form_user_search.html' %}
+            {% include 'subscriptions/forms/form_user_search.html' %}
 
                 <div>
                     <p>
@@ -15,17 +15,7 @@
                             <p>{{ context.found_users.count }} utilisateur(s) trouvé(s) </p>
                                 <ul>
                                     {% for user in context.found_users %}
-                                    <form method="post" action="">
-                                        {% csrf_token %}
-                                        <li class="card">
-                                            <input type="hidden" name="user_to_follow" value="{{ user }}">
-                                            {{ user.username }}
-                                            <input type="hidden" name="form_name" value="follow">
-                                            <button class="btn btn-sm btn-outline-dark" type="submit" >
-                                                S'abonner
-                                            </button>
-                                        </li>
-                                    </form>
+                                    {% include 'subscriptions/forms/form_follow_user.html' %}
                                 {% endfor %}
                                 </ul>
                         {% endif %}
@@ -36,17 +26,7 @@
                 {% if context.followed_users %}
                     <ul>
                     {% for user in context.followed_users %}
-                    <form method="post" action="">
-                        {% csrf_token %}
-                        <li class="card">
-                            <input type="hidden" name="user_to_unfollow" value="{{ user }}">
-                                {{ user.username }}
-                            <input type="hidden" name="form_name" value="unfollow">
-                            <button class="btn btn-sm btn-outline-dark" type= "submit">
-                                Se désabonner
-                            </button>
-                        </li>
-                    </form>
+                    {% include 'subscriptions/forms/form_unfollow_user.html' %}
                     {% endfor %}
                     </ul>
                 {% else %}

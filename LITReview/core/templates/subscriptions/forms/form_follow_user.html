@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>User search</title>
+</head>
+<body>
+    <form method="post" action="">
+        {% csrf_token %}
+        <li class="card">
+            <p class="fieldWrapper">
+                {{ follow_form.username.errors}}
+                {{ follow_form.username }} {{ context.following_users }}
+                <button class="btn btn-sm btn-outline-dark" type="submit">S'abonner</button>
+            </p>
+        </li>
+    </form>
+</body>
+</html>

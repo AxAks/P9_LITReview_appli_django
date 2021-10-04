@@ -9,3 +9,21 @@ class UserSearchForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ('username',)
+
+
+class UserFollowForm(forms.ModelForm):
+    username = forms.CharField(max_length=100, required=False,
+                               help_text="A modifier")
+
+    class Meta:
+        model = CustomUser
+        fields = ('username',)
+
+
+class UserUnfollowForm(forms.ModelForm):
+    username = forms.CharField(max_length=100, required=False,
+                               help_text="A modifier")
+
+    class Meta:
+        model = CustomUser
+        fields = ('username',)
