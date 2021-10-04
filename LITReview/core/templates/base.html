@@ -24,15 +24,23 @@
     <link href="assets/scss/material-kit.scss" rel="stylesheet" />
 </head>
 
-  <body class="container">
+  <body class="container bg-secondary">
   <header class="list-group-item">
     <h1>LITReview</h1>
         {% if user.is_authenticated %}
         <p class="h2">Bonjour {{ user.username }} !</p>
-            <a href="{% url 'feed' %}"><button class="btn btn-outline-dark">Flux</button></a>
-            <a href="{% url 'posts' %}"><button class="btn btn-outline-dark">Posts</button></a>
-            <a href="{% url 'subscriptions' %}"><button class="btn btn-outline-dark">Abonnements</button></a>
-            <a href="{% url 'logout' %}"><button class="btn btn-outline-danger">Se déconnecter</button></a>
+            <a href="{% url 'feed' %}">
+                <button class="btn bg-primary btn-outline-dark">Flux</button>
+            </a>
+            <a href="{% url 'posts' %}">
+                <button class="btn bg-primary btn-outline-dark">Posts</button>
+            </a>
+            <a href="{% url 'subscriptions' %}">
+                <button class="btn bg-primary btn-outline-dark">Abonnements</button>
+            </a>
+            <a href="{% url 'logout' %}">
+                <button class="btn bg-danger btn-outline-dark">Se déconnecter</button>
+            </a>
         {% else %}
             <p class="h3">Bienvenue ! Vous n'etes pas connecté</p>
         {% endif %}

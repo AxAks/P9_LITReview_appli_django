@@ -10,59 +10,39 @@
     <meta charset="UTF-8">
     <title>Critique</title>
 </head>
-<article>
-    <div class="list-group-item">
+<article class="list-group-item bg-primary">
         {% if context.post %}
-            <p>{{ context.post.time_created|date:"H:m, d F Y" }}</p>
+            <p class="float-right">{{ context.post.time_created|date:"H:m, d F Y" }}</p>
             {% if context.post.user == request.user %}
-                <p>vous avez publié une critique </p>
+                <p  class="font-weight-bold">vous avez publié une critique </p>
             {% else %}
-                <p>{{ context.post.user }} a publié une critique </p>
+                <p  class="font-weight-bold">{{ context.post.user }} a publié une critique </p>
             {% endif %}
                 <p>{{ context.post.headline }} - {{ context.post.rating }}</p>
                 <p>{{ context.post.body }}</p>
 
-            <p>
-                <p><u>Ticket</u> - {{ context.post.ticket.user }}</p>
-                <p>{{ context.post.ticket.title }}</p>
-                <p>{{ context.post.ticket.description }}</p>
-                    {% if context.post.ticket.image %}
-                            <img height="50px" src="{% get_media_prefix %}{{ context.post.ticket.image }}"><br/>
-                    {% else %}
-                            <img height="50px" src="{% get_media_prefix %}ticket_images/no_image.png"><br/>
-                    {% endif %}
-            </p>
+            <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.post.ticket %}</p>
         {% else %}
-            <p>{{ post.time_created|date:"H:m, d F Y" }}</p>
+        <p>
+            <p class="float-right">{{ post.time_created|date:"H:m, d F Y" }}</p>
             {% if post.user == request.user %}
-                <p>vous avez publié une critique </p>
+                <p  class="font-weight-bold">vous avez publié une critique </p>
             {% else %}
-                <p>{{ post.user }} a publié une critique </p>
+                <p  class="font-weight-bold">{{ post.user }} a publié une critique </p>
             {% endif %}
                 <p>{{ post.headline }} - {{ post.rating }}</p>
                 <p>{{ post.body }}</p>
+                <p>{% include 'reviews/snippets/ticket_snippet.html' with post=post.ticket %}</p>
 
-            <p>
-                <p><u>Ticket</u> - {{ post.ticket.user }}</p>
-                <p>{{ post.ticket.title }}</p>
-                <p>-> Description: {{ post.ticket.description }}</p>
-
-
-                {% if post.ticket.image %}
-                    <img height="50px" src="{% get_media_prefix %}{{ post.ticket.image }}"><br/>
-                {% else %}
-                    <img height="50px" src="{% get_media_prefix %}ticket_images/no_image.png"><br/>
-                {% endif %}
             </p>
         {% endif %}
         {% if context.url_name == 'posts' %}
-         <a href="{% url 'review_modification' post.id %}">
-        <button class="btn btn-outline-dark">Modifier cette critique</button>
-            </a>
+        <a href="{% url 'review_modification' post.id %}">
+            <button class="btn bg-primary btn-outline-dark float-right">Modifier cette critique</button>
+        </a>
         <a href="{% url 'review_delete' post.id %}">
-        <button class="btn btn-outline-dark">Supprimer cette critique</button>
-            </a>
+            <button class="btn bg-primary btn-outline-dark float-right">Supprimer cette critique</button>
+        </a>
         {% endif %}
-    </div>
 </article>
 </html>

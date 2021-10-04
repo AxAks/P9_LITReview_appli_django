@@ -23,9 +23,9 @@
                 <p class="form-check-inline">
                     <div>{{ form_review.rating.label }}*</div>
                     {{ form_review.rating.errors }}
-                    {% for notation in form_review.rating %}
+                        {% for notation in form_review.rating %}
                         {{ notation }}
-                    {% endfor %}
+                        {% endfor %}
                     <small class="form-text text-muted">
                     {{ form_review.rating.help_text }}
                     </small>
@@ -35,7 +35,7 @@
                 {{ form_review.body | as_crispy_field }}
             </p>
             <p class="fieldWrapper">
-                <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
+                <button class="btn bg-primary btn-sm btn-outline-dark" type="submit">Envoyer</button>
             </p>
         </form>
     </div>
