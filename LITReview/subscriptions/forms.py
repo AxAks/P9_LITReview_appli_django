@@ -12,8 +12,8 @@ class UserSearchForm(forms.ModelForm):
 
 
 class UserFollowForm(forms.ModelForm):
-    username = forms.CharField(max_length=100, required=False,
-                               help_text="A modifier")
+    username = forms.ModelChoiceField(queryset=CustomUser.objects.filter(username='number1fan'), required=False,
+                                      help_text="A modifier")
 
     class Meta:
         model = CustomUser

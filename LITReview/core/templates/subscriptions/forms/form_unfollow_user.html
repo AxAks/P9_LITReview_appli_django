@@ -6,18 +6,17 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>User search</title>
+    <title>Unfollow User</title>
 </head>
 <body>
     <form method="post" action="">
         {% csrf_token %}
-        <li class="card">
-        {{ unfollow_form.non_field_errors }}
-            <p class="fieldWrapper">
-                {{ unfollow_form.user_name.errors}}
-                {{ unfollow_form.username }}
-            <button class="btn btn-sm btn-outline-dark" type= "submit">Se désabonner</button>
-        </li>
+            <li class="card fieldWrapper">
+                {{ unfollow_form.non_field_errors }}
+                    {{ user.username }}
+                    <input type="hidden" name="unfollow_form" value="{{ user.username }}">
+                <button class="btn btn-sm btn-outline-dark" type= "submit">Se désabonner</button>
+            </li>
     </form>
 </body>
 </html>

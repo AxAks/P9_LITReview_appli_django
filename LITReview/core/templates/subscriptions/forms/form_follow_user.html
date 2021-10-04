@@ -6,18 +6,17 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>User search</title>
+    <title>Follow User</title>
 </head>
 <body>
     <form method="post" action="">
         {% csrf_token %}
-        <li class="card">
-            <p class="fieldWrapper">
-                {{ follow_form.username.errors}}
-                {{ follow_form.username }} {{ context.following_users }}
+            <li class="card fieldWrapper">
+                {{ follow_form.non_field_errors }}
+                    {{ user.username }}
+                    <input type="hidden" name="follow_form" value="{{ user.username }}">
                 <button class="btn btn-sm btn-outline-dark" type="submit">S'abonner</button>
-            </p>
-        </li>
+            </li>
     </form>
 </body>
 </html>

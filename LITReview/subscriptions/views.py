@@ -49,16 +49,16 @@ class SubscriptionsView(TemplateView):
 
         users_excluded_from_search = [user.id for user in self.context['followed_users']]
         users_excluded_from_search.append(request.user.id)
-        form_name = request.POST.get('form_name')
         search_form = UserSearchForm(request.POST)
         follow_form = UserFollowForm(request.POST)
         unfollow_form = UserUnfollowForm(request.POST)
 
-        if form_name is None and search_form['username'] != '':
+        if 'username' in search_form.data.keys():
             return self.search(request, users_excluded_from_search)
-        elif form_name is None and follow_form['username'] != '':
+        elif 'username' in follow_form.data.keys():
             return self.follow(request)
-        elif form_name is None and unfollow_form['username'] != '':
+        elif 'username' in unfollow_form.data.keys():
+            print("hello bye ")
             return self.unfollow(request)
 
     def search(self, request, users_excluded_from_search):

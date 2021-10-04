@@ -36,9 +36,11 @@
             <h3>Mes Abonnés ({{ context.following_users|length }})</h3>
                 {% if context.following_users %}
                 {% for user in context.following_users %}
-                    <ul>
-                        <li class="card">{{ user.username }}</li>
-                    </ul>
+                        <li class="card fieldWrapper">
+                            <p>
+                            {{ user.username }}
+                            </p>
+                        </li>
                 {% endfor %}
                 {% else %}
                     <p>Vous n'avez aucun abonné</p>
