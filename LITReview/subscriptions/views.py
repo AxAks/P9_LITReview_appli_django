@@ -58,7 +58,6 @@ class SubscriptionsView(TemplateView):
         elif 'follow_form' in follow_form.data.keys():
             return self.follow(request)
         elif 'unfollow_form' in unfollow_form.data.keys():
-            print("hello bye ")
             return self.unfollow(request)
 
     def search(self, request, users_excluded_from_search):
@@ -91,7 +90,7 @@ class SubscriptionsView(TemplateView):
             .get(username=query)
         new_user_followed = UserFollows(user_id=request.user.id, followed_user_id=user_to_follow.id)
         new_user_followed.save()
-        self.context['new_user_followed'] = new_user_followed
+        self.context['new_user_followed'] = new_user_followed.followed_user
         messages.info(request, f"L'utilisateur {query} est maintenant suivi")
         return redirect(reverse('subscriptions'))
 
