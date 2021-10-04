@@ -84,10 +84,6 @@ class SubscriptionsView(TemplateView):
         self.context['unfollowed_user'] = user_unfollowed
         messages.info(request, f"L'utilisateur {query} n'est maintenant plus suivi")
         return redirect(reverse('subscriptions'))
-        return render(request, self.template_name, {'context': self.context,
-                                                    'unfollow_form': self.unfollow_form,
-                                                    'search_form': self.search_form})
-
 
     def follow(self, request):
         query = request.POST.get('follow_form')
@@ -98,9 +94,6 @@ class SubscriptionsView(TemplateView):
         self.context['new_user_followed'] = new_user_followed
         messages.info(request, f"L'utilisateur {query} est maintenant suivi")
         return redirect(reverse('subscriptions'))
-        return render(request, self.template_name, {'context': self.context,
-                                                    'follow_form': self.follow_form,
-                                                    'search_form': self.search_form})
 
     def get_subscriptions_status_for_user(self, request):
         followed_users = [CustomUser.objects.get(id=relation_obj.followed_user_id)
