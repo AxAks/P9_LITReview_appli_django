@@ -55,9 +55,9 @@ class SubscriptionsView(TemplateView):
 
         if 'username' in search_form.data.keys():
             return self.search(request, users_excluded_from_search)
-        elif 'username' in follow_form.data.keys():
+        elif 'follow_form' in follow_form.data.keys():
             return self.follow(request)
-        elif 'username' in unfollow_form.data.keys():
+        elif 'unfollow_form' in unfollow_form.data.keys():
             print("hello bye ")
             return self.unfollow(request)
 
@@ -75,7 +75,7 @@ class SubscriptionsView(TemplateView):
                 return redirect(reverse('subscriptions'))
 
     def unfollow(self, request):
-        query = request.POST.get('username')
+        query = request.POST.get('unfollow_form')
         user_to_unfollow = CustomUser.objects \
             .get(username=query)
         user_unfollowed = UserFollows.objects \
@@ -83,19 +83,24 @@ class SubscriptionsView(TemplateView):
             .delete()
         self.context['unfollowed_user'] = user_unfollowed
         messages.info(request, f"L'utilisateur {query} n'est maintenant plus suivi")
-        return render(request, self.template_name, {'context': self.context, 'unfollow_form': self.unfollow_form})
         return redirect(reverse('subscriptions'))
+        return render(request, self.template_name, {'context': self.context,
+                                                    'unfollow_form': self.unfollow_form,
+                                                    'search_form': self.search_form})
+
 
     def follow(self, request):
-        query = request.POST.get('username')
+        query = request.POST.get('follow_form')
         user_to_follow = CustomUser.objects \
             .get(username=query)
         new_user_followed = UserFollows(user_id=request.user.id, followed_user_id=user_to_follow.id)
         new_user_followed.save()
         self.context['new_user_followed'] = new_user_followed
         messages.info(request, f"L'utilisateur {query} est maintenant suivi")
-        return render(request, self.template_name, {'context': self.context, 'follow_form': self.follow_form})
-        return redirect(reverse('subscriptions', kwargs={}))
+        return redirect(reverse('subscriptions'))
+        return render(request, self.template_name, {'context': self.context,
+                                                    'follow_form': self.follow_form,
+                                                    'search_form': self.search_form})
 
     def get_subscriptions_status_for_user(self, request):
         followed_users = [CustomUser.objects.get(id=relation_obj.followed_user_id)
