@@ -10,8 +10,8 @@
 </head>
 
 <body>
-<hr> <!-- à retirer plus tard -->
-<form method="post" action="" enctype="multipart/form-data">
+<div class="list-group-item">
+    <form method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
     <h3>Ticket</h3>
     {{ form_ticket.non_field_errors }} <!-- l'appeler form_ticket -->
@@ -27,7 +27,7 @@
         {{ form_ticket.image.errors }}
         {{ form_ticket.image | as_crispy_field }}
     </p>
-
+    <hr/>
     <h3>Critique</h3>
     {{ form_review.non_field_errors }}
     <p class="fieldWrapper">
@@ -57,5 +57,6 @@
         </button>
     </p>
 </form>
+</div>
 </body>
 </html>

@@ -10,9 +10,8 @@
     <title>Ticket</title>
 </head>
     <article>
-        <ul class="list-group">
-            <li class="list-group-item">
-                {% if post %}  <!-- from url with parameter, reference à l'objet ticket en direct-->
+        <div class="list-group-item">
+                {% if post %} <!-- from url with parameter, reference à l'objet ticket en direct-->
                     <p>{{ post.time_created|date:"H:m, d F Y" }}</p>
                     {% if post.user == request.user %}
                         <p>Vous avez demandé une critique </p>
@@ -30,7 +29,6 @@
                 </p>
                 {% elif context.associated_ticket %}
                 <!-- from views with context, référence au ticket en passant par une critique en reponse -->
-                <!-- voir comment faire pour avoir toujours la meme reference plutot (ex: ticket. au lieu de post.) -->
                     <p>{{ context.associated_ticket.time_created|date:"H:m, d F Y" }}</p>
                 {% if context.associated_ticket.user == request.user %}
                     <p>Vous avez demandé une critique </p>
@@ -47,7 +45,7 @@
                 {% endif %}
                 {% if context.url_name == 'feed' %}
                     {% if post in context.ticket_already_replied %}
-                        <p>Ce ticket a dejà une réponse. Vous ne pouvez plsu le commenter</p>
+                        <p>Ce ticket a dejà une réponse. Vous ne pouvez plus le commenter</p>
 
                     {% else %}
                     <a href="{% url 'review_ticket_reply' post.id %}">
@@ -66,7 +64,6 @@
                     </a>
                     {% endif %}
                 {% endif %}
-            </li>
-        </ul>
+        </div>
     </article>
 </html>

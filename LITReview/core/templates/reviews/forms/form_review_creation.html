@@ -9,48 +9,35 @@
     <title>Critique - Creation</title>
 </head>
     <body>
-        <hr> <!-- à retirer plus tard -->
-        <h3>Vous etes en train de poster en réponse à:</h3>
-            <p>
-                {{ context.post.time_created|date:"H:m, d F Y" }}<br />
-                {{ context.post.user }} a demandé une critique<br />
-                {{ context.post.title }}<br />
-                {{ context.post.description }}<br />
-                {% if context.post.image %}
-                    <img height="50px" src="{% get_media_prefix %}{{ context.post.image }}">
-                {% else %}
-                    <img height="50px" src="{% get_media_prefix %}ticket_images/no_image.png">
-                {% endif %}
-            </p>
+        <div class="list-group-item">Vous etes en train de poster en réponse à:
+            <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.post %}</p>
+
         <form method="post" action="">
         {% csrf_token %}
         {{ form_review.non_field_errors }}
             <p class="fieldWrapper">
-                    {{ form_review.headline.errors }}
-                    {{ form_review.headline | as_crispy_field }}
+                {{ form_review.headline.errors }}
+                {{ form_review.headline | as_crispy_field }}
             </p>
             <p class="fieldWrapper">
                 <p class="form-check-inline">
                     <div>{{ form_review.rating.label }}*</div>
                     {{ form_review.rating.errors }}
                     {% for notation in form_review.rating %}
-                        {{ notation }} <!-- Affichage OK mais plus de crispy form, plus de help text à cause de la boucle-->
+                        {{ notation }}
                     {% endfor %}
-                <p>
                     <small class="form-text text-muted">
                     {{ form_review.rating.help_text }}
-                </small>
-                </p> <!-- pas bon ! mal affiché et il faut que j'arrive à le mette comme dans les autres champs  -->
+                    </small>
+                </p>
+            <p class="fieldWrapper">
+                {{ form_review.body.errors }}
+                {{ form_review.body | as_crispy_field }}
             </p>
             <p class="fieldWrapper">
-                    {{ form_review.body.errors }}
-                    {{ form_review.body | as_crispy_field }}
-            </p>
-            <p class="fieldWrapper">
-                <button class="btn btn-sm btn-outline-dark" type="submit">
-                    Envoyer
-                </button>
+                <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
             </p>
         </form>
+    </div>
     </body>
 </html>

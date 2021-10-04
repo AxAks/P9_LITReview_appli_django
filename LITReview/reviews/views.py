@@ -155,6 +155,7 @@ class PostsEditionView(TemplateView):
             self.template_name = 'reviews/post_edition/review_modification.html'
             review_to_edit = self.get_review_by_id(kwargs['id'])
             self.context['post'] = review_to_edit
+            self.context['associated_ticket'] = review_to_edit.ticket
             self.form_review = ReviewEditForm()
 
         elif url_name == 'review_delete':

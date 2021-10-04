@@ -22,10 +22,8 @@
     <link href="assets/css/material-kit.css?v=2.0.4" rel="stylesheet" />
 </head>
 
-
-<!-- retirer les styles dans la balise <body> par la suite, c'est juste pour le fun !-->
   <body class="container">
-  <header>
+  <header class="list-group-item">
     <h1>
         LITReview
         {% if user.is_authenticated %}
@@ -38,10 +36,9 @@
             <h3>Bienvenue ! Vous n'etes pas connecté</h3>
         {% endif %}
     </h1>
-    <hr size="5px" color="black">  <!-- temporaire -->
   </header>
 
-  <div class="page-header header-filter" data-parallax="true">
+  <div class="page-header header-filter list-group-item" data-parallax="true">
       <h2>{% block title %}{% endblock %}</h2>
       <p>{% include 'messages.html' %}</p>
   </div>

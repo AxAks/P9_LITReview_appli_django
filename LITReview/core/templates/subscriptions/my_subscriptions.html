@@ -5,10 +5,10 @@
 
     {% block title %} Page des abonnements {% endblock %}
     {% block content %}
-        <div>
-            <h3>Chercher d'autres utilisateurs à suivre</h3>
+        <div class="list-group-item">
+            <div>
+                <h4>Chercher d'autres utilisateurs à suivre</h4>
             {% include 'subscriptions/forms/form_user_search.html' %}
-
                 <div>
                     <p>
                         {% if context.found_users %}
@@ -21,8 +21,9 @@
                         {% endif %}
                     </p>
                 </div>
-
-            <h3>Mes Abonnements ({{ context.followed_users|length }})</h3>
+            </div>
+            <div>
+                <h4>Mes Abonnements ({{ context.followed_users|length }})</h4>
                 {% if context.followed_users %}
                     <ul>
                     {% for user in context.followed_users %}
@@ -32,8 +33,9 @@
                 {% else %}
                     <p>Vous n'etes abonné à aucun utilisateur</p>
                 {% endif %}
-
-            <h3>Mes Abonnés ({{ context.following_users|length }})</h3>
+            </div>
+            <div>
+                <h4>Mes Abonnés ({{ context.following_users|length }})</h4>
                 {% if context.following_users %}
                 {% for user in context.following_users %}
                         <li class="card fieldWrapper">
@@ -45,6 +47,6 @@
                 {% else %}
                     <p>Vous n'avez aucun abonné</p>
                 {% endif %}
-
+            </div>
         </div>
     {% endblock %}
