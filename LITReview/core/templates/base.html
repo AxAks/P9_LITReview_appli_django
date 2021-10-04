@@ -24,9 +24,11 @@
     <link href="assets/scss/material-kit.scss" rel="stylesheet" />
 </head>
 
-  <body class="container bg-secondary">
+  <body class="container"
+        style="background-image: url({% static 'image_gallery/cascade.jpg' %})">
   <header class="list-group-item">
-    <h1>LITReview</h1>
+      <div align="center">
+          <h1>LITReview</h1>
         {% if user.is_authenticated %}
         <p class="h2">Bonjour {{ user.username }} !</p>
             <a href="{% url 'feed' %}">
@@ -44,9 +46,10 @@
         {% else %}
             <p class="h3">Bienvenue ! Vous n'etes pas connecté</p>
         {% endif %}
+      </div>
   </header>
 
-  <div class="page-header header-filter list-group-item" data-parallax="true">
+  <div align="center" class="page-header header-filter list-group-item" data-parallax="true">
       <h3>{% block title %}{% endblock %}</h3>
       <p>{% include 'messages.html' %}</p>
   </div>

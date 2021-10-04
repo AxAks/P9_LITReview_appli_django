@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <title>Critique</title>
 </head>
-<article class="list-group-item bg-primary">
+<article class="list-group-item bg-secondary">
         {% if context.post %}
             <p class="float-right">{{ context.post.time_created|date:"H:m, d F Y" }}</p>
             {% if context.post.user == request.user %}
@@ -38,10 +38,10 @@
         {% endif %}
         {% if context.url_name == 'posts' %}
         <a href="{% url 'review_modification' post.id %}">
-            <button class="btn bg-primary btn-outline-dark float-right">Modifier cette critique</button>
+            <button class="btn bg-primary btn-outline-dark">Modifier cette critique</button>
         </a>
         <a href="{% url 'review_delete' post.id %}">
-            <button class="btn bg-primary btn-outline-dark float-right">Supprimer cette critique</button>
+            <button class="btn bg-primary btn-outline-dark">Supprimer cette critique</button>
         </a>
         {% endif %}
 </article>
