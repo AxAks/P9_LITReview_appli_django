@@ -20,26 +20,26 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- Material Kit CSS -->
     <link href="assets/css/material-kit.css?v=2.0.4" rel="stylesheet" />
+    <!-- Material Kit SCSS -->
+    <link href="assets/scss/material-kit.scss" rel="stylesheet" />
 </head>
 
   <body class="container">
   <header class="list-group-item">
-    <h1>
-        LITReview
+    <h1>LITReview</h1>
         {% if user.is_authenticated %}
-        <h3>Bonjour {{ user.username }} !</h3>
+        <p class="h2">Bonjour {{ user.username }} !</p>
             <a href="{% url 'feed' %}"><button class="btn btn-outline-dark">Flux</button></a>
             <a href="{% url 'posts' %}"><button class="btn btn-outline-dark">Posts</button></a>
             <a href="{% url 'subscriptions' %}"><button class="btn btn-outline-dark">Abonnements</button></a>
             <a href="{% url 'logout' %}"><button class="btn btn-outline-danger">Se déconnecter</button></a>
         {% else %}
-            <h3>Bienvenue ! Vous n'etes pas connecté</h3>
+            <p class="h3">Bienvenue ! Vous n'etes pas connecté</p>
         {% endif %}
-    </h1>
   </header>
 
   <div class="page-header header-filter list-group-item" data-parallax="true">
-      <h2>{% block title %}{% endblock %}</h2>
+      <h3>{% block title %}{% endblock %}</h3>
       <p>{% include 'messages.html' %}</p>
   </div>
 
@@ -55,12 +55,15 @@
     <script src="{% static 'material-kit-master/assets/js/core/popper.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'material-kit-master/assets/js/core/bootstrap-material-design.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'material-kit-master/assets/js/plugins/moment.min.js' %}"></script>
+
     <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
     <script src="{% static 'material-kit-master/assets/js/plugins/bootstrap-datetimepicker.js' %}" type="text/javascript"></script>
+
     <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
     <script src="{% static 'material-kit-master/assets/js/plugins/nouislider.min.js' %}" type="text/javascript"></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
+
+    <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc. -->
     <script src="{% static 'material-kit-master/assets/js/material-kit.js' %}" type="text/javascript"></script>
 
     <!-- JQuery Bootstrap -->
