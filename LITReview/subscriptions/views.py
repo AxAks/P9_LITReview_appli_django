@@ -72,6 +72,9 @@ class SubscriptionsView(TemplateView):
             else:
                 messages.info(request, "La recherche n'a retourné aucun utilisateur")
                 return redirect(reverse('subscriptions'))
+        else:
+            messages.info(request, "Vous n'avez pas entré de nom d'utilisateur à rechercher")
+            return redirect(reverse('subscriptions'))
 
     def unfollow(self, request):
         query = request.POST.get('unfollow_form')

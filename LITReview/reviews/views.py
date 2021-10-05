@@ -112,11 +112,11 @@ class PostsEditionView(TemplateView):
         self.context['possible_ratings'] = RATINGS
 
         if url_name == 'ticket_creation':
-            self.template_name = 'reviews/post_edition/ticket_creation.html'
+            self.template_name = 'reviews/post_edition_forms/ticket_creation_form.html'
             self.form_ticket = TicketForm()
 
         elif url_name == 'ticket_modification':
-            self.template_name = 'reviews/post_edition/ticket_modification.html'
+            self.template_name = 'reviews/post_edition_forms/ticket_modification_form.html'
             self.context['post'] = self.get_ticket_by_id(kwargs['id']) # voir pourquoi il attend un Review ici !
             self.context['replied'] = self.context['post'].review_set.exists()
             if self.context['replied']:
@@ -142,7 +142,7 @@ class PostsEditionView(TemplateView):
                     raise Exception(e)
 
         elif url_name == 'review_ticket_reply':
-            self.template_name = 'reviews/post_edition/review_creation.html'
+            self.template_name = 'reviews/post_edition_forms/review_creation_form.html'
             self.context['post'] = self.get_ticket_by_id(kwargs['id'])
             self.context['replied'] = self.context['post'].review_set.exists()
             if self.context['replied']:
@@ -152,7 +152,7 @@ class PostsEditionView(TemplateView):
                 self.form_review = ReviewForm()
 
         elif 'review_modification' in url_name:
-            self.template_name = 'reviews/post_edition/review_modification.html'
+            self.template_name = 'reviews/post_edition_forms/review_modification_form.html'
             review_to_edit = self.get_review_by_id(kwargs['id'])
             self.context['post'] = review_to_edit
             self.context['associated_ticket'] = review_to_edit.ticket
@@ -168,7 +168,7 @@ class PostsEditionView(TemplateView):
                 raise Exception(e)
 
         elif url_name == 'review_creation_no_ticket':
-            self.template_name = 'reviews/post_edition/review_creation_no_ticket.html'
+            self.template_name = 'reviews/post_edition_forms/review_creation_no_ticket_form.html'
             self.form_ticket = TicketForm()
             self.form_review = ReviewForm()
 
@@ -190,7 +190,7 @@ class PostsEditionView(TemplateView):
                 messages.info(request, constants.ticket_created)
                 return redirect(reverse('posts'))
             except ValidationError:
-                template_name = 'reviews/post_edition/ticket_creation.html'
+                template_name = 'reviews/post_edition_forms/ticket_creation_form.html'
                 form = TicketForm()
                 messages.info(request, constants.form_error)
                 return render(request, template_name, {'form': form})
@@ -202,7 +202,7 @@ class PostsEditionView(TemplateView):
                 messages.info(request, constants.ticket_modified)
                 return redirect(reverse('posts'))
             except ValidationError:
-                template_name = 'reviews/post_edition/ticket_modification.html'
+                template_name = 'reviews/post_edition_forms/ticket_modification_form.html'
                 form = TicketEditForm()
                 messages.info(request, constants.form_error)
                 return render(request, template_name, {'form': form})
@@ -214,7 +214,7 @@ class PostsEditionView(TemplateView):
                 messages.info(request, constants.review_created)
                 return redirect(reverse('posts'))
             except ValidationError:
-                template_name = 'reviews/post_edition/review_creation.html'
+                template_name = 'reviews/post_edition_forms/review_creation_form.html'
                 form = ReviewForm()
                 messages.info(request, constants.form_error)
                 return render(request, template_name, {'form': form})
@@ -226,7 +226,7 @@ class PostsEditionView(TemplateView):
                 messages.info(request, constants.review_modified)
                 return redirect(reverse('posts'))
             except ValidationError:
-                template_name = 'reviews/post_edition/review_modification.html'
+                template_name = 'reviews/post_edition_forms/review_modification_form.html'
                 form = ReviewEditForm()
                 messages.info(request, constants.form_error)
                 return render(request, template_name, {'form': form})
@@ -238,7 +238,7 @@ class PostsEditionView(TemplateView):
                 messages.info(request, constants.review_created)
                 return redirect(reverse('posts'))
             except ValidationError:
-                template_name = 'reviews/post_edition/review_creation_no_ticket.html'
+                template_name = 'reviews/post_edition_forms/review_creation_no_ticket_form.html'
                 form = TicketForm()
                 messages.info(request, constants.form_error)
                 return render(request, template_name, {'form': form})

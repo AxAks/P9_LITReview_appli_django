@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="fr">
+{% extends 'base.html' %}
 
 {% load static %}
-
 {% load crispy_forms_tags %}
 
-<head>
-<meta charset="UTF-8">
-<title>Ticket - Modification</title>
-</head>
-    <body>
-        <h3>Ticket{{ context.post }}</h3>
+    {% block title %} {{ context.title }} {% endblock %}
+
+    {% block content %}
+    <div class="list-group-item">
+        <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.post %}</p>
         <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
             {{ form.non_field_errors }}
@@ -24,11 +21,11 @@
                     {{ form_ticket.description | as_crispy_field }}
                 </p>
                 <p class="fieldWrapper">
-                    <img {{ context.post.image  }}><br/> <!--voir Pillow-->
+                    <img {{ context.post.image  }}><br/>
                         {{ form_ticket.image.errors }}
                         {{ form_ticket.image | as_crispy_field }}
                 </p>
                 <button class="btn bg-primary btn-outline-dark" type="submit">Modifier le ticket</button><br/>
         </form>
-    </body>
-</html>
+    </div>
+    {% endblock %}

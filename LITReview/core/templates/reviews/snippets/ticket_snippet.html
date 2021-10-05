@@ -10,7 +10,8 @@
     <title>Ticket</title>
 </head>
     <article class="list-group-item bg-info">
-            {% if post %} <!-- from url with parameter, reference à l'objet ticket en direct-->
+            <!-- from url with parameter, reference the ticket object directly-->
+            {% if post %}
                 <p class="float-right">{{ post.time_created|date:"H:m, d F Y" }}</p>
                 {% if post.user == request.user %}
                     <p  class="font-weight-bold">Vous avez demandé une critique </p>
@@ -27,7 +28,7 @@
 
             </p>
             {% elif context.associated_ticket %}
-            <!-- from views with context, référence au ticket en passant par une critique en reponse -->
+            <!-- from views with context, reference to the ticket as an attribute of a review -->
                 <p class="float-right">{{ context.associated_ticket.time_created|date:"H:m, d F Y" }}</p>
             {% if context.associated_ticket.user == request.user %}
                 <p  class="font-weight-bold">Vous avez demandé une critique </p>

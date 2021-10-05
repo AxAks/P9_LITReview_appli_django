@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="fr">
+{% extends 'base.html' %}
 
 {% load static %}
 {% load crispy_forms_tags %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Critique - Creation</title>
-</head>
-    <body>
-        <div class="list-group-item">Vous etes en train de poster en réponse à:
-            <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.post %}</p>
+    {% block title %} {{ context.title }} {% endblock %}
+
+    {% block content %}
+    <div class="list-group-item">Vous etes en train de poster en réponse à:
+        <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.post %}</p>
 
         <form method="post" action="">
         {% csrf_token %}
@@ -39,5 +36,4 @@
             </p>
         </form>
     </div>
-    </body>
-</html>
+    {% endblock %}

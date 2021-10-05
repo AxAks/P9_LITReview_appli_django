@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="fr">
+{% extends 'base.html' %}
 
 {% load static %}
-
 {% load crispy_forms_tags %}
 
-<head>
-<meta charset="UTF-8">
-<title>Ticket - Creation</title>
-</head>
-    <body>
+    {% block title %} {{ context.title }} {% endblock %}
+
+    {% block content %}
+    <div class="list-group-item">
         <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
             {{ form_ticket.non_field_errors }}
@@ -21,11 +18,11 @@
                     {{ form_ticket.description.errors }}
                     {{ form_ticket.description | as_crispy_field }}
             </p>
-            <p class="fieldWrapper"> <!--voir Pillow-->
+            <p class="fieldWrapper">
                     {{ form_ticket.image.errors }}
                     {{ form_ticket.image | as_crispy_field }}
             </p>
             <button class="btn btn-sm bg-primary btn-outline-dark" type="submit">Envoyer</button>
         </form>
-    </body>
-</html>
+    </div>
+    {% endblock %}
