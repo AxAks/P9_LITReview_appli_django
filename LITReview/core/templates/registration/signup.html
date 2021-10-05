@@ -10,7 +10,7 @@
 
     {% block title %} Page d'inscription {% endblock %}
     {% block content %}
-        <div>
+        <div class="list-group-item">
             <form method="post" action="{% url 'signup' %}">
                 {% csrf_token %}
                 {{ form.non_field_errors }}
