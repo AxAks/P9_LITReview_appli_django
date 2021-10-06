@@ -4,13 +4,20 @@ body {
     font-family: cursive, 'New Century Schoolbook', auto;
     font-size-adjust: inherit;
     align-items: center;
+
+    position: relative;
+    left: 50px;
+    top: 50px;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    border-radius: 10px;
   }
 
 header h1 {
     text-align: center;
     font-family: cursive, 'New Century Schoolbook', auto;
     font-size: 2vw;
-    background-color: #fffff;
   }
 
 main section div {
