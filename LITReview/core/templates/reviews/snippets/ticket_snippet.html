@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <title>Ticket</title>
 </head>
-    <article class="list-group-item bg-info">
+    <article class="list-group-item">
             <!-- from url with parameter, reference the ticket object directly-->
             {% if post %}
                 <p class="float-right">{{ post.time_created|date:"H:m, d F Y" }}</p>
@@ -49,7 +49,7 @@
 
                 {% else %}
                 <a href="{% url 'review_ticket_reply' post.id %}">
-                    <button class="btn bg-primary btn-outline-dark">Créer une critique pour ce ticket</button>
+                    <button class="btn btn-outline-dark">Créer une critique pour ce ticket</button>
                 </a>
                 {% endif %}
             {% elif context.url_name == 'posts' %}
@@ -57,10 +57,10 @@
                     <p>Ce ticket a dejà une réponse. Il n'est plus éditable</p>
                 {% else %}
                 <a href="{% url 'ticket_modification' post.id %}">
-                    <button class="btn bg-primary btn-outline-dark">Modifier ce ticket</button>
+                    <button class="btn btn-outline-dark">Modifier ce ticket</button>
                 </a>
                 <a href="{% url 'ticket_delete' post.id %}">
-                    <button class="btn bg-primary btn-outline-dark">Supprimer ce ticket</button>
+                    <button class="btn btn-outline-dark">Supprimer ce ticket</button>
                 </a>
                 {% endif %}
             {% endif %}

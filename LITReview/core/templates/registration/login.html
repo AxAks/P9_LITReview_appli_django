@@ -13,7 +13,7 @@
     {% block content %}
         <div class="list-group-item">
             <h3>Inscrivez-vous maintenant</h3>
-            <a href="{% url 'signup' %}"><button class="btn btn bg-primary btn-outline-dark">S'inscrire</button></a>
+            <a href="{% url 'signup' %}"><button class="btn btn btn-outline-dark">S'inscrire</button></a>
 
             <h3>Connectez-vous</h3>
             <form method="post" action="{% url 'login' %}">
@@ -27,7 +27,7 @@
                 {{ form.password.errors }}
                 {{ form.password | as_crispy_field }}
                 </p>
-                <button type="submit" class="btn bg-primary btn-outline-dark">Se connecter</button>
+                <button type="submit" class="btn btn-outline-dark">Se connecter</button>
             </form>
         </div>
     </div>
