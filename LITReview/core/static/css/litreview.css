@@ -1,64 +1,68 @@
 body {
-    background-color: #1c0c2a;
-    color: #000000;
+    background-image: url('../images/sky.jpg');
+    background-color: #3c4255;
     font-family: cursive, 'New Century Schoolbook', auto;
     font-size-adjust: inherit;
-}
+    align-items: center;
+  }
 
 header h1 {
     text-align: center;
     font-family: cursive, 'New Century Schoolbook', auto;
     font-size: 2vw;
     background-color: #fffff;
-}
+  }
+
+main section div {
+    display: flex;
+    flex-direction: row;
+  }
 
 main div {
     display: flex;
-}
-
-section {
-    display: flex;
     flex-direction: column;
-    align-items: center;
-}
+  }
 
-section h3 {
+footer {
+    text-align: right;
     font-family: cursive, 'New Century Schoolbook', auto;
-    font-size: 1vw;
-}
+    font-size: 1.5vw;
+  }
 
-section div {
-    display: flex;
-    align-items: center;
-    padding-left: 1vw;
-    padding-right: 1vw;
-}
+.ticket {
+    background-color: #7986b4;
+    opacity: 0.9;
+  }
 
+.review {
+    background-color: #b7ad89;
+    opacity: 0.9;
+  }
+
+/* à retirer à terme, jsute des exemples
 .top-film-poster {
     float: right;
     position: relative;
     padding-bottom: 10px;
-}
+  }
 
 .top-film-basic-infos {
     display: flex;
     flex-direction: column;
-    color: black;
-    background-color: #7f7e90;
     padding: 20px;
     text-align: center;
     align-items: center;
     font-size: 1vw;
     border-radius: 20px;
-}
+  }
 
 .top-film-basic-infos p {
     font-style: oblique;
-}
+  }
 
 .top-film-basic-infos p em {
     color: #fafa32;
-}
+  }
 
 .more-infos-button {
     position: relative;
@@ -68,22 +72,22 @@ section div {
     padding: 5px 45px;
     display: inline-flex;
     font-size: 16px;
-}
+  }
 
 .more-infos-button:hover {
     color: #343b99;
     opacity: 0.7;
-}
+  }
 
 .carrousels-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+  }
 
 .carrousel img:hover {
     opacity: 0.7;
-}
+  }
 
 .arrow_left {
     width: 0;
@@ -92,7 +96,7 @@ section div {
     border-bottom: 16px solid transparent;
     border-right: 20px solid #fafa32;
     padding-right: 2%;
-}
+  }
 
 .arrow_left:hover {
     width: 0;
@@ -101,7 +105,7 @@ section div {
     border-bottom: 16px solid transparent;
     border-right: 20px solid #343b99;
     padding-right: 2%;
-}
+  }
 
 .arrow_right {
     width: 0;
@@ -109,7 +113,7 @@ section div {
     border-top: 16px solid transparent;
     border-bottom: 16px solid transparent;
     border-left: 20px solid #fafa32;
-}
+  }
 
 .arrow_right:hover {
     width: 0;
@@ -117,15 +121,15 @@ section div {
     border-top: 16px solid transparent;
     border-bottom: 16px solid transparent;
     border-left: 20px solid #343b99;
-}
+  }
 
 img {
     cursor: pointer;
-}
+  }
 
 .selectable {
     cursor: pointer;
-}
+  }
 
 .film-details-modal {
     display: none;
@@ -139,7 +143,7 @@ img {
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 10px;
-}
+  }
 
 .film-details-modal-content {
     position: static;
@@ -152,24 +156,19 @@ img {
     border: 1px solid #888;
     width: 80%;
     border-radius: 10px;
-}
+  }
 
 .film-details-modal-content img {
     float: right;
     width: 15%;
-}
+  }
 
 .film-details-modal-content p {
     padding-left: 20px;
-}
+  }
 
 .film-details-modal-content em {
     font-weight: bold;
     color: #fafa32
-}
-
-footer {
-    text-align: right;
-    font-family: cursive, 'New Century Schoolbook', auto;
-    font-size: 1.5vw;
-}
+  }
+*/

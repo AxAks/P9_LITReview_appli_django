@@ -15,43 +15,43 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon32.png' %}"/>
     <!-- Custom CSS Files -->
     <link rel="stylesheet" href="{% static 'css/litreview.css' %}">
-
 </head>
 
-  <body class="container"
-        style="background-image: url({% static 'images/sky.jpg' %})">
+  <body class="container">
   <header class="list-group-item">
       <div align="center">
           <h1>LITReview</h1>
         {% if user.is_authenticated %}
-        <p class="h2">Bonjour {{ user.username }} !</p>
-            <a href="{% url 'feed' %}">
-                <button class="btn btn-outline-dark">Flux</button>
-            </a>
-            <a href="{% url 'posts' %}">
-                <button class="btn btn-outline-dark">Posts</button>
-            </a>
-            <a href="{% url 'subscriptions' %}">
-                <button class="btn btn-outline-dark">Abonnements</button>
-            </a>
-            <a href="{% url 'logout' %}">
-                <button class="btn btn-danger btn-outline-dark">Se déconnecter</button>
-            </a>
+            <p class="h2">Bonjour {{ user.username }} !</p>
+                <a href="{% url 'feed' %}">
+                    <button class="btn btn-outline-dark">Flux</button>
+                </a>
+                <a href="{% url 'posts' %}">
+                    <button class="btn btn-outline-dark">Posts</button>
+                </a>
+                <a href="{% url 'subscriptions' %}">
+                    <button class="btn btn-outline-dark">Abonnements</button>
+                </a>
+                <a href="{% url 'logout' %}">
+                    <button class="btn btn-danger btn-outline-dark">Se déconnecter</button>
+                </a>
         {% else %}
             <p class="h3">Bienvenue ! Vous n'etes pas connecté</p>
         {% endif %}
       </div>
   </header>
 
-  <div align="center" class="page-header header-filter list-group-item" data-parallax="true">
-      <h3>{% block title %}{% endblock %}</h3>
-      <p>{% include 'messages.html' %}</p>
-  </div>
+  <section  class="page-header header-filter list-group-item" data-parallax="true">
+      <div align="center">
+          <h3>{% block title %}{% endblock %}</h3>
+          <p>{% include 'messages.html' %}</p>
+      </div>
+  </section>
 
-  <div class="main main-raised">
+  <main>
       {% block content %}
       {% endblock %}
-  </div>
+  </main>
 
   <footer class="footer footer-default">LITReview</footer>
 

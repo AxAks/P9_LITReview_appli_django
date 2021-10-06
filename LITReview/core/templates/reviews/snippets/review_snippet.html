@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <title>Critique</title>
 </head>
-<article class="list-group-item">
+<article class="review list-group-item">
         {% if context.post %}
             <p class="float-right">{{ context.post.time_created|date:"H:m, d F Y" }}</p>
             {% if context.post.user == request.user %}
