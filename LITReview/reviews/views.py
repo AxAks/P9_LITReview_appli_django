@@ -43,20 +43,24 @@ class PostListsView(TemplateView):
             current_user_and_followed_user_ids.append(request.user.id)
             self.template_name = 'reviews/posts_lists/my_feed.html'
             self.context['current_user_and_followed_user_posts'] = self.get_posts(current_user_and_followed_user_ids)
-            for post in self.context['current_user_and_followed_user_posts']:
-                if post.content_type == 'TICKET':
-                    if post.review_set.exists():
-                        self.context['ticket_already_replied'].append(post)
+            self.check_replied_tickets(self.context['current_user_and_followed_user_posts'])
 
         elif url_name == 'posts':
             self.template_name = 'reviews/posts_lists/my_posts.html'
             self.context['user_posts'] = self.get_posts([request.user.id])
-            for post in self.context['user_posts']:
-                if post.content_type == 'TICKET':
-                    if post.review_set.exists():
-                        self.context['ticket_already_replied'].append(post)
+            self.check_replied_tickets(self.context['user_posts'])
 
         return render(request, self.template_name, {'context': self.context})
+
+    def check_replied_tickets(self, posts):
+        for post in posts:
+            if post.content_type == 'TICKET':
+                if post.review_set.exists():
+                    self.context['ticket_already_replied'].append(
+                        post)  #  ajouter dans le context : quand c'est une review on affiche pas les boutons du snippet du ticket associé
+            elif post.content_type == 'REVIEW':
+                if post.ticket:
+                    self.context['ticket_already_replied'].append(post)
 
     def post(self, request, *args, **kwargs):  # pas utilisé !
         """
