@@ -48,7 +48,7 @@
 
                 {% else %}
                 <a href="{% url 'review_ticket_reply' post.id %}">
-                    <button class="btn btn-info btn-outline-dark">Créer une critique pour ce ticket</button>
+                    <button class="btn btn-secondary btn-outline-dark">Créer une critique pour ce ticket</button>
                 </a>
                 {% endif %}
             {% elif context.url_name == 'posts' %}
@@ -57,10 +57,10 @@
                 {% else %}
                     <div class="ticket no_border">
                         <a href="{% url 'ticket_modification' post.id %}">
-                            <button class="btn btn-info btn-outline-dark">Modifier ce ticket</button>
+                            <button class="btn btn-secondary btn-outline-dark">Modifier ce ticket</button>
                         </a>
                         <a href="{% url 'ticket_delete' post.id %}">
-                            <button class="btn btn-info btn-outline-dark">Supprimer ce ticket</button>
+                            <button class="btn btn-secondary btn-outline-dark">Supprimer ce ticket</button>
                         </a>
                     </div>
                 {% endif %}
