@@ -24,13 +24,13 @@
         {% if user.is_authenticated %}
             <p class="h2">Bonjour {{ user.username }} !</p>
                 <a href="{% url 'feed' %}">
-                    <button class="btn btn-outline-dark">Flux</button>
+                    <button class="btn btn-primary btn-outline-dark">Flux</button>
                 </a>
                 <a href="{% url 'posts' %}">
-                    <button class="btn btn-outline-dark">Posts</button>
+                    <button class="btn btn-primary btn-outline-dark">Posts</button>
                 </a>
                 <a href="{% url 'subscriptions' %}">
-                    <button class="btn btn-outline-dark">Abonnements</button>
+                    <button class="btn btn-primary btn-outline-dark">Abonnements</button>
                 </a>
                 <a href="{% url 'logout' %}">
                     <button class="btn btn-danger btn-outline-dark">Se déconnecter</button>
