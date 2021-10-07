@@ -2,9 +2,7 @@ body {
     background-image: url('../images/sky.jpg');
     background-color: #3c4255;
     font-family: cursive, 'New Century Schoolbook', auto;
-    font-size-adjust: inherit;
     align-items: center;
-
     position: relative;
     left: 50px;
     top: 50px;
@@ -30,9 +28,10 @@ header h1 {
     font-size: 2vw;
   }
 
-main section div {
+body main section div {
     display: flex;
     flex-direction: row;
+    align-items: center;
   }
 
 main div {
