@@ -43,16 +43,16 @@ class PostListsView(TemplateView):
             current_user_and_followed_user_ids.append(request.user.id)
             self.template_name = 'reviews/posts_lists/my_feed.html'
             self.context['current_user_and_followed_user_posts'] = self.get_posts(current_user_and_followed_user_ids)
-            self.check_replied_tickets(self.context['current_user_and_followed_user_posts'])
+            self.add_replied_tickets_to_context(self.context['current_user_and_followed_user_posts'])
 
         elif url_name == 'posts':
             self.template_name = 'reviews/posts_lists/my_posts.html'
             self.context['user_posts'] = self.get_posts([request.user.id])
-            self.check_replied_tickets(self.context['user_posts'])
+            self.add_replied_tickets_to_context(self.context['user_posts'])
 
         return render(request, self.template_name, {'context': self.context})
 
-    def check_replied_tickets(self, posts):
+    def add_replied_tickets_to_context(self, posts):
         for post in posts:
             if post.content_type == 'TICKET':
                 if post.review_set.exists():
@@ -61,6 +61,7 @@ class PostListsView(TemplateView):
             elif post.content_type == 'REVIEW':
                 if post.ticket:
                     self.context['ticket_already_replied'].append(post)
+        return self.context['ticket_already_replied']
 
     def post(self, request, *args, **kwargs):  # pas utilisé !
         """

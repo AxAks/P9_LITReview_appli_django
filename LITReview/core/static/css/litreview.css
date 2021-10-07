@@ -28,6 +28,7 @@ header h1 {
     font-size: 2vw;
   }
 
+
 body main section div {
     display: flex;
     flex-direction: row;
@@ -47,6 +48,16 @@ form li {
 li p {
     text-align: center;
     font-size: 1.5vw;
+}
+
+article div a {
+    border: none;
+}
+
+article div a button {
+    display: flex;
+    flex-direction: row;
+    float: right;
 }
 
 footer {

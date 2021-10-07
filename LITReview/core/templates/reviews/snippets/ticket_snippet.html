@@ -55,12 +55,14 @@
                 {% if post in context.ticket_already_replied %}
                     <p>Ce ticket a dejà une réponse. Il n'est plus éditable</p>
                 {% else %}
-                <a href="{% url 'ticket_modification' post.id %}">
-                    <button class="btn btn-outline-dark">Modifier ce ticket</button>
-                </a>
-                <a href="{% url 'ticket_delete' post.id %}">
-                    <button class="btn btn-outline-dark">Supprimer ce ticket</button>
-                </a>
+                    <div class="ticket list-group-item">
+                        <a href="{% url 'ticket_modification' post.id %}">
+                            <button class="btn btn-outline-dark">Modifier ce ticket</button>
+                        </a>
+                        <a href="{% url 'ticket_delete' post.id %}">
+                            <button class="btn btn-outline-dark">Supprimer ce ticket</button>
+                        </a>
+                    </div>
                 {% endif %}
             {% endif %}
     </article>
