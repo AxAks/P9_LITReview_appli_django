@@ -38,7 +38,7 @@
         {% if context.url_name == 'posts' %}
             <div class="review no_border list-group-item">
                 <a href="{% url 'review_modification' post.id %}">
-                    <button class="btn btn-secondary btn-outline-dark ">Modifier cette critique</button>
+                    <button class="btn btn-secondary btn-outline-dark">Modifier cette critique</button>
                 </a>
                 <a href="{% url 'review_delete' post.id %}">
                     <button class="btn btn-secondary btn-outline-dark">Supprimer cette critique</button>
