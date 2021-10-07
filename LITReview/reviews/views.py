@@ -57,7 +57,7 @@ class PostListsView(TemplateView):
             if post.content_type == 'TICKET':
                 if post.review_set.exists():
                     self.context['ticket_already_replied'].append(
-                        post)  #  ajouter dans le context : quand c'est une review on affiche pas les boutons du snippet du ticket associé
+                        post)
             elif post.content_type == 'REVIEW':
                 if post.ticket:
                     self.context['ticket_already_replied'].append(post)
