@@ -8,15 +8,15 @@
     <meta charset="UTF-8">
     <title>User search</title>
 </head>
-<body class="list-group-item">
+<div class="form list-group-item">
     <form method="post" action="">
         {% csrf_token %}
         {{ search_form.non_field_errors }}
             <p class="fieldWrapper">
                 {{ search_form.user_name.errors}}
                 {{ search_form.username | as_crispy_field }}
-                <button class="btn btn-outline-dark" type="submit">Envoyer</button>
+            <button class="btn btn-outline-dark" type="submit">Envoyer</button>
             </p>
     </form>
-</body>
+</div>
 </html>

@@ -5,9 +5,8 @@
 
     {% block title %} Page des abonnements {% endblock %}
     {% block content %}
-        <div class="list-group-item">
-            <div>
-                <h4>Chercher d'autres utilisateurs à suivre</h4>
+        <div class="subscriptions list-group-item">
+            <h4>Chercher d'autres utilisateurs à suivre</h4>
             {% include 'subscriptions/forms/form_user_search.html' %}
                 <div>
                     <p>
@@ -16,37 +15,33 @@
                                 <ul>
                                     {% for user in context.found_users %}
                                     {% include 'subscriptions/forms/form_follow_user.html' %}
-                                {% endfor %}
+                                    {% endfor %}
                                 </ul>
                         {% endif %}
                     </p>
                 </div>
-            </div>
-            <div>
-                <h4>Mes Abonnements ({{ context.followed_users|length }})</h4>
-                {% if context.followed_users %}
-                    <ul>
+            <h4>Mes Abonnements ({{ context.followed_users|length }})</h4>
+            {% if context.followed_users %}
+                <ul>
                     {% for user in context.followed_users %}
                     {% include 'subscriptions/forms/form_unfollow_user.html' %}
                     {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>Vous n'etes abonné à aucun utilisateur</p>
-                {% endif %}
-            </div>
-            <div>
-                <h4>Mes Abonnés ({{ context.following_users|length }})</h4>
-                {% if context.following_users %}
-                {% for user in context.following_users %}
-                        <li class="card fieldWrapper">
-                            <p>
-                            {{ user.username }}
-                            </p>
-                        </li>
-                {% endfor %}
-                {% else %}
-                    <p>Vous n'avez aucun abonné</p>
-                {% endif %}
-            </div>
+                </ul>
+            {% else %}
+                <p>Vous n'etes abonné à aucun utilisateur</p>
+            {% endif %}
+
+            <h4>Mes Abonnés ({{ context.following_users|length }})</h4>
+            {% if context.following_users %}
+            {% for user in context.following_users %}
+                    <li class="card fieldWrapper">
+                        <p>
+                        {{ user.username }}
+                        </p>
+                    </li>
+            {% endfor %}
+            {% else %}
+                <p>Vous n'avez aucun abonné</p>
+            {% endif %}
         </div>
     {% endblock %}

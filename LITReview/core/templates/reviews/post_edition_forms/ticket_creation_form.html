@@ -6,7 +6,7 @@
     {% block title %} {{ context.title }} {% endblock %}
 
     {% block content %}
-    <div class="list-group-item">
+    <div class="form list-group-item">
         <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
             {{ form_ticket.non_field_errors }}
@@ -22,7 +22,7 @@
                     {{ form_ticket.image.errors }}
                     {{ form_ticket.image | as_crispy_field }}
             </p>
-            <button class="btn btn-sm btn-outline-dark" type="submit">Envoyer</button>
+            <button class="btn  btn-outline-dark" type="submit">Envoyer</button>
         </form>
     </div>
     {% endblock %}

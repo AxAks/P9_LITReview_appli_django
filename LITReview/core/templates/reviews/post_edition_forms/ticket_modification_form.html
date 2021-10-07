@@ -6,7 +6,7 @@
     {% block title %} {{ context.title }} {% endblock %}
 
     {% block content %}
-    <div class="list-group-item">
+    <div class="form list-group-item">
         <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.post %}</p>
         <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}

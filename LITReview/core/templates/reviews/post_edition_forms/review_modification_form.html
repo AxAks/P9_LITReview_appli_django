@@ -6,7 +6,7 @@
     {% block title %} {{ context.title }} {% endblock %}
 
     {% block content %}
-    <div class="list-group-item">Vous etes en train de modifier la critique du ticket suivant:
+    <div class="form list-group-item">Vous etes en train de modifier la critique du ticket suivant:
         <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.associated_ticket %}</p>
 
         <form method="post" action="">
@@ -43,7 +43,7 @@
                 </p>
             </p>
             <p class="fieldWrapper">
-                <button class="btn btn-sm  btn-outline-dark" type="submit">
+                <button class="btn   btn-outline-dark" type="submit">
                 Modifier la critique
                 </button>
             </p>

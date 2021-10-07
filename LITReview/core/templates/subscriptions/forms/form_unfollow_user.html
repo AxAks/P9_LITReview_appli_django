@@ -8,15 +8,15 @@
     <meta charset="UTF-8">
     <title>Unfollow User</title>
 </head>
-<body class="list-group-item">
+<div class=" form list-group-item">
     <form method="post" action="">
         {% csrf_token %}
             <li class="card fieldWrapper">
-                {{ unfollow_form.non_field_errors }}
+                    {{ unfollow_form.non_field_errors }}
                     {{ user.username }}
-                    <input type="hidden" name="unfollow_form" value="{{ user.username }}">
-                <button class="btn btn-sm btn-outline-dark" type= "submit">Se désabonner</button>
+                <input type="hidden" name="unfollow_form" value="{{ user.username }}">
+                <button class="btn  btn-outline-dark" type= "submit">Se désabonner</button>
             </li>
     </form>
-</body>
+</div>
 </html>

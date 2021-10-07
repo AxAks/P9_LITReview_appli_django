@@ -8,15 +8,15 @@
     <meta charset="UTF-8">
     <title>Follow User</title>
 </head>
-<body class="list-group-item">
+<div class="form list-group-item">
     <form method="post" action="">
         {% csrf_token %}
             <li class="card fieldWrapper">
-                {{ follow_form.non_field_errors }}
+                    {{ follow_form.non_field_errors }}
                     {{ user.username }}
-                    <input type="hidden" name="follow_form" value="{{ user.username }}">
-                <button class="btn btn-sm btn-outline-dark" type="submit">S'abonner</button>
+                <input type="hidden" name="follow_form" value="{{ user.username }}">
+                <button class="btn  btn-outline-dark" type="submit">S'abonner</button>
             </li>
     </form>
-</body>
+</div>
 </html>
