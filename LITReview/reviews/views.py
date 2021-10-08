@@ -61,7 +61,7 @@ class PostListsView(TemplateView):
                         post)
             elif post.content_type == 'REVIEW':
                 if post.ticket:
-                    self.context['ticket_already_replied'].append(post)
+                    self.context['ticket_already_replied'].append(post.ticket)
         return self.context['ticket_already_replied']
 
     def post(self, request, *args, **kwargs):  # pas utilisé !
