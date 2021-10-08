@@ -29,7 +29,7 @@
             {% else %}
                 <p  class="font-weight-bold">{{ post.user }} a publié une critique </p>
             {% endif %}
-                <p>{{ post.headline }} - {{ post.rating }}</p>
+                <p>{{ post.headline }} - <span class="">{{ post.rating }}</span></p>
                 <p>{{ post.body }}</p>
                 <p>{% include 'reviews/snippets/ticket_snippet.html' with post=post.ticket %}</p>
 

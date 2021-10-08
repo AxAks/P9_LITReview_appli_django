@@ -19,8 +19,7 @@
 
   <body class="container">
   <header class="list-group-item">
-      <div align="center">
-          <h1>LITReview</h1>
+          <p class="h1">LITReview</p>
         {% if user.is_authenticated %}
             <p class="h2">Bonjour {{ user.username }} !</p>
                 <a href="{% url 'feed' %}">

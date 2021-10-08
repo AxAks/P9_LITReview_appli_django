@@ -36,19 +36,20 @@ class PostListsView(TemplateView):
         url_name = add_url_name_to_context(request, self.context)
         self.context['title'] = PAGE_TITLES[url_name]
 
+        current_user_and_followed_user_ids = []
+        followed_users_ids = self.get_followed_users_by_id(request)
+        [current_user_and_followed_user_ids.append(i) for i in followed_users_ids]
+        current_user_and_followed_user_ids.append(request.user.id)
+
         if url_name == 'feed':
-            current_user_and_followed_user_ids = []
-            followed_users_ids = self.get_followed_users_by_id(request)
-            [current_user_and_followed_user_ids.append(i) for i in followed_users_ids]
-            current_user_and_followed_user_ids.append(request.user.id)
             self.template_name = 'reviews/posts_lists/my_feed.html'
-            self.context['current_user_and_followed_user_posts'] = self.get_posts(current_user_and_followed_user_ids)
-            self.add_replied_tickets_to_context(self.context['current_user_and_followed_user_posts'])
 
         elif url_name == 'posts':
             self.template_name = 'reviews/posts_lists/my_posts.html'
-            self.context['user_posts'] = self.get_posts([request.user.id])
-            self.add_replied_tickets_to_context(self.context['user_posts'])
+
+        self.context['user_posts'] = self.get_posts([request.user.id])
+        self.context['current_user_and_followed_user_posts'] = self.get_posts(current_user_and_followed_user_ids)
+        self.add_replied_tickets_to_context(self.context['current_user_and_followed_user_posts'])
 
         return render(request, self.template_name, {'context': self.context})
 

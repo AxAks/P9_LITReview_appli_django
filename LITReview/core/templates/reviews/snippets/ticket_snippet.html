@@ -37,9 +37,9 @@
                 <p>{{ context.associated_ticket.title }}<p>
                 <p>{{ context.associated_ticket.description }}</p>
                 {% if context.associated_ticket.image %}
-                    <img class="rounded_image" height="100px" src="{% get_media_prefix %}{{ context.associated_ticket.image }}">
+                    <img  height="100px" src="{% get_media_prefix %}{{ context.associated_ticket.image }}">
                 {% else %}
-                    <img class="rounded_image" height="80px" src="{% get_media_prefix %}ticket_images/no_image.png">
+                    <img  height="80px" src="{% get_media_prefix %}ticket_images/no_image.png">
                 {% endif %}
             {% endif %}
             {% if context.url_name == 'feed' %}
@@ -47,9 +47,11 @@
                     <p  class="font-weight-bold">Ce ticket a dejà une réponse. Vous ne pouvez plus le commenter</p>
 
                 {% else %}
-                <a href="{% url 'review_ticket_reply' post.id %}">
-                    <button class="btn btn-secondary btn-outline-dark">Créer une critique pour ce ticket</button>
-                </a>
+                <div>
+                    <a href="{% url 'review_ticket_reply' post.id %}">
+                        <button class="btn btn-secondary btn-outline-dark">Créer une critique pour ce ticket</button>
+                    </a>
+                </div>
                 {% endif %}
             {% elif context.url_name == 'posts' %}
                 {% if post in context.ticket_already_replied %}

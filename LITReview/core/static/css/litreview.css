@@ -1,6 +1,7 @@
 body>header {
         background-color: #3c4255;
         opacity: 0.7;
+        justify-content: center;
     }
 
 body>section {
@@ -10,79 +11,82 @@ body>section {
     }
 
 body {
-    background-image: url('../images/sky.jpg');
-    background-color: #3c4255;
-    color: #060907;;   /* none; #060907; #f4aa5e; #6b4d33; #f6be69; #fad975; */
-    font-family: auto;
-    align-items: center;
-    position: static;
-    left: 50px;
-    top: 50px;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    border-radius: 10px;
-}
+        background-image: url('../images/sky.jpg');
+        background-color: #3c4255;
+        color: #060907;;   /* none; #060907; #f4aa5e; #6b4d33; #f6be69; #fad975; */
+        font-family: auto;
+        align-items: center;
+        position: static;
+        margin-top: 25px;
+        margin-bottom: 25px;
+        left: 50px;
+        top: 50px;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        border-radius: 10px;
+        justify-content: center;
+    }
 
-    header>h1 {
+    body header {
         text-align: center;
         font-family: cursive, 'New Century Schoolbook', auto;
+        justify-content: center;
+    }
+
+    body>header>a {
+        text-align: center;
+        font-family: auto;
         font-size: 2vw;
       }
 
-
-    body>main>section>div {
-        flex-direction: row;
-        align-items: center;
+    body>header>p {
+        text-align: center;
+        font-size: 2vw;
       }
 
-    main>div {
+    body>main>section {
+        text-align: center;
+        font-family: auto;
+        font-size: 2vw;
+    }
+
+    body>main>div {
+    display: flex;
         flex-direction: column;
       }
 
     form>li {
-        text-align: center;
+        display: flex;
+        justify-content: center;
         font-size: 1.2vw;
     }
 
     li>p {
-        text-align: center;
+        display: flex;
+        justify-content: center;
         font-size: 1.2vw;
     }
 
-    article>div>a>button {
-        display: flex;
-        flex-direction: row;
-
-    }
-    footer {
+    body>main>div>article>div {
         text-align: right;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    body>main>div>article>article>div {
+        text-align: right;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    footer {
+        display: flex;
+        justify-content: flex-end;
         font-family: cursive, 'New Century Schoolbook', auto;
         font-size: 1.5vw;
         color: #dfe4f4;
-      }
     }
-}
-
-.rounded_image {
-    border-radius: 20px;
-}
-
-.btn-primary {
-    background-color: #159fa0;
-}
-
-.btn-secondary {
-    background-color: #50b7b8;
-}
-
-.btn-info {
-    background-color: #32abac; /* #50b7b8; */
-}
-
-.btn-danger {
-    background-color: ;
-}
 
 .ticket {
     background-color: #7986b4;
@@ -92,50 +96,40 @@ body {
 
 .review {
     background-color: #5d6b89;    /* #939db1; #273a62; #b7ad89; */
-    color: #f39c46; /*  #fad975; */
-    opacity: 0.95;
-
+    color: #da914f;  /* #c8ac81; #e3b177; #f39c46; #fad975; */
+    opacity: 0.9;
   }
 
 .no_border {
     border: none;
-}
-
-/* Ratings Star Display -> mais le faire en JS !*/
-.icon-star {
-
-}
-
-.One {
-
-}
-
-.Two {
-
-}
-
-.Three {
-
-}
-
-.Four {
-
-}
-
-.Five {
-
-}
-
-.icon-star {
-
-}
+   }
 
 .subscriptions {
-    background-color: #c3c8d6 ;
+    background-color: #c3c8d6;
     opacity: 0.9;
   }
 
 .form {
     background-color: #dfe4f4 ;
+    opacity: 0.9;
+    }
+
+.btn-primary {
+    background-color: #159fa0;
+    opacity: 0.9;
+    }
+
+.btn-secondary {
+    background-color: #50b7b8;
+    opacity: 0.9;
+    }
+
+.btn-info {
+    background-color: #32abac; /* #50b7b8; */
+    opacity: 0.9;
+    }
+
+.btn-danger {
+    background-color: #e3b177  /* #d38e50; */
     opacity: 0.9;
     }
