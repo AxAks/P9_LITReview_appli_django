@@ -70,8 +70,6 @@ body {
 
     body>main>div>article>div {
         text-align: right;
-        display: flex;
-        justify-content: flex-end;
     }
 
     body>main>div>article>article>div {
