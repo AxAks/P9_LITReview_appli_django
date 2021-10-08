@@ -45,7 +45,9 @@
             {% if context.url_name == 'feed' %}
                 {% if post in context.ticket_already_replied %}
                     <p  class="font-weight-bold">Ce ticket a dejà une réponse. Vous ne pouvez plus le commenter</p>
-
+                    <!--
+                    essayer d'inclure la review peut etre sympa avec include
+                    -->
                 {% else %}
                 <div>
                     <a href="{% url 'review_ticket_reply' post.id %}">
@@ -56,6 +58,9 @@
             {% elif context.url_name == 'posts' %}
                 {% if post in context.ticket_already_replied %}
                     <p class="font-weight-bold">Ce ticket a dejà une réponse. Il n'est plus éditable</p>
+                    <!--
+                    essayer d'inclure la review peut etre sympa avec include
+                    -->
                 {% else %}
                     <div class="ticket no_border">
                         <a href="{% url 'ticket_modification' post.id %}">
