@@ -32,7 +32,6 @@ class PostListsView(TemplateView):
         """
 
         """
-        self.context = {'ticket_already_replied': []}
         url_name = add_url_name_to_context(request, self.context)
         self.context['title'] = PAGE_TITLES[url_name]
 
@@ -41,15 +40,15 @@ class PostListsView(TemplateView):
         [current_user_and_followed_user_ids.append(i) for i in followed_users_ids]
         current_user_and_followed_user_ids.append(request.user.id)
 
+        self.context = {'user_posts': self.get_posts([request.user.id]),
+                        'current_user_and_followed_user_posts': self.get_posts(current_user_and_followed_user_ids),
+                        'ticket_already_replied': []}
+        self.add_replied_tickets_to_context(self.context['current_user_and_followed_user_posts'])
+
         if url_name == 'feed':
             self.template_name = 'reviews/posts_lists/my_feed.html'
-
         elif url_name == 'posts':
             self.template_name = 'reviews/posts_lists/my_posts.html'
-
-        self.context['user_posts'] = self.get_posts([request.user.id])
-        self.context['current_user_and_followed_user_posts'] = self.get_posts(current_user_and_followed_user_ids)
-        self.add_replied_tickets_to_context(self.context['current_user_and_followed_user_posts'])
 
         return render(request, self.template_name, {'context': self.context})
 
