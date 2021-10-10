@@ -24,7 +24,6 @@
                 {% else %}
                     <img height="80px" src="{% get_media_prefix %}ticket_images/no_image.png">
                 {% endif %}
-
             </p>
             {% elif context.associated_ticket %}
             <!-- from views with context, reference to the ticket as an attribute of a review -->
@@ -45,7 +44,6 @@
             {% if context.url_name == 'feed' %}
                 {% if post in context.ticket_already_replied %}
                     <p  class="font-weight-bold">Ce ticket a dejà une réponse. Vous ne pouvez plus le commenter</p>
-
                 {% else %}
                 <div>
                     <a href="{% url 'review_ticket_reply' post.id %}">
