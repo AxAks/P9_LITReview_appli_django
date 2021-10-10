@@ -42,7 +42,9 @@
                 </p>
 
                 <p>{{ post.body }}</p>
-                <p>{% include 'reviews/snippets/ticket_snippet.html' with post=post.ticket %}</p>
+                {% if post.content_type == 'REVIEW' %}
+                    <p>{% include 'reviews/snippets/ticket_snippet.html' with post=post.ticket %}</p>
+                {% endif %}
             </p>
         {% endif %}
         {% if context.url_name == 'posts' %}

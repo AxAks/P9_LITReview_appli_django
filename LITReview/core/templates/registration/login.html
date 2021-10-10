@@ -11,7 +11,6 @@
         <div class="list-group-item ">
             <h3>Inscrivez-vous maintenant</h3>
             <a href="{% url 'signup' %}"><button class="btn btn-secondary btn btn-outline-dark">S'inscrire</button></a>
-
             <h3>Connectez-vous</h3>
             <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}

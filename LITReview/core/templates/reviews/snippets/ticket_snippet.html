@@ -44,7 +44,6 @@
             {% if context.url_name == 'feed' %}
                 {% if post in context.ticket_already_replied %}
                     <p  class="font-weight-bold">Ce ticket a dejà une réponse. Vous ne pouvez plus le commenter</p>
-                    <p>{% include 'reviews/snippets/review_snippet.html' with post=post.review_set %}</p> <!-- ne fonctionne pas-->
                 {% else %}
                 <div>
                     <a href="{% url 'review_ticket_reply' post.id %}">

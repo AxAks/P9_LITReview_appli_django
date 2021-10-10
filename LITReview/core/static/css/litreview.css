@@ -49,6 +49,7 @@ body {
         text-align: center;
         font-family: auto;
         font-size: 2vw;
+        opacity:0.7
     }
 
     body>main>div {
