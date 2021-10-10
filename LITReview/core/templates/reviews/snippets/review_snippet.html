@@ -30,18 +30,14 @@
                 <p  class="font-weight-bold">{{ post.user }} a publié une critique </p>
             {% endif %}
                 <p>{{ post.headline }} -
-                    <span>
-                    {{ post.rating }}
-
-                    <span class="rating"> {{ post.rating }}
-                        <input name="stars" id="e5" type="radio"><label for="e5">☆</label>
-                        <input name="stars" id="e4" type="radio"><label for="e4">☆</label>
-                        <input name="stars" id="e3" type="radio"><label for="e3">☆</label>
-                        <input name="stars" id="e2" type="radio"><label for="e2">☆</label>
-                        <input name="stars" id="e1" type="radio"><label for="e1">☆</label>
-                    </span>
-
-
+                    <span> {{ post.rating }}
+                        <span class="rating"> {{ post.rating }}
+                            <input name="stars" id="e5" type="radio"><label for="e5">☆</label>
+                            <input name="stars" id="e4" type="radio"><label for="e4">☆</label>
+                            <input name="stars" id="e3" type="radio"><label for="e3">☆</label>
+                            <input name="stars" id="e2" type="radio"><label for="e2">☆</label>
+                            <input name="stars" id="e1" type="radio"><label for="e1">☆</label>
+                        </span>
                     </span>
                 </p>
 
