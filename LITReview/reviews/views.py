@@ -123,11 +123,12 @@ class PostsEditionView(TemplateView):
 
         elif url_name == 'ticket_modification':
             self.template_name = 'reviews/post_edition_forms/ticket_modification_form.html'
-            self.context['post'] = self.get_ticket_by_id(kwargs['id'])
+            self.context['post'] = self.get_ticket_by_id(kwargs['id']) # voir pourquoi il attend un Review ici !
             self.context['replied'] = self.context['post'].review_set.exists()
             if self.context['replied']:
                 messages.info(request, constants.ticket_already_replied)
                 return redirect(reverse('posts'))
+                #  voir comment utiliser self.context['post'].review_set pour verifier si le ticket a une/des reviews
             else:
                 self.form_ticket = TicketEditForm()
 
