@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-{% load static %}
-{% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
+{% load static %} {% load bootstrap4 %} {% bootstrap_css %} {% bootstrap_javascript jquery='full' %}
 
 
 <head>
@@ -12,47 +9,48 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <link rel="shortcut icon" type="image/png" href="{% static 'favicon32.png' %}"/>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon32.png' %}" />
     <!-- Custom CSS Files -->
     <link rel="stylesheet" href="{% static 'css/litreview.css' %}">
 </head>
 
-  <body class="container">
-  <header class="list-group-item">
-          <p class="h1">LITReview</p>
+<body class="container">
+    <header class="list-group-item">
+        <p class="h1">LITReview</p>
         {% if user.is_authenticated %}
-            <p class="h2">Bonjour {{ user.username }} !</p>
-                <a href="{% url 'feed' %}">
-                    <button class="btn btn-primary btn-outline-dark">Flux</button>
-                </a>
-                <a href="{% url 'posts' %}">
-                    <button class="btn btn-primary btn-outline-dark">Posts</button>
-                </a>
-                <a href="{% url 'subscriptions' %}">
-                    <button class="btn btn-primary btn-outline-dark">Abonnements</button>
-                </a>
-                <a href="{% url 'logout' %}">
-                    <button class="btn btn-danger btn-outline-dark">Se déconnecter</button>
-                </a>
+        <p class="h2">Bonjour {{ user.username }} !</p>
+        <a href="{% url 'feed' %}">
+            <button class="btn btn-primary btn-outline-dark">Flux</button>
+        </a>
+        <a href="{% url 'posts' %}">
+            <button class="btn btn-primary btn-outline-dark">Posts</button>
+        </a>
+        <a href="{% url 'subscriptions' %}">
+            <button class="btn btn-primary btn-outline-dark">Abonnements</button>
+        </a>
+        <a href="{% url 'logout' %}">
+            <button class="btn btn-danger btn-outline-dark">Se déconnecter</button>
+        </a>
         {% else %}
-            <p class="h3">Bienvenue ! Vous n'etes pas connecté</p>
+        <p class="h3">Bienvenue ! Vous n'etes pas connecté</p>
         {% endif %}
-      </div>
-  </header>
+        </div>
+    </header>
 
-  <section  class="page-header header-filter list-group-item" data-parallax="true">
-      <div align="center">
-          <h3>{% block title %}{% endblock %}</h3>
-          <p>{% include 'messages.html' %}</p>
-      </div>
-  </section>
+    <section class="page-header header-filter list-group-item" data-parallax="true">
+        <div align="center">
+            <h3>{% block title %}{% endblock %}</h3>
+            <p>{% include 'messages.html' %}</p>
+        </div>
+    </section>
 
-  <main>
-      {% block content %}
-      {% endblock %}
-  </main>
+    <main>
+        {% block content %} {% endblock %}
+    </main>
 
-  <footer class="footer footer-default">LITReview</footer>
-
+    <footer class="footer footer-default">LITReview</footer>
+    <script src="{% static 'js/litreview.js' %}">
+    </script>
 </body>
+
 </html>

@@ -1,61 +1,61 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-{% load static %}
-{% load crispy_forms_tags %}
+{% load static %} {% load crispy_forms_tags %}
 
 <head>
     <meta charset="UTF-8">
     <title>Critique</title>
+
 </head>
 
 <article class="review list-group-item">
-        {% if context.post %}
-            <p class="float-right">{{ context.post.time_created|date:"H:m, d F Y" }}</p>
-            {% if context.post.user == request.user %}
-                <p  class="font-weight-bold">Vous avez publié une critique </p>
-            {% else %}
-                <p  class="font-weight-bold">{{ context.post.user }} a publié une critique </p>
-            {% endif %}
-                <p>{{ context.post.headline }} - {{ context.post.rating }}</p>
-                <p>{{ context.post.body }}</p>
+    {% if context.post %}
+    <p class="float-right">{{ context.post.time_created|date:"H:m, d F Y" }}</p>
+    {% if context.post.user == request.user %}
+    <p class="font-weight-bold">Vous avez publié une critique </p>
+    {% else %}
+    <p class="font-weight-bold">{{ context.post.user }} a publié une critique </p>
+    {% endif %}
+    <p>{{ context.post.headline }} - {{ context.post.rating }}</p>
+    <p>{{ context.post.body }}</p>
 
-            <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.post.ticket %}</p>
+    <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.post.ticket %}</p>
+    {% else %}
+    <p>
+        <p class="float-right">{{ post.time_created|date:"H:m, d F Y" }}</p>
+        {% if post.user == request.user %}
+        <p class="font-weight-bold">Vous avez publié une critique </p>
         {% else %}
-        <p>
-            <p class="float-right">{{ post.time_created|date:"H:m, d F Y" }}</p>
-            {% if post.user == request.user %}
-                <p  class="font-weight-bold">Vous avez publié une critique </p>
-            {% else %}
-                <p  class="font-weight-bold">{{ post.user }} a publié une critique </p>
-            {% endif %}
-                <p>{{ post.headline }} -
-                    <span> {{ post.rating }}
-                        <span class="rating"> {{ post.rating }}
-                            <span>☆</span>
-                            <span>☆</span>
-                            <span>☆</span>
-                            <span>☆</span>
-                            <span>☆</span>
-                        </span>
-                    </span>
-                </p>
+        <p class="font-weight-bold">{{ post.user }} a publié une critique </p>
+        {% endif %}
+        <p>{{ post.headline }} - {{ post.rating }}
+            <span class="star-rating">
+                <!--etoile remplie-->
+                <span class="icon-star">&#x2605;</span>
+            <span class="icon-star">&#x2605;</span>
+            <span class="icon-star">&#x2605;</span>
+            <!--etoile vide-->
+            <span class="icon-star">&#x2606;</span>
+            <span class="icon-star">&#x2606;</span>
+            </span>
+        </p>
 
-                <p>{{ post.body }}</p>
-                {% if post.content_type == 'REVIEW' %}
-                    <p>{% include 'reviews/snippets/ticket_snippet.html' with post=post.ticket %}</p>
-                {% endif %}
-            </p>
+        <p>{{ post.body }}</p>
+        {% if post.content_type == 'REVIEW' %}
+        <p>{% include 'reviews/snippets/ticket_snippet.html' with post=post.ticket %}</p>
         {% endif %}
-        {% if context.url_name == 'posts' %}
-            <div class="review no_border list-group-item">
-                <a href="{% url 'review_modification' post.id %}">
-                    <button class="btn btn-secondary btn-outline-dark">Modifier cette critique</button>
-                </a>
-                <a href="{% url 'review_delete' post.id %}">
-                    <button class="btn btn-secondary btn-outline-dark">Supprimer cette critique</button>
-                </a>
-            </div>
-        {% endif %}
+    </p>
+    {% endif %} {% if context.url_name == 'posts' %}
+    <div class=" review no_border list-group-item ">
+        <a href="{% url 'review_modification' post.id %} ">
+            <button class="btn btn-secondary btn-outline-dark ">Modifier cette critique</button>
+        </a>
+        <a href="{% url 'review_delete' post.id %} ">
+            <button class="btn btn-secondary btn-outline-dark ">Supprimer cette critique</button>
+        </a>
+    </div>
+    {% endif %}
 </article>
+
 </html>

@@ -140,33 +140,22 @@ body {
     overflow:hidden;
     }
 
-.rating span {
-  float: right;
-  opacity: 0;
-  position: absolute;
-}
 
-.value_rating {
+/* Five Star rating CSS */
+
+.icon-star {
 
 }
 
-    .rating span{
-			float:right;
-			color: #aaa;
-			text-decoration: none;
-			-webkit-transition: color .4s;
-			-moz-transition: color .4s;
-			-o-transition: color .4s;
-			transition: color .4s;
-		}
-.rating span:hover,
-.rating span:focus,
-		.rating:hover,
-		.rating:focus,
-			color: orange;
-			cursor: pointer;
-		}
-		.rating2 {
-			direction: rtl;
-			float:none
-		}
+.star-rating {
+    width: 360px;
+    font-size: 2.5vw;
+    float: right;
+    position: relative;
+}
+
+.star-rating::before {
+
+}
+
+.star-rating::after {
