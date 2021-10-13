@@ -19,9 +19,9 @@
     {% endif %}
     <p>{{ context.post.headline }} - {{ context.post.rating }}</p>
     <p>{{ context.post.body }}</p>
-
+    {% if context.post.content_type == 'REVIEW' %}
     <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.post.ticket %}</p>
-    {% else %}
+    {% endif %} {% else %}
     <p>
         <p class="float-right">{{ post.time_created|date:"H:m, d F Y" }}</p>
         {% if post.user == request.user %}
@@ -29,15 +29,11 @@
         {% else %}
         <p class="font-weight-bold">{{ post.user }} a publié une critique </p>
         {% endif %}
-        <p>{{ post.headline }} - {{ post.rating }}
-            <span id="my-review-rating">
-                <!--etoile remplie
-                <span class="icon-star">&#x2605;</span>
-            <span class="icon-star">&#x2605;</span>
-            <span class="icon-star">&#x2605;</span>
-            <span class="icon-star">&#x2606;</span>
-            <span class="icon-star">&#x2606;</span> etoile vide-->
-            </span>
+        <p>{{ post.headline }} -
+            <span class="rating">{{ post.rating }}</span>
+            <span class="star-rating">
+
+                </span>
         </p>
 
         <p>{{ post.body }}</p>

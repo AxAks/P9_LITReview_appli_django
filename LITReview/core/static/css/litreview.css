@@ -1,151 +1,152 @@
 body>header {
-        background-color: #3c4255;
-        opacity: 0.7;
-        justify-content: center;
-    }
+    background-color: #3c4255;
+    opacity: 0.7;
+    justify-content: center;
+}
 
 body>section {
-        background-color: #3c4255;
-        opacity: 0.8;
-
-    }
+    background-color: #3c4255;
+    opacity: 0.8;
+}
 
 body {
-        background-image: url('../images/sky.jpg');
-        background-color: #3c4255;
-        color: #060907;;   /* none; #060907; #f4aa5e; #6b4d33; #f6be69; #fad975; */
-        font-family: auto;
-        align-items: center;
-        position: static;
-        margin-top: 25px;
-        margin-bottom: 25px;
-        left: 50px;
-        top: 50px;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-        border-radius: 10px;
-        justify-content: center;
-    }
+    background-image: url('../images/sky.jpg');
+    background-color: #3c4255;
+    color: #060907;
+    ;
+    /* none; #060907; #f4aa5e; #6b4d33; #f6be69; #fad975; */
+    font-family: auto;
+    align-items: center;
+    position: static;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    left: 50px;
+    top: 50px;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    border-radius: 10px;
+    justify-content: center;
+}
 
-    body header {
-        text-align: center;
-        font-family: cursive, 'New Century Schoolbook', auto;
-        justify-content: center;
-    }
+body header {
+    text-align: center;
+    font-family: cursive, 'New Century Schoolbook', auto;
+    justify-content: center;
+}
 
-    body>header>a {
-        text-align: center;
-        font-family: auto;
-        font-size: 2vw;
-      }
+body>header>a {
+    text-align: center;
+    font-family: auto;
+    font-size: 2vw;
+}
 
-    body>header>p {
-        text-align: center;
-        font-size: 2vw;
-      }
+body>header>p {
+    text-align: center;
+    font-size: 2vw;
+}
 
-    body>main>section {
-        text-align: center;
-        font-family: auto;
-        font-size: 2vw;
-        opacity:0.7
-    }
+body>main>section {
+    text-align: center;
+    font-family: auto;
+    font-size: 2vw;
+    opacity: 0.7
+}
 
-    body>main>div {
+body>main>div {
     display: flex;
-        flex-direction: column;
-      }
+    flex-direction: column;
+}
 
-    form>li {
-        display: flex;
-        justify-content: center;
-        font-size: 1.2vw;
-    }
+form>li {
+    display: flex;
+    justify-content: center;
+    font-size: 1.2vw;
+}
 
-    li>p {
-        display: flex;
-        justify-content: center;
-        font-size: 1.2vw;
-    }
+li>p {
+    display: flex;
+    justify-content: center;
+    font-size: 1.2vw;
+}
 
-    body>main>div>article>div {
-        text-align: right;
-    }
+body>main>div>article>div {
+    text-align: right;
+}
 
-    body>main>div>article>article>div {
-        text-align: right;
-    }
+body>main>div>article>article>div {
+    text-align: right;
+}
 
-    footer {
-        display: flex;
-        justify-content: flex-end;
-        font-family: cursive, 'New Century Schoolbook', auto;
-        font-size: 1.5vw;
-        color: #dfe4f4;
-    }
+footer {
+    display: flex;
+    justify-content: flex-end;
+    font-family: cursive, 'New Century Schoolbook', auto;
+    font-size: 1.5vw;
+    color: #dfe4f4;
+}
 
 .ticket {
     background-color: #7986b4;
     color: #060907;
     opacity: 0.9;
-  }
+}
 
 .review {
-    background-color: #5d6b89;    /* #939db1; #273a62; #b7ad89; */
-    color: #da914f;  /* #c8ac81; #e3b177; #f39c46; #fad975; */
+    background-color: #5d6b89;
+    /* #939db1; #273a62; #b7ad89; */
+    color: #da914f;
+    /* #c8ac81; #e3b177; #f39c46; #fad975; */
     opacity: 0.9;
-  }
+}
 
 .no_border {
     border: none;
-   }
+}
 
 .subscriptions {
     background-color: #c3c8d6;
     opacity: 0.9;
-  }
+}
 
 .form {
-    background-color: #dfe4f4 ;
+    background-color: #dfe4f4;
     opacity: 0.9;
-    }
+}
 
 .btn-primary {
     background-color: #159fa0;
     opacity: 0.9;
-    }
+}
 
 .btn-secondary {
     background-color: #50b7b8;
     opacity: 0.9;
-    }
+}
 
 .btn-info {
-    background-color: #32abac; /* #50b7b8; */
+    background-color: #32abac;
+    /* #50b7b8; */
     opacity: 0.9;
-    }
+}
 
 .btn-danger {
-    background-color: #e3b177  /* #d38e50; */
+    background-color: #e3b177/* #d38e50; */
     opacity: 0.9;
-    }
+}
+
 
 /* Five star rating */
 
-.rating span{
+.rating span {
     width: 226px;
     margin: 0 auto 1em;
     font-size: 45px;
-    overflow:hidden;
-    }
+    overflow: hidden;
+}
 
 
 /* Five Star rating CSS */
-
-.icon-star {
-
-}
 
 .star-rating {
     width: 360px;
@@ -154,8 +155,4 @@ body {
     position: relative;
 }
 
-.star-rating::before {
-
-}
-
-.star-rating::after {
+.rating {}

@@ -1,62 +1,29 @@
-const empty_star = '&#x2606;'
-const filled_star = '&#x2605'
+// CONSTANTS
 
-reviewRating: {
-    let node = document.createElement("span");
-    let possible_ratings = [0, 1, 2, 3, 4, 5];
-    let review_rating = post.rating;
-    for (rating of possible_ratings) { 
-        if (rating = 0) {
-            rating_content.innerHTML(empty_star * 5)
-        } else if (1 <= rating <= review_rating) {
-            document.getElementById("my-review-rating").innerHTML(filled_star);
-        } else {
-            rating_content.innerHTML(empty_star);
+const empty_star = '&#x2606;'
+const filled_star = '&#x2605;'
+const possible_ratings = [0, 1, 2, 3, 4, 5]
+
+// Function to display stars for reviews rating
+async function addStarsForRating() {
+    let reviews_ratings = Array.from(document.getElementsByClassName("rating")).map(element => parseInt(element.innerHTML));
+    let star_ratings = Array.from(document.getElementsByClassName("star-rating"));
+    for (review_rating of reviews_ratings) {
+        for (star_rating of star_ratings) {
+            for (possible_rating of possible_ratings) {
+                if (review_rating == 0) {
+                    star_rating.innerHTML += 5 * empty_star;
+                } else if (possible_rating <= review_rating) {
+                    star_rating.innerHTML += filled_star;
+                } else {
+                    star_rating.innerHTML += empty_star;
+                };
+            };
         };
     };
 };
 
 // Launch functions when DOM is ready
-//document.addEventListener('DOMContentLoaded', async() => {
-//      reviewRating();
-//})
-
-/*
-    // Site-wide forms events
-    o.forms = {
-        init: function() {
-            // Forms with this behaviour are 'locked' once they are submitted to
-            // prevent multiple submissions
-            $('form[data-behaviours~="lock"]').submit(o.forms.submitIfNotLocked);
-
-            // Disable buttons when they are clicked and show a "loading" message taken from the
-            // data-loading-text attribute (http://getbootstrap.com/2.3.2/javascript.html#buttons).
-            // Do not disable if button is inside a form with invalid fields.
-            // This uses a delegated event so that it keeps working for forms that are reloaded
-            // via AJAX: https://api.jquery.com/on/#direct-and-delegated-events
-            $(document.body).on('click', '[data-loading-text]', function(){
-                var form = $(this).parents("form");
-                if (!form || $(":invalid", form).length == 0)
-                    $(this).button('loading');
-            });
-            // stuff for star rating on review page
-            // show clickable stars instead of a select dropdown for product rating
-            ratings = $('.reviewrating');
-            if(ratings.length){
-                ratings.find('.star-rating i').on('click',o.forms.reviewRatingClick);
-            }
-        },
-        submitIfNotLocked: function(event) {
-            var $form = $(this);
-            if ($form.data('locked')) {
-                return false;
-            }
-            $form.data('locked', true);
-        },
-        reviewRatingClick: function(event){
-            var ratings = ['One','Two','Three','Four','Five']; //possible classes for display state
-            $(this).parent().removeClass('One Two Three Four Five').addClass(ratings[$(this).index()]);
-            $(this).closest('.controls').find('select').val($(this).index() + 1); //select is hidden, set value
-        }
-    };
-    */
+document.addEventListener('DOMContentLoaded', async() => {
+    addStarsForRating();
+})
