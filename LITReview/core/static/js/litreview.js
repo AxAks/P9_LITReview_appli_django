@@ -12,7 +12,7 @@ async function addStarsForRating() {
         for (star_rating of star_ratings) {
             for (possible_rating of possible_ratings) {
                 if (review_rating == 0) {
-                    star_rating.innerHTML += 5 * empty_star;
+                    (star_rating.innerHTML += empty_star) * 5;
                 } else if (possible_rating <= review_rating) {
                     star_rating.innerHTML += filled_star;
                 } else {
