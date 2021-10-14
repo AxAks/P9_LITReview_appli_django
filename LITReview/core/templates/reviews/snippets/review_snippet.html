@@ -9,114 +9,61 @@
 
 </head>
 
-<article class="review list-group-item">
-
-    {% if context.post %}
-        <p class="float-right">{{ context.post.time_created|date:"H:m, d F Y" }}</p>
-    {% if context.post.user == request.user %}
-        <p class="font-weight-bold">Vous avez publié une critique </p>
-    {% else %}
-        <p class="font-weight-bold">{{ context.post.user }} a publié une critique </p>
-    {% endif %}
-        <p>{{ context.post.headline }} - {{ context.post.rating }}</p>
-        <p>{{ context.post.body }}</p>
-    {% if context.post.content_type == 'REVIEW' %}
-        <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.post.ticket %}</p>
-    {% endif %}
-
-    {% else %}
-        <div class="review_header">
-            <p>{{ post.time_created|date:"H:m, d F Y" }}</p>
-            {% if post.user == request.user %}
-            <p class="font-weight-bold">Vous avez publié une critique </p>
+    <article class="review list-group-item">
+        {% if context.post %}
+            <p class="float-right">{{ context.post.time_created|date:"H:m, d F Y" }}</p>
+            {% if context.post.user == request.user %}
+                <p class="font-weight-bold">Vous avez publié une critique </p>
             {% else %}
-            <p class="font-weight-bold">{{ post.user }} a publié une critique </p>
+                <p class="font-weight-bold">{{ context.post.user }} a publié une critique </p>
             {% endif %}
-        </div>
-    <div class="headline">
-        <p>{{ post.headline }}</p>
-        <p> - </p>
-        <div class="review_stars " value="{{ post.rating }}">
-            <ul class="stars">
-                <li class="content_ranking">&#x2606;</li>
-                <li class="content_ranking">&#x2606;</li>
-                <li class="content_ranking">&#x2606;</li>
-                <li class="content_ranking">&#x2606;</li>
-                <li class="content_ranking">&#x2606;</li>
-            </ul>
-        </div>
-    </div>
-    <div class="content">
-        <p>{{ post.body }}</p>
-        {% if post.content_type == 'REVIEW' %}
-        <p>{% include 'reviews/snippets/ticket_snippet.html' with post=post.ticket %}</p>
-        {% endif %}
-        {% endif %}
-        {% if context.url_name == 'posts' %}
-        <div class=" review no_border list-group-item ">
-            <a href="{% url 'review_modification' post.id %} ">
-                <button class="btn btn-secondary btn-outline-dark ">Modifier cette critique</button>
-            </a>
-            <a href="{% url 'review_delete' post.id %} ">
-                <button class="btn btn-secondary btn-outline-dark ">Supprimer cette critique</button>
-            </a>
-        </div>
-        {% endif %}
-    </div>
+            <p>{{ context.post.headline }} - {{ context.post.rating }}</p>
+            <p>{{ context.post.body }}</p>
+            {% if context.post.content_type == 'REVIEW' %}
+                <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.post.ticket %}</p>
+            {% endif %}
 
-
-
-    <!--
-    {% if context.post %}
-    <p class="float-right">{{ context.post.time_created|date:"H:m, d F Y" }}</p>
-    {% if context.post.user == request.user %}
-    <p class="font-weight-bold">Vous avez publié une critique </p>
-    {% else %}
-    <p class="font-weight-bold">{{ context.post.user }} a publié une critique </p>
-    {% endif %}
-    <p>{{ context.post.headline }} - {{ context.post.rating }}</p>
-    <p>{{ context.post.body }}</p>
-    {% if context.post.content_type == 'REVIEW' %}
-    <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.post.ticket %}</p>
-    {% endif %} {% else %}
-    <p>
-        <p class="float-right">{{ post.time_created|date:"H:m, d F Y" }}</p>
-        {% if post.user == request.user %}
-        <p class="font-weight-bold">Vous avez publié une critique </p>
         {% else %}
-        <p class="font-weight-bold">{{ post.user }} a publié une critique </p>
-        {% endif %}
-        <p>{{ post.headline }} -
-            <div class="review_stars " value="{{ post.rating }}">
-                <ul class="stars">
-                    <li class="content_ranking">&#x2606;</li>
-                    <li class="content_ranking">&#x2606;</li>
-                    <li class="content_ranking">&#x2606;</li>
-                    <li class="content_ranking">&#x2606;</li>
-                    <li class="content_ranking">&#x2606;</li>
-                </ul>
+            <div class="review_header">
+                <p>{{ post.time_created|date:"H:m, d F Y" }}</p>
+                {% if post.user == request.user %}
+                    <p class="font-weight-bold">Vous avez publié une critique </p>
+                {% else %}
+                    <p class="font-weight-bold">{{ post.user }} a publié une critique </p>
+                {% endif %}
             </div>
-            <span class="rating">{{ post.rating }}</span>
-            <span class="star-rating rating_1">
-
-                </span>
-        </p>
-
-        <p>{{ post.body }}</p>
-        {% if post.content_type == 'REVIEW' %}
-        <p>{% include 'reviews/snippets/ticket_snippet.html' with post=post.ticket %}</p>
+            <div class="headline">
+                <p>{{ post.headline }}</p>
+                <p> - </p>
+                <div class="review_stars " value="{{ post.rating }}">
+                    <ul class="stars">
+                        <li class="content_ranking">&#x2606;</li>
+                        <li class="content_ranking">&#x2606;</li>
+                        <li class="content_ranking">&#x2606;</li>
+                        <li class="content_ranking">&#x2606;</li>
+                        <li class="content_ranking">&#x2606;</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="content">
+                <p>{{ post.body }}</p>
+            {% if post.content_type == 'REVIEW' %}
+                <p>{% include 'reviews/snippets/ticket_snippet.html' with post=post.ticket %}</p>
+            {% endif %}
         {% endif %}
-    </p>
-    {% endif %} {% if context.url_name == 'posts' %}
-    <div class=" review no_border list-group-item ">
-        <a href="{% url 'review_modification' post.id %} ">
-            <button class="btn btn-secondary btn-outline-dark ">Modifier cette critique</button>
-        </a>
-        <a href="{% url 'review_delete' post.id %} ">
-            <button class="btn btn-secondary btn-outline-dark ">Supprimer cette critique</button>
-        </a>
-    </div>
-    {% endif %} -->
-</article>
+        </div>
+        <div>
+        {% if context.url_name == 'posts' %}
+            <div class=" review no_border list-group-item ">
+                <a href="{% url 'review_modification' post.id %} ">
+                    <button class="btn btn-secondary btn-outline-dark ">Modifier cette critique</button>
+                </a>
+                <a href="{% url 'review_delete' post.id %} ">
+                    <button class="btn btn-secondary btn-outline-dark ">Supprimer cette critique</button>
+                </a>
+            </div>
+        {% endif %}
+        </div>
+    </article>
 
 </html>
