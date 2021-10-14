@@ -2,10 +2,25 @@
 
 const empty_star = '&#x2606;'
 const filled_star = '&#x2605;'
-const possible_ratings = [0, 1, 2, 3, 4, 5]
+
 
 // Function to display stars for reviews rating
-async function addStarsForRating() {
+function addStarsForRating() {
+    let review_stars = document.querySelectorAll('.stars');
+
+    for (stars of review_stars) {
+        let i = 0;
+        for (star of stars.children){
+            if (i < stars.parentElement.getAttribute('value')) {
+                star.innerHTML = '&#x2605;';
+                i++;
+            }
+        }
+    }
+}
+
+/*
+function addStarsForRating() {
     let reviews_ratings = Array.from(document.getElementsByClassName("rating")).map(element => parseInt(element.innerHTML));
     let star_ratings = Array.from(document.getElementsByClassName("star-rating"));
     for (review_rating of reviews_ratings) {
@@ -22,8 +37,8 @@ async function addStarsForRating() {
         };
     };
 };
-
+*/
 // Launch functions when DOM is ready
-document.addEventListener('DOMContentLoaded', async() => {
+window.onload = () => {
     addStarsForRating();
-})
+};

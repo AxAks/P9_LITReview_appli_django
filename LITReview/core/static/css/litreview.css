@@ -71,11 +71,11 @@ li>p {
 }
 
 body>main>div>article>div {
-    text-align: right;
+    text-align: none; // TODO remettre a right
 }
 
 body>main>div>article>article>div {
-    text-align: right;
+    text-align: none; // TODO remettre a right
 }
 
 footer {
@@ -156,3 +156,42 @@ footer {
 }
 
 .rating {}
+
+.content_ranking--active {
+    color: transparent;
+}
+
+.content_ranking--active {
+    color: yellow;
+}
+
+.stars > li {
+    list-style-type: none;
+}
+
+
+
+
+
+/* FLEX */
+
+
+.review_header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+}
+
+.headline {
+    display: flex;
+    align-items: center;
+}
+
+.review_stars ul {
+    display: flex;
+}
+
+.review_stars ul li  {
+    font-size: 360px;
+    font-size: 2.5vw;
+}
