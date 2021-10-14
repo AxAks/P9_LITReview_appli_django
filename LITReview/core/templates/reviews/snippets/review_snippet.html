@@ -11,17 +11,33 @@
 
     <article class="review list-group-item">
         {% if context.post %}
-            <p class="float-right">{{ context.post.time_created|date:"H:m, d F Y" }}</p>
-            {% if context.post.user == request.user %}
-                <p class="font-weight-bold">Vous avez publié une critique </p>
-            {% else %}
-                <p class="font-weight-bold">{{ context.post.user }} a publié une critique </p>
-            {% endif %}
-            <p>{{ context.post.headline }} - {{ context.post.rating }}</p>
-            <p>{{ context.post.body }}</p>
-            {% if context.post.content_type == 'REVIEW' %}
-                <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.post.ticket %}</p>
-            {% endif %}
+            <div class="review_header">
+                <p >{{ context.post.time_created|date:"H:m, d F Y" }}</p>
+                {% if context.post.user == request.user %}
+                    <p class="font-weight-bold">Vous avez publié une critique </p>
+                {% else %}
+                    <p class="font-weight-bold">{{ context.post.user }} a publié une critique </p>
+                {% endif %}
+            </div>
+            <div class="headline">
+            <p>{{ context.post.headline }}</p>
+            <p> - </p>
+                <div class="review_stars " value="{{ context.post.rating }}">
+                    <ul class="stars">
+                        <li class="content_ranking">&#x2606;</li>
+                        <li class="content_ranking">&#x2606;</li>
+                        <li class="content_ranking">&#x2606;</li>
+                        <li class="content_ranking">&#x2606;</li>
+                        <li class="content_ranking">&#x2606;</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="content">
+                <p>{{ context.post.body }}</p>
+                {% if context.post.content_type == 'REVIEW' %}
+                    <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.post.ticket %}</p>
+                {% endif %}
+            </div>
 
         {% else %}
             <div class="review_header">
@@ -50,9 +66,9 @@
             {% if post.content_type == 'REVIEW' %}
                 <p>{% include 'reviews/snippets/ticket_snippet.html' with post=post.ticket %}</p>
             {% endif %}
-        {% endif %}
         </div>
-        <div>
+        {% endif %}
+
         {% if context.url_name == 'posts' %}
             <div class=" review no_border list-group-item ">
                 <a href="{% url 'review_modification' post.id %} ">
@@ -63,7 +79,6 @@
                 </a>
             </div>
         {% endif %}
-        </div>
     </article>
 
 </html>
