@@ -11,7 +11,7 @@
 
     <article class="review list-group-item">
         {% if context.post %}
-            <div class="review_header">
+            <div class="article_header">
                 <p >{{ context.post.time_created|date:"H:m, d F Y" }}</p>
                 {% if context.post.user == request.user %}
                     <p class="font-weight-bold">Vous avez publié une critique </p>
@@ -19,28 +19,31 @@
                     <p class="font-weight-bold">{{ context.post.user }} a publié une critique </p>
                 {% endif %}
             </div>
-            <div class="headline">
-            <p>{{ context.post.headline }}</p>
-            <p> - </p>
-                <div class="review_stars " value="{{ context.post.rating }}">
-                    <ul class="stars">
-                        <li class="content_ranking">&#x2606;</li>
-                        <li class="content_ranking">&#x2606;</li>
-                        <li class="content_ranking">&#x2606;</li>
-                        <li class="content_ranking">&#x2606;</li>
-                        <li class="content_ranking">&#x2606;</li>
-                    </ul>
+            <div class="review-headline">
+                <div>
+                    <p>{{ context.post.headline }}</p>
+                    <p>: </p>
+                    <div class="review_stars " value="{{ context.post.rating }}">
+                        <ul class="stars">
+                            <li class="content_ranking">&#x2606;</li>
+                            <li class="content_ranking">&#x2606;</li>
+                            <li class="content_ranking">&#x2606;</li>
+                            <li class="content_ranking">&#x2606;</li>
+                            <li class="content_ranking">&#x2606;</li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="content">
+            <div class="article-content">
                 <p>{{ context.post.body }}</p>
                 {% if context.post.content_type == 'REVIEW' %}
+            </div>
+            <div>
                     <p>{% include 'reviews/snippets/ticket_snippet.html' with post=context.post.ticket %}</p>
                 {% endif %}
             </div>
 
         {% else %}
-            <div class="review_header">
+            <div class="article-header">
                 <p>{{ post.time_created|date:"H:m, d F Y" }}</p>
                 {% if post.user == request.user %}
                     <p class="font-weight-bold">Vous avez publié une critique </p>
@@ -48,9 +51,9 @@
                     <p class="font-weight-bold">{{ post.user }} a publié une critique </p>
                 {% endif %}
             </div>
-            <div class="headline">
+            <div class="review-headline">
                 <p>{{ post.headline }}</p>
-                <p> - </p>
+                <p>: </p>
                 <div class="review_stars " value="{{ post.rating }}">
                     <ul class="stars">
                         <li class="content_ranking">&#x2606;</li>
@@ -61,22 +64,28 @@
                     </ul>
                 </div>
             </div>
-            <div class="content">
+            <div class="article-content">
                 <p>{{ post.body }}</p>
+            </div>
+            <div>
             {% if post.content_type == 'REVIEW' %}
                 <p>{% include 'reviews/snippets/ticket_snippet.html' with post=post.ticket %}</p>
             {% endif %}
-        </div>
+            </div>
         {% endif %}
 
         {% if context.url_name == 'posts' %}
-            <div class=" review no_border list-group-item ">
-                <a href="{% url 'review_modification' post.id %} ">
-                    <button class="btn btn-secondary btn-outline-dark ">Modifier cette critique</button>
-                </a>
-                <a href="{% url 'review_delete' post.id %} ">
-                    <button class="btn btn-secondary btn-outline-dark ">Supprimer cette critique</button>
-                </a>
+            <div class="article-buttons-component">
+                <div class="article-buttons">
+                    <div class="review no_border list-group-item ">
+                        <a href="{% url 'review_modification' post.id %} ">
+                            <button class="btn btn-secondary btn-outline-dark ">Modifier cette critique</button>
+                        </a>
+                        <a href="{% url 'review_delete' post.id %} ">
+                            <button class="btn btn-secondary btn-outline-dark ">Supprimer cette critique</button>
+                        </a>
+                    </div>
+                </div>
             </div>
         {% endif %}
     </article>

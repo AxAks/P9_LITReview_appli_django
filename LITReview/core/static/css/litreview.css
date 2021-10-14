@@ -157,14 +157,6 @@ footer {
 
 .rating {}
 
-.content_ranking--active {
-    color: transparent;
-}
-
-.content_ranking--active {
-    color: yellow;
-}
-
 .stars > li {
     list-style-type: none;
 }
@@ -176,15 +168,32 @@ footer {
 /* FLEX */
 
 
-.review_header {
+.article-header {
     display: flex;
     justify-content: space-between;
     flex-direction: row-reverse;
 }
 
-.headline {
+.article-content {
+    display: flex;
+    justify: flex-start
+}
+
+.article-buttons-component {
+        display: flex;
+        justify-content: flex-end;
+}
+
+.article-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.review-headline {
     display: flex;
     align-items: center;
+    justify-content: left;
+    font-size: 1.2vw;
 }
 
 .review_stars ul {
@@ -194,4 +203,21 @@ footer {
 .review_stars ul li  {
     font-size: 360px;
     font-size: 2.5vw;
+}
+
+
+
+.ticket-title {
+    font-size: 1.2vw;
+    text-decoration: underline;
+}
+
+.ticket-image {
+    display: flex;
+    justify: flex-start
+}
+
+.has_reply {
+    display: flex;
+    justify-content: center;
 }
