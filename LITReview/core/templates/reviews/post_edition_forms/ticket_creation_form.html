@@ -22,7 +22,11 @@
                     {{ form_ticket.image.errors }}
                     {{ form_ticket.image | as_crispy_field }}
             </p>
-            <button class="btn btn-info btn-outline-dark" type="submit">Envoyer</button>
+                <div class="buttons-on-right-component">
+                    <div class="buttons">
+                        <button class="btn btn-info btn-outline-dark" type="submit">Envoyer</button>
+                    </div>
+                </div>
         </form>
     </div>
     {% endblock %}

@@ -54,7 +54,7 @@
                         <img  height="100px" src="{% get_media_prefix %}{{ context.associated_ticket.image }}">
                     {% else %}
                         <img  height="80px" src="{% get_media_prefix %}ticket_images/no_image.png">
-                    {% endif %}
+                     {% endif %}
                 </div>
             {% endif %}
 
@@ -64,8 +64,8 @@
                         <p  class="font-weight-bold">Ce ticket a dejà une réponse. Vous ne pouvez plus le commenter</p>
                     </div>
                 {% else %}
-                <div class="article-buttons-component">
-                    <div class="article-buttons">
+                <div class="buttons-on-right-component">
+                    <div class="buttons">
                         <a href="{% url 'review_ticket_reply' post.id %}">
                             <button class="btn btn-secondary btn-outline-dark">Créer une critique pour ce ticket</button>
                         </a>
@@ -82,9 +82,9 @@
                     essayer d'inclure la review peut etre sympa avec include
                     -->
                 {% else %}
-                    <div class="article-buttons-component">
+                    <div class="buttons-on-right-component">
                         <div class="article-buttons">
-                            <div class="ticket no_border">
+                            <div class="ticket">
                                 <a href="{% url 'ticket_modification' post.id %}">
                                     <button class="btn btn-secondary btn-outline-dark">Modifier ce ticket</button>
                                 </a>

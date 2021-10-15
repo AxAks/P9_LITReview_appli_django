@@ -1,20 +1,8 @@
-body>header {
-    background-color: #3c4255;
-    opacity: 0.7;
-    justify-content: center;
-}
-
-body>section {
-    background-color: #3c4255;
-    opacity: 0.8;
-}
-
+/* Main aspect */
 body {
     background-image: url('../images/sky.jpg');
     background-color: #3c4255;
     color: #060907;
-    ;
-    /* none; #060907; #f4aa5e; #6b4d33; #f6be69; #fad975; */
     font-family: auto;
     align-items: center;
     position: static;
@@ -29,14 +17,14 @@ body {
     justify-content: center;
 }
 
-body header {
+body>header {
+    background-color: #3c4255;
+    opacity: 0.7;
     text-align: center;
     font-family: cursive, 'New Century Schoolbook', auto;
-    justify-content: center;
 }
 
 body>header>a {
-    text-align: center;
     font-family: auto;
     font-size: 2vw;
 }
@@ -46,17 +34,17 @@ body>header>p {
     font-size: 2vw;
 }
 
+body>section {
+    background-color: #3c4255;
+    opacity: 0.8;
+}
+
 body>main>section {
-    text-align: center;
     font-family: auto;
     font-size: 2vw;
     opacity: 0.7
 }
 
-body>main>div {
-    display: flex;
-    flex-direction: column;
-}
 
 form>li {
     display: flex;
@@ -70,14 +58,6 @@ li>p {
     font-size: 1.2vw;
 }
 
-body>main>div>article>div {
-    text-align: none; // TODO remettre a right
-}
-
-body>main>div>article>article>div {
-    text-align: none; // TODO remettre a right
-}
-
 footer {
     display: flex;
     justify-content: flex-end;
@@ -86,34 +66,25 @@ footer {
     color: #dfe4f4;
 }
 
-.ticket {
-    background-color: #7986b4;
-    color: #060907;
-    opacity: 0.9;
+
+
+/* Button layout */
+.buttons-centered-component {
+        display: flex;
+        justify-content: center;
 }
 
-.review {
-    background-color: #5d6b89;
-    /* #939db1; #273a62; #b7ad89; */
-    color: #da914f;
-    /* #c8ac81; #e3b177; #f39c46; #fad975; */
-    opacity: 0.9;
+.buttons-on-right-component {
+        display: flex;
+        justify-content: flex-end;
 }
 
-.no_border {
-    border: none;
+.buttons {
+    display: flex;
+    justify-content: space-between;
 }
 
-.subscriptions {
-    background-color: #c3c8d6;
-    opacity: 0.9;
-}
-
-.form {
-    background-color: #dfe4f4;
-    opacity: 0.9;
-}
-
+/* Button colors*/
 .btn-primary {
     background-color: #159fa0;
     opacity: 0.9;
@@ -126,48 +97,26 @@ footer {
 
 .btn-info {
     background-color: #32abac;
-    /* #50b7b8; */
     opacity: 0.9;
 }
 
 .btn-danger {
-    background-color: #e3b177/* #d38e50; */
+    background-color: #e3b177
     opacity: 0.9;
 }
 
 
-/* Five star rating */
-
-.rating span {
-    width: 226px;
-    margin: 0 auto 1em;
-    font-size: 45px;
-    overflow: hidden;
+.subscriptions {
+    background-color: #c3c8d6;
+    opacity: 0.9;
 }
 
-
-/* Five Star rating CSS */
-
-.star-rating {
-    width: 360px;
-    font-size: 2.5vw;
-    float: right;
-    position: relative;
+.form {
+    background-color: #dfe4f4;
+    opacity: 0.9;
 }
 
-.rating {}
-
-.stars > li {
-    list-style-type: none;
-}
-
-
-
-
-
-/* FLEX */
-
-
+/* Articles layout */
 .article-header {
     display: flex;
     justify-content: space-between;
@@ -179,33 +128,12 @@ footer {
     justify: flex-start
 }
 
-.article-buttons-component {
-        display: flex;
-        justify-content: flex-end;
-}
-
-.article-buttons {
-    display: flex;
-    justify-content: space-between;
-}
-
 .review-headline {
     display: flex;
     align-items: center;
     justify-content: left;
     font-size: 1.2vw;
 }
-
-.review_stars ul {
-    display: flex;
-}
-
-.review_stars ul li  {
-    font-size: 360px;
-    font-size: 2.5vw;
-}
-
-
 
 .ticket-title {
     font-size: 1.2vw;
@@ -220,4 +148,31 @@ footer {
 .has_reply {
     display: flex;
     justify-content: center;
+}
+
+/* Articles colors*/
+.ticket {
+    background-color: #7986b4;
+    color: #060907;
+    opacity: 0.9;
+}
+
+.review {
+    background-color: #5d6b89;
+    color: #da914f;
+    opacity: 0.9;
+}
+
+/* Five Star rating CSS */
+.review_stars ul {
+    display: flex;
+}
+
+.review_stars ul li  {
+    font-size: 360px;
+    font-size: 2.5vw;
+}
+
+.stars > li {
+    list-style-type: none;
 }
