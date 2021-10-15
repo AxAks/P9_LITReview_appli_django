@@ -2,6 +2,8 @@
 body {
     background-image: url('../images/sky.jpg');
     background-color: #3c4255;
+    display: flex;
+    flex-direction: column;
     color: #060907;
     font-family: auto;
     position: static;
@@ -11,36 +13,33 @@ body {
     top: 50px;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
     border-radius: 10px;
-    justify-content: center;
 }
 
-body>header {
+header {
+    display: flex;
     background-color: #3c4255;
     opacity: 0.7;
     text-align: center;
     font-family: cursive, 'New Century Schoolbook', auto;
+
 }
 
-body>header>a {
+header>a {
     font-family: auto;
-    font-size: 2vw;
 }
 
-body>header>p {
+header>p {
     text-align: center;
-    font-size: 2vw;
 }
 
-body>section {
+section {
     background-color: #3c4255;
     opacity: 0.8;
 }
 
-body>main>section {
+main>section {
     font-family: auto;
-    font-size: 2vw;
     opacity: 0.7;
 }
 
@@ -68,12 +67,18 @@ footer {
 /* Button layout */
 .buttons-centered-component {
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
 }
 
 .buttons-on-right-component {
         display: flex;
         justify-content: flex-end;
+}
+
+.header_buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 40%;
 }
 
 .buttons {
