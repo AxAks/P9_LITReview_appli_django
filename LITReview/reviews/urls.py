@@ -20,7 +20,7 @@ urlpatterns = [
     path('review/creation/',
          login_required(PostsEditionView.as_view(), login_url='login'), name='review_creation_no_ticket'),
     path('review/modification/<int:id>/',
-         login_required(PostsEditionView.as_view(), login_url='login'), name='review_modification'),  # id review à mettre ici
+         login_required(PostsEditionView.as_view(), login_url='login'), name='review_modification'),
     path('review/delete/<int:id>',
          login_required(PostsEditionView.as_view(), login_url='login'), name='review_delete'),
 ]

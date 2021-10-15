@@ -282,9 +282,6 @@ class PostsEditionView(TemplateView):
         else:
             edited_request_post['description'] = request.POST['description']
 
-        # gestion des images à faire correctement !
-        # actuellement je peux remplacer une image mais pas enlever une image d'un ticket
-        # + pb sauvegarde du fichier en double avec extension bizarre à un moment...
         if ticket_to_edit.image != '' \
                 and 'image' not in request.FILES.keys() \
                 and request.POST['image'] == '':

@@ -1,12 +1,5 @@
 # P9_LITReview_appli_django
 
-copié de P2 
-à editer !!!
-
-
-
-# P4_python_program_chess-tournament
-
 ## Chapters
 
 1. [Presentation](#presentation)
@@ -119,7 +112,7 @@ _Top Menu_
 -> General Feed (Flux) with the list of posts (Tickets and Reviewws) from you and the users you follow     
 -> Your Posts (Posts) with only your Posts     
 -> Subscriptions (Abonnements) is where you can see the users following you and manage your subscriptions to other users    
--> Logout ( Se déconnecter) to logout. You are then redirected to the login page     
+-> Logout (Se déconnecter) to logout. You are then redirected to the login page     
 
 
 __Posts Lists (Flux/Posts)__    
