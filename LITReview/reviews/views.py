@@ -342,7 +342,7 @@ class PostsEditionView(TemplateView):
             edited_request_post['headline'] = review_to_edit.headline
         else:
             edited_request_post['headline'] = request.POST['headline']
-        if request.POST['rating'] == '':
+        if 'rating' not in request.POST.keys():
             edited_request_post['rating'] = review_to_edit.rating
         else:
             edited_request_post['rating'] = request.POST['rating']
