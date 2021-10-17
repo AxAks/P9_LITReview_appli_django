@@ -292,6 +292,11 @@ class PostsEditionView(TemplateView):
                 and 'image' not in request.POST.keys():
             edited_request_files['image'] = request.FILES['image']
 
+        elif ticket_to_edit.image == '' \
+                and 'image' not in request.FILES.keys() \
+                and request.POST['image'] == '':
+            edited_request_files['image'] = request.POST['image']
+
         elif 'image' not in request.FILES.keys() \
                 and request.POST['image'] == '':
             edited_request_post = request.POST['image']

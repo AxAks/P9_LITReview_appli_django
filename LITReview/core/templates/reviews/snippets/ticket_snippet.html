@@ -23,7 +23,7 @@
                     <p>{{ post.title }}<p>
                 </div>
                 <div class="article-content">
-                    <p>{{ post.description }}</p>
+                    <p>{{ post.description | linebreaksbr }}</p>
                 </div>
                 <div class="ticket-image">
                     {% if post.image %}
@@ -47,7 +47,7 @@
                     <p>{{ context.associated_ticket.title }}<p>
                 </div>
                 <div class="article-content">
-                    <p>{{ context.associated_ticket.description }}</p>
+                    <p>{{ context.associated_ticket.description | linebreaksbr }}</p>
                 </div>
                 <div class="ticket-image">
                     {% if context.associated_ticket.image %}

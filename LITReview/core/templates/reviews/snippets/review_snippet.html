@@ -34,7 +34,7 @@
                     </div>
                 </div>
             <div class="article-content">
-                <p>{{ context.post.body }}</p>
+                <p>{{ context.post.body | linebreaksbr }}</p>
                 {% if context.post.content_type == 'REVIEW' %}
             </div>
             <div>
@@ -65,7 +65,7 @@
                 </div>
             </div>
             <div class="article-content">
-                <p>{{ post.body }}</p>
+                <p>{{ post.body | linebreaksbr }}</p>
             </div>
             <div>
             {% if post.content_type == 'REVIEW' %}
