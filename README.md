@@ -99,6 +99,12 @@ localhost:8000 (or 0.0.0.0:8000)
 
 ## 5. Usage <a name="usage"></a>
 
+__Access for Admin (developers)__   
+SuperUser: 
+- ID: litrroot
+- MDP: IAmRootMan
+- URL: http://localhost:8000/admin/login/
+
 __Registration and/or Login__    
 _If you do not have an account yet: "S'inscire"_        
 - Fill out the form and submit     
