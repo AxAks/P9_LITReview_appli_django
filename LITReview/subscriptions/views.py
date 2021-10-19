@@ -5,6 +5,7 @@ from django.contrib import messages
 
 from core.models import CustomUser
 from subscriptions.forms import UserSearchForm, UserFollowForm, UserUnfollowForm
+from subscriptions.lib_subscriptions import get_subscriptions_status_for_user
 from subscriptions.models import UserFollows
 
 
@@ -29,7 +30,9 @@ class SubscriptionsView(TemplateView):
                         'new_user_followed': [],
                         'unfollowed_user': []
                         }
-        self.get_subscriptions_status_for_user(request)
+        followed_users, following_users = get_subscriptions_status_for_user(request)
+        self.context['followed_users'] = followed_users
+        self.context['following_users'] = following_users
 
         return render(request,
                       self.template_name,
@@ -39,13 +42,13 @@ class SubscriptionsView(TemplateView):
                        'unfollow_form': self.unfollow_form
                        })
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         """
         Enables to:
         - search users by username and display the results as a list
         - follow and unfollow other users
         """
-        self.get_subscriptions_status_for_user(request)
+        get_subscriptions_status_for_user(request)
 
         users_excluded_from_search = [user.id for user in self.context['followed_users']]
         users_excluded_from_search.append(request.user.id)
@@ -96,13 +99,3 @@ class SubscriptionsView(TemplateView):
         self.context['new_user_followed'] = new_user_followed.followed_user
         messages.info(request, f"L'utilisateur {query} est maintenant suivi")
         return redirect(reverse('subscriptions'))
-
-    def get_subscriptions_status_for_user(self, request):
-        followed_users = [CustomUser.objects.get(id=relation_obj.followed_user_id)
-                          for relation_obj in UserFollows.objects.filter(user_id=request.user.id).all()]
-        following_users = [CustomUser.objects.get(id=user_following_obj.user_id)
-                           for user_following_obj
-                           in UserFollows.objects.filter(followed_user_id=request.user.id).all()]
-
-        self.context['followed_users'] = followed_users
-        self.context['following_users'] = following_users

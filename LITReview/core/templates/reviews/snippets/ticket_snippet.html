@@ -59,7 +59,7 @@
             {% endif %}
 
             {% if context.url_name == 'feed' %}
-                {% if post in context.ticket_already_replied %}
+                {% if post in context.tickets_already_replied %}
                     <div class="has_reply">
                         <p  class="font-weight-bold">Ce ticket a dejà une réponse. Vous ne pouvez plus le commenter</p>
                     </div>
@@ -74,7 +74,7 @@
                 {% endif %}
 
             {% elif context.url_name == 'posts' %}
-                {% if post in context.ticket_already_replied %}
+                {% if post in context.tickets_already_replied %}
                     <div class="has_reply">
                         <p class="font-weight-bold">Ce ticket a dejà une réponse. Il n'est plus éditable</p>
                     </div>
