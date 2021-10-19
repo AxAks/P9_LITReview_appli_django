@@ -8,6 +8,32 @@ from core.models import CustomUser
 from subscriptions.models import UserFollows
 
 
+def follow_user(request, user_to_follow):
+    return UserFollows(user_id=request.user.id, followed_user_id=user_to_follow.id)
+
+
+def unfollow_user(request, user_to_unfollow: CustomUser) -> None:
+    return UserFollows.objects\
+        .get(user_id=request.user.id, followed_user_id=user_to_unfollow.id)\
+        .delete()
+
+
+def get_specific_user(query: str) -> CustomUser:
+    """
+    Returns the User with the exact matching username
+    """
+    return CustomUser.objects.get(username=query)
+
+
+def get_matching_users(query: str, users_excluded_from_search: List[int]) -> List[CustomUser]:
+    """
+    Returns a list of users whose usernames matched the query
+    """
+    return CustomUser.objects.filter(username__icontains=query)\
+        .distinct()\
+        .exclude(id__in=users_excluded_from_search)
+
+
 def get_followed_users_by_id(request) -> list[int]:
     """
     Enables to get the IDs for users followed by the current user
