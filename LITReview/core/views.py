@@ -54,6 +54,10 @@ class LoginView(TemplateView):
     failure_redirect = 'login'
 
     def get(self, request, *args, **kwargs) -> HttpResponse:
+        """
+        Displays the Login View made of two parts :
+        a link to Sign Up and the Login Form
+        """
         return render(request, self.template_name, {'form': self.form})
 
     def post(self, request) -> HttpResponseRedirect:

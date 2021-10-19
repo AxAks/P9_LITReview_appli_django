@@ -7,7 +7,7 @@ from LITReview import settings
 
 class UserFollows(models.Model):
     """
-
+    A Class handling the subscritpions between users:
     """
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='following')

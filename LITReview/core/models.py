@@ -4,7 +4,8 @@ from django.urls import reverse_lazy
 
 class CustomUser(AbstractUser):
     """
-
+    Extends the Basic User class without adding anything to it
+    in order to be able to override it easily in the future, if needed
     """
     def __str__(self):
         return self.username

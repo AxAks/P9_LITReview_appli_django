@@ -2,6 +2,8 @@
 Collection of functions related to the subscriptions views/classes (POST and GET):
 - SubscriptionsView
 """
+from typing import List, Tuple
+
 from core.models import CustomUser
 from subscriptions.models import UserFollows
 
@@ -16,7 +18,7 @@ def get_followed_users_by_id(request) -> list[int]:
     return followed_users_ids
 
 
-def get_subscriptions_status_for_user(request):
+def get_subscriptions_status_for_user(request) -> Tuple[List[CustomUser], List[CustomUser]]:
     """
     Returns two lists from the current user's ID:
     - The users following the current user

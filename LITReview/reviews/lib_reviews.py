@@ -4,7 +4,7 @@ Collection of functions related to the reviews views/classes (POST and GET):
 - PostsEditionView
 """
 from itertools import chain
-from typing import List, Any, Union
+from typing import List, Union
 
 from django.core.exceptions import ValidationError
 from django.db.models import Value, CharField
@@ -13,7 +13,7 @@ from reviews.forms import ReviewEditForm, ReviewForm, TicketEditForm, TicketForm
 from reviews.models import Ticket, Review
 
 
-def get_posts(filter_param: List[int]) -> List[Any]:
+def get_posts(filter_param: List[int]) -> List[Union[Ticket, Review]]:
     """
     Enables to concatenate Tickets and Reviews under the variable name: Posts
     for the users given as parameter
@@ -31,6 +31,9 @@ def get_posts(filter_param: List[int]) -> List[Any]:
 
 
 def get_already_replied_tickets(posts: List[Union[Ticket]]) -> List[Ticket]:
+    """
+    Enables to filter replied tickets in a given list of tickets
+    """
     tickets_already_replied = []
     for post in posts:
         if post.content_type == 'TICKET':
@@ -107,7 +110,7 @@ def edit_ticket(request, ticket_to_edit: Ticket) -> Ticket:
         raise ValidationError(e)
 
 
-def delete_ticket(ticket_id) -> None:
+def delete_ticket(ticket_id: int) -> None:
     """
     Enables to delete a given Ticket
     """
@@ -158,21 +161,21 @@ def edit_review(request, review_to_edit: Review) -> Review:
         raise ValidationError(e)
 
 
-def delete_review(review_id) -> None:
+def delete_review(review_id: int) -> None:
     """
     Enables to delete a given Review
     """
     return Review.objects.filter(pk=review_id).delete()
 
 
-def get_review_by_id(review_id) -> Review:
+def get_review_by_id(review_id: int) -> Review:
     """
     Enables to get a given Review by its ID
     """
     return Review.objects.get(pk=review_id)
 
 
-def get_ticket_by_id(ticket_id) -> Ticket:
+def get_ticket_by_id(ticket_id: int) -> Ticket:
     """
     Enables to get a given Ticket by its ID
     """
