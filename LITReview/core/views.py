@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.contrib import messages
 
-import constants
+from constants import REGISTRATION_SUCCESS_MSG, LOGIN_SUCCESS_MSG, FORM_ERROR_MSG
 from .forms import SignUpForm
 
 
@@ -24,7 +24,7 @@ class SignupView(TemplateView):
         form = SignUpForm()
         return render(request, self.template_name, {'form': form})
 
-    def post(self, request, *args, **kwargs) -> Union[HttpResponse, HttpResponseRedirect]:
+    def post(self, request) -> Union[HttpResponse, HttpResponseRedirect]:
         """
         Handles the validation of data provided by the user in the registration form
         Leads directly to the home/feed page if the form is validated.
@@ -33,14 +33,14 @@ class SignupView(TemplateView):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
+            username = form.cleaned_data.get('username', )
+            password = form.cleaned_data.get('password1', )
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.info(request, constants.registration_success)
+            messages.info(request, REGISTRATION_SUCCESS_MSG)
             return redirect('feed')
         else:
-            messages.info(request, constants.form_error)
+            messages.info(request, FORM_ERROR_MSG)
             return render(request, self.template_name, {'form': form})
 
 
@@ -54,6 +54,10 @@ class LoginView(TemplateView):
     failure_redirect = 'login'
 
     def get(self, request, *args, **kwargs) -> HttpResponse:
+        """
+        Displays the Login View made of two parts :
+        a link to Sign Up and the Login Form
+        """
         return render(request, self.template_name, {'form': self.form})
 
     def post(self, request) -> HttpResponseRedirect:
@@ -65,20 +69,20 @@ class LoginView(TemplateView):
         user = authenticate(request, username=username, password=password)
         if not user:
             login(request, user)
-            messages.info(request, constants.login_success)
+            messages.info(request, LOGIN_SUCCESS_MSG)
             return redirect(request, self.success_to)
         else:
-            messages.info(request, constants.form_error)
+            messages.info(request, FORM_ERROR_MSG)
             return render(request, self.template_name, {'form': self.form})
 
 
 class LogoutView(TemplateView):
     """
-
+    Disconnects the user
     """
     template_name = 'registration/login.html'
 
-    def get(self, request) -> HttpResponse:
+    def get(self, request, **kwargs) -> HttpResponse:
         """
         signs the user out
         and closes his session

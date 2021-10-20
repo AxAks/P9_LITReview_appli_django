@@ -3,9 +3,9 @@ from django.views.generic import TemplateView
 from django.urls import reverse
 from django.contrib import messages
 
-from core.models import CustomUser
 from subscriptions.forms import UserSearchForm, UserFollowForm, UserUnfollowForm
-from subscriptions.models import UserFollows
+from subscriptions.lib_subscriptions import get_subscriptions_status_for_user, get_matching_users, get_specific_user, \
+    unfollow_user, follow_user
 
 
 class SubscriptionsView(TemplateView):
@@ -26,10 +26,10 @@ class SubscriptionsView(TemplateView):
         self.context = {'found_users': None,
                         'already_followed_user': [],
                         'not_followed_yet': [],
-                        'new_user_followed': [],
-                        'unfollowed_user': []
                         }
-        self.get_subscriptions_status_for_user(request)
+        followed_users, following_users = get_subscriptions_status_for_user(request)
+        self.context['followed_users'] = followed_users
+        self.context['following_users'] = following_users
 
         return render(request,
                       self.template_name,
@@ -39,15 +39,17 @@ class SubscriptionsView(TemplateView):
                        'unfollow_form': self.unfollow_form
                        })
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         """
         Enables to:
         - search users by username and display the results as a list
         - follow and unfollow other users
         """
-        self.get_subscriptions_status_for_user(request)
+        followed_users, following_users = get_subscriptions_status_for_user(request)
+        self.context['followed_users'] = followed_users
+        self.context['following_users'] = following_users
 
-        users_excluded_from_search = [user.id for user in self.context['followed_users']]
+        users_excluded_from_search = [user.id for user in followed_users]
         users_excluded_from_search.append(request.user.id)
         search_form = UserSearchForm(request.POST)
         follow_form = UserFollowForm(request.POST)
@@ -63,9 +65,7 @@ class SubscriptionsView(TemplateView):
     def search(self, request, users_excluded_from_search):
         query = request.POST.get('username')
         if query:
-            found_users = CustomUser.objects.filter(username__icontains=query) \
-                .distinct() \
-                .exclude(id__in=users_excluded_from_search)
+            found_users = get_matching_users(query, users_excluded_from_search)
             self.context['found_users'] = found_users
             if found_users:
                 return render(request, self.template_name, {'context': self.context, 'search_form': self.search_form})
@@ -78,31 +78,16 @@ class SubscriptionsView(TemplateView):
 
     def unfollow(self, request):
         query = request.POST.get('unfollow_form')
-        user_to_unfollow = CustomUser.objects \
-            .get(username=query)
-        user_unfollowed = UserFollows.objects \
-            .get(user_id=request.user.id, followed_user_id=user_to_unfollow.id) \
-            .delete()
-        self.context['unfollowed_user'] = user_unfollowed
+        user_to_unfollow = get_specific_user(query)
+        unfollow_user(request, user_to_unfollow)
         messages.info(request, f"L'utilisateur {query} n'est maintenant plus suivi")
         return redirect(reverse('subscriptions'))
 
     def follow(self, request):
         query = request.POST.get('follow_form')
-        user_to_follow = CustomUser.objects \
-            .get(username=query)
-        new_user_followed = UserFollows(user_id=request.user.id, followed_user_id=user_to_follow.id)
+        user_to_follow = get_specific_user(query)
+        new_user_followed = follow_user(request, user_to_follow)
         new_user_followed.save()
         self.context['new_user_followed'] = new_user_followed.followed_user
         messages.info(request, f"L'utilisateur {query} est maintenant suivi")
         return redirect(reverse('subscriptions'))
-
-    def get_subscriptions_status_for_user(self, request):
-        followed_users = [CustomUser.objects.get(id=relation_obj.followed_user_id)
-                          for relation_obj in UserFollows.objects.filter(user_id=request.user.id).all()]
-        following_users = [CustomUser.objects.get(id=user_following_obj.user_id)
-                           for user_following_obj
-                           in UserFollows.objects.filter(followed_user_id=request.user.id).all()]
-
-        self.context['followed_users'] = followed_users
-        self.context['following_users'] = following_users

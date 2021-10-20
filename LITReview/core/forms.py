@@ -5,6 +5,9 @@ from .models import CustomUser
 
 
 class SignUpForm(UserCreationForm):
+    """
+    An overloaded User Creation Form with first name, last name and email fields added
+    """
     first_name = forms.CharField(label='Prénom', max_length=100, help_text='Prénom')
     last_name = forms.CharField(label='Nom', max_length=100, help_text='Nom')
     email = forms.EmailField(max_length=150, help_text='Email')
